@@ -1,8 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
 
-public class Events : MonoBehaviour {
-
-	public System.Action RefreshHiscores = delegate { };
+public static class Events {
+	public static System.Action<Data.Question> OnNewQuestion = delegate { };
 }
