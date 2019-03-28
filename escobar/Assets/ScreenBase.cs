@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class ScreenBase : MonoBehaviour
 {
+    [HideInInspector]
+    public string screenName;
+
     public void Init()
     {
         gameObject.SetActive(true);

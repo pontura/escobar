@@ -21,7 +21,19 @@
              texts[id] = value1;
          }
      }
-	public static class CoroutineUtil
+    public static void ShuffleListNums(int[] nums)
+    {
+        if (nums.Length < 2) return;
+        for (int a = 0; a < 100; a++)
+        {
+            int id = Random.Range(1, nums.Length);
+            int value1 = nums[0];
+            int value2 = nums[id];
+            nums[0] = value2;
+            nums[id] = value1;
+        }
+    }
+    public static class CoroutineUtil
 	{
 		public static IEnumerator WaitForRealSeconds(float time)
 		{

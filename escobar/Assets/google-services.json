@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "432362916870",
+    "firebase_url": "https://triviaescobar.firebaseio.com",
+    "project_id": "triviaescobar",
+    "storage_bucket": "triviaescobar.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:432362916870:android:f29d688d158b9b73",
+        "android_client_info": {
+          "package_name": "com.pontura.trivia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "432362916870-6uj8c8fknt11sqikq40en4nuqbnq3s62.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZ2XEORUYRe3jdc3A-uxn8UzneWezvrzU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

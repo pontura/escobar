@@ -10,7 +10,6 @@ public class MainScreen : ScreenBase
     public void StartTrivia()
     {
         UI.Instance.screensManager.Reset();
-        Data.Question question = Data.Instance.GetActualQuestion();
-        Events.OnNewQuestion(question);
+        Events.OnNewQuestion(Data.Instance.triviaData.GetActualQuestion());
     }
 }
