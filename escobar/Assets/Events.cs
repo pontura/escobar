@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
 
 public static class Events {
-	public static System.Action<Data.Question> OnNewQuestion = delegate { };
+	public static System.Action<JWPlayerData.PlaylistData> OnNewQuestion = delegate { };
 }

@@ -6,24 +6,11 @@ public class Data : MonoBehaviour {
 
     static Data mInstance = null;
 
-    public int questionID;
-    public Trivia trivia;
+    [HideInInspector]
+    public ServerManager serverManager;
+    public JWPlayerData triviaData;
+    public UserData userData;
 
-    [Serializable]
-    public class Trivia
-    {
-        public Question[] questions;
-    }
-
-    [Serializable]
-    public class Question
-    {
-        public string video_url;
-        public string question;
-        public string answer1;
-        public string answer2;
-        public string answer3;
-    }
     public static Data Instance
     {
         get
@@ -38,14 +25,19 @@ public class Data : MonoBehaviour {
 	void Awake () {	
         mInstance = this;
 		DontDestroyOnLoad(this);
-	}
+        serverManager = GetComponent<ServerManager>();
+        userData = GetComponent<UserData>();
+    }
     public void StartNextQuestion()
     {
-        questionID++;
-        Events.OnNewQuestion( GetActualQuestion() );
-    }
-    public Question GetActualQuestion()
-    {
-        return trivia.questions[questionID];
+        if (triviaData.questionID < Data.Instance.triviaData.data.playlist.Length - 1)
+        {
+            triviaData.questionID++;
+            Events.OnNewQuestion(triviaData.GetActualQuestion());
+        } else
+        {
+            Data.Instance.serverManager.Send();
+            UI.Instance.screensManager.LoadScreen("Summary");
+        }
     }
 }

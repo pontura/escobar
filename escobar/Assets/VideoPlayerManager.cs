@@ -15,14 +15,14 @@ public class VideoPlayerManager : MonoBehaviour
     {
         Events.OnNewQuestion -= OnNewQuestion;
     }
-    void OnNewQuestion(Data.Question dataQuestion)
+    void OnNewQuestion(JWPlayerData.PlaylistData data)
     {
-        videoPlayer.url = dataQuestion.video_url;
+        videoPlayer.url = Data.Instance.triviaData.GetVideoSource().file;
         videoPlayer.Play();
     }
     void EndReached(UnityEngine.Video.VideoPlayer vp)
     {
-        UI.Instance.screensManager.LoadScreen(1);
+        UI.Instance.screensManager.LoadScreen(2);
     }
 
 }
