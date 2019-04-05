@@ -56,7 +56,7 @@ public class JWPlayerData : MonoBehaviour
     {
         foreach(Sources source in GetActualQuestion().sources)
         {
-            if (source.width == 1080)
+            if (source.width == 270)
                 return source;
         }
         return data.playlist[questionID].sources[0];
