@@ -37,7 +37,7 @@ public class Data : MonoBehaviour {
         } else
         {
             Data.Instance.serverManager.Send();
-            UI.Instance.screensManager.LoadScreen("Summary");
+            UI.Instance.screensManager.LoadScreen(4, true);
         }
     }
 }

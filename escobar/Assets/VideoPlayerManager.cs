@@ -22,7 +22,7 @@ public class VideoPlayerManager : MonoBehaviour
     }
     void EndReached(UnityEngine.Video.VideoPlayer vp)
     {
-        UI.Instance.screensManager.LoadScreen(2);
+        UI.Instance.screensManager.LoadScreen(2, true);
     }
 
 }

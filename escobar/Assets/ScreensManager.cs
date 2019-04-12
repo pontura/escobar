@@ -4,46 +4,58 @@ using UnityEngine;
 
 public class ScreensManager : MonoBehaviour
 {
-    public ScreenBase[] screens;
-    public int id;
+	public MainScreen[] all;
 
-    void Start()
-    {
-        foreach (ScreenBase s in screens)
-            s.screenName = s.name;
+	MainScreen activeScreen;
+	MainScreen lastActiveScreen;
 
-        Reset();
-        LoadScreen(0);
-    }
-    void Reset()
-    {
-        foreach (ScreenBase s in screens)
-            s.gameObject.SetActive(false);
-    }
-    public void LoadScreen(int _id)
-    {
-        Reset();
-        id = _id;
-        screens[id].Init();
-    }
-    public void LoadScreen(string _screenName)
-    {
-        Reset();
-        foreach(ScreenBase sb in screens)
-        {
-            print(sb.screenName + _screenName);
-            if (sb.screenName == _screenName)
-            {
-                
-                sb.Init();
-                return;
-            }
-        }       
-    }
-    public void Next()
-    {
-        Reset();
-        id++;
-        screens[id].Init();
-    }
+	bool loading;
+
+	void Start()
+	{
+		int id = 0;
+		foreach (MainScreen mainScreen in all) {
+			mainScreen.Init (this, id);
+			id++;
+		}
+		ResetAll ();
+		LoadScreen (0, true);
+	}
+	public void LoadScreen(int id, bool isRight)
+	{
+		if (loading)
+			return;
+			
+		Events.OnUIFX("swipe");
+
+		loading = true;
+		if (activeScreen != null) {
+			activeScreen.SetCenterPosition ();
+			activeScreen.MoveTo (isRight);
+			lastActiveScreen = activeScreen;
+		}
+		
+		activeScreen = all [id];
+		activeScreen.gameObject.SetActive (true);
+		activeScreen.SetInitialPosition (isRight);
+		activeScreen.MoveTo (isRight);
+	}
+	public void OnTransitionDone()
+	{
+		if (!loading)
+			return;
+		loading = false;
+		if (lastActiveScreen != null) {
+			lastActiveScreen.gameObject.SetActive (false);
+			lastActiveScreen.OnReset ();
+		}
+		activeScreen.OnInit ();
+	}
+	public void ResetAll()
+	{
+		foreach (MainScreen mainScreen in all) {
+			mainScreen.gameObject.SetActive (false);
+		}
+	}
+
 }

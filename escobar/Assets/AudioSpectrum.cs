@@ -4,7 +4,7 @@
 public class AudioSpectrum : MonoBehaviour
 {
 	public AudioSource audioSource;
-	bool isOn;
+    public bool isOn;
 	public float result;
 
 	public void SetOn()

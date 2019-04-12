@@ -18,6 +18,6 @@ public class UserUI : MonoBehaviour
     }
     public void Edit()
     {
-        UI.Instance.screensManager.LoadScreen("Register");
+        UI.Instance.screensManager.LoadScreen(4, true);
     }
 }
