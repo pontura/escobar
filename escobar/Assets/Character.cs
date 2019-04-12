@@ -14,17 +14,22 @@ public class Character : MonoBehaviour
     public float scaleFactor;
     public float smooth;
 
-    void Start()
+    public void Init()
     {
+        audioSpectrum.SetOn();
+    }
+    public void SetOff()
+    {
+        audioSpectrum.SetOff();
     }
 
     void Update()
     {
         audioValue = audioSpectrum.result;
-        float dest = (1 - audioValue) * scaleFactor;
-       // print(dest);
+        float dest = (float)((int)(audioValue) * scaleFactor);
+        print(dest);
 
-        if (audioValue < miniumValue)
+        if (dest < miniumValue)
         {
             CloseMouth();
             return;
