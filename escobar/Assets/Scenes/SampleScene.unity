@@ -2559,7 +2559,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1211534092}
   - component: {fileID: 1211534094}
-  - component: {fileID: 1211534093}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -2581,14 +2580,6 @@ Transform:
   m_Father: {fileID: 1891273044}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!81 &1211534093
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1211534091}
-  m_Enabled: 1
 --- !u!20 &1211534094
 Camera:
   m_ObjectHideFlags: 0
@@ -2679,7 +2670,8 @@ MonoBehaviour:
   mouth: {fileID: 2111974616}
   ClosedMouth: {fileID: 2111974615}
   miniumValue: 0.03
-  scaleFactor: 3
+  scaleFactor: 1
+  smooth: 0
 --- !u!1 &1253104897
 GameObject:
   m_ObjectHideFlags: 0
@@ -4222,37 +4214,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3743244330335709654, guid: 7e2aad84e3c540a44a797cbfd27a6d87,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.26
-      objectReference: {fileID: 0}
-    - target: {fileID: 3743244330335709654, guid: 7e2aad84e3c540a44a797cbfd27a6d87,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8772490369253913982, guid: 7e2aad84e3c540a44a797cbfd27a6d87,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.17
-      objectReference: {fileID: 0}
-    - target: {fileID: 5127110892816845729, guid: 7e2aad84e3c540a44a797cbfd27a6d87,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4747684414995972385, guid: 7e2aad84e3c540a44a797cbfd27a6d87,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5088824346360611955, guid: 7e2aad84e3c540a44a797cbfd27a6d87,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 23ba2e598137e604d8d4f7bbdb9619b9,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7e2aad84e3c540a44a797cbfd27a6d87, type: 3}
 --- !u!4 &2111974614 stripped

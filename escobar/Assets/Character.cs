@@ -22,7 +22,7 @@ public class Character : MonoBehaviour
     {
         audioValue = audioSpectrum.result;
         float dest = (1 - audioValue) * scaleFactor;
-        print(dest);
+       // print(dest);
 
         if (audioValue < miniumValue)
         {
