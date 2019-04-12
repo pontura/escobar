@@ -15,7 +15,7 @@ public class ScreensManager : MonoBehaviour
         Reset();
         LoadScreen(0);
     }
-    public void Reset()
+    void Reset()
     {
         foreach (ScreenBase s in screens)
             s.gameObject.SetActive(false);
