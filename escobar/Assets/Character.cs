@@ -10,21 +10,21 @@ public class Character : MonoBehaviour
     public GameObject mouth;
     public GameObject ClosedMouth;
 
-    Vector3 originalPosition;
-    public float openingFactor;
+    public float miniumValue;
     public float scaleFactor;
-    Vector3 originalsize;
+    public float smooth;
 
     void Start()
     {
-        originalPosition = mouth.transform.localPosition;
-        originalsize = mouth.transform.localScale;
     }
 
     void Update()
     {
         audioValue = audioSpectrum.result;
-        if (audioValue < 0.01f)
+        float dest = (1 - audioValue) * scaleFactor;
+        print(dest);
+
+        if (audioValue < miniumValue)
         {
             CloseMouth();
             return;
@@ -32,9 +32,10 @@ public class Character : MonoBehaviour
         {
             ClosedMouth.SetActive(false);
             mouth.SetActive(true);
-            Vector3 pos = mouth.transform.localPosition;
-            pos.y = originalPosition.y += audioValue * openingFactor;
-            mouth.transform.localPosition = pos; 
+            Vector3 s = mouth.transform.localScale;
+           
+            s.y = Mathf.Lerp(s.y, dest, smooth);
+            mouth.transform.localScale = s; 
         }
 
     }

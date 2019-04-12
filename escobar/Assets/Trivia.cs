@@ -38,7 +38,7 @@ public class Trivia : ScreenBase
     public void ButtonClicked(int id)
     {
         Data.Instance.userData.SetAnswer(id);
-        UI.Instance.screensManager.Reset();
+        //UI.Instance.screensManager.Reset();
         Data.Instance.StartNextQuestion();
     }
 }
