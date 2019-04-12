@@ -23,6 +23,7 @@ public class JWPlayerData : MonoBehaviour
         public string description;
         public string image;
         public Sources[] sources;
+        public AudioClip clip;
     }
     [Serializable]
     public class Sources
@@ -32,9 +33,12 @@ public class JWPlayerData : MonoBehaviour
     }
     public bool loaded;
 
+    public bool DontLoadData;
+
     void Start()
     {
-        StartCoroutine(LoadFromJWPlayer());
+        if(!DontLoadData)
+            StartCoroutine(LoadFromJWPlayer());
     }
     IEnumerator LoadFromJWPlayer()
     {
