@@ -6,10 +6,6 @@ public class AudioSpectrum : MonoBehaviour
 	public AudioSource audioSource;
 	bool isOn;
 	public float result;
-	//public float result2;
-	//public float result3;
-	//public float result4;
-	//public float result5;
 
 	public void SetOn()
 	{
@@ -18,13 +14,13 @@ public class AudioSpectrum : MonoBehaviour
 	public void SetOff()
 	{
 		isOn = false;
-		//result = 0;
+		result = 0;
 	}
 
 	void Update()
 	{
-        //if (!isOn)
-        //	return;
+        if (!isOn)
+        	return;
 
         float[] spectrum = new float[256];
 
@@ -35,7 +31,6 @@ public class AudioSpectrum : MonoBehaviour
         {
             total += spectrum[i];
         }
-        total /= spectrum.Length;
-        print(total);
+        result = (total / spectrum.Length)*3000;
     }
 }

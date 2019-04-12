@@ -5,15 +5,18 @@ using UnityEngine.UI;
 
 public class Trivia : ScreenBase
 {
+    public GameObject triviaContent;
     public Text field;
     public TriviaButton button;
     public Transform container;
     int buttonId = 0;
     public Chronometer chronometer;
+    public Character character;
     int[] all;
 
     public override void OnInit()
     {
+        character.Init();
         all = new int[] { 0, 1, 2 };
         Utils.ShuffleListNums(all);
         Utils.RemoveAllChildsIn(container);

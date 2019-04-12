@@ -2669,8 +2669,8 @@ MonoBehaviour:
   audioSpectrum: {fileID: 266273401}
   mouth: {fileID: 2111974616}
   ClosedMouth: {fileID: 2111974615}
-  miniumValue: 0.03
-  scaleFactor: 1
+  miniumValue: 0.2
+  scaleFactor: 0.1
   smooth: 0
 --- !u!1 &1253104897
 GameObject:
