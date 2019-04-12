@@ -13,21 +13,22 @@ public class Trivia : MainScreen
     public Chronometer chronometer;
     public Character character;
     int[] all;
-    Animation anim;
+    public  Animation anim;
+    public AnimationClip clip_on;
+    public AnimationClip clip_off;
 
     void Start()
     {
-        anim = GetComponent<Animation>();
         Events.OnAudioReady += OnAudioReady;
     }
     public override void OnInit()
     {
-        anim.Play("trivia_talk");       
+        anim.Play(clip_on.name);       
         character.Init();
     }
     void OnAudioReady()
     {
-        anim.Play("trivia_on");
+        anim.Play(clip_off.name);
         triviaContent.SetActive(true);
         all = new int[] { 0, 1, 2 };
         Utils.ShuffleListNums(all);
