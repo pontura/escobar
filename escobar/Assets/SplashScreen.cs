@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SplashScreen : ScreenBase
+public class SplashScreen : MainScreen
 {
 
     public override void OnInit()
@@ -20,8 +20,8 @@ public class SplashScreen : ScreenBase
     {
         print("Done");
         if (!Data.Instance.userData.IsLogged())
-            UI.Instance.screensManager.LoadScreen("Register");
+            UI.Instance.screensManager.LoadScreen(2, true);
        else
-            UI.Instance.screensManager.LoadScreen("Main");
+            UI.Instance.screensManager.LoadScreen(1, true);
     }
 }

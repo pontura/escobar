@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Summary : ScreenBase
+public class Summary : MainScreen
 {
     public override void OnInit()
     {

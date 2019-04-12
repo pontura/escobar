@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RegisterScreen : ScreenBase
+public class RegisterScreen : MainScreen
 {
     public InputField usernameField;
     public InputField telField;
@@ -30,7 +30,7 @@ public class RegisterScreen : ScreenBase
         {
             debbugField.text = "Enviando datos...";
             Data.Instance.userData.SaveUser(usernameField.text, telField.text);
-            UI.Instance.screensManager.LoadScreen("Main");
+            UI.Instance.screensManager.LoadScreen(1, false);
         }
         Invoke("Reset", 2);
     }

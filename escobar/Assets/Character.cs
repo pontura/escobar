@@ -10,6 +10,7 @@ public class Character : MonoBehaviour
     public GameObject mouth;
     public GameObject ClosedMouth;
 
+    public float miniumScale;
     public float miniumValue;
     public float scaleFactor;
     public float smooth;
@@ -27,7 +28,6 @@ public class Character : MonoBehaviour
     {
         audioValue = audioSpectrum.result;
         float dest = (float)((int)(audioValue) * scaleFactor);
-        print(dest);
 
         if (dest < miniumValue)
         {
@@ -39,7 +39,7 @@ public class Character : MonoBehaviour
             mouth.SetActive(true);
             Vector3 s = mouth.transform.localScale;
            
-            s.y = Mathf.Lerp(s.y, dest, smooth);
+            s.y = Mathf.Lerp(s.y, dest+ miniumScale, smooth);
             mouth.transform.localScale = s; 
         }
 

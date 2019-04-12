@@ -6,7 +6,9 @@ using UnityEngine.Networking;
 public class AudioPlayer : MonoBehaviour
 {
     public AudioSource audioSource;
-
+    public float timer;
+    public float timerTotal;
+    bool isOn;
 
     void Start()
     {
@@ -18,13 +20,31 @@ public class AudioPlayer : MonoBehaviour
     }
     void OnNewQuestion(JWPlayerData.PlaylistData data)
     {
+        isOn = true;
         AudioClip clip = data.clip;
         audioSource.clip = clip;
         audioSource.Play();
+        timerTotal = clip.length;
+        timer = 0;
         //string url = Data.Instance.triviaData.GetVideoSource().file;
-      //  StartCoroutine( LoadAudio(url) );
+        //  StartCoroutine( LoadAudio(url) );
     }
+    void Update()
+    {
+        if (!isOn)
+            return;
 
+        timer += Time.deltaTime;
+        if(timer>=timerTotal)
+        {
+            AudioDone();
+        }
+    }
+    void AudioDone()
+    {
+        isOn = false;
+        Events.OnAudioReady();
+    }
     IEnumerator LoadAudio(string URL)
     {
         UnityWebRequest music = UnityWebRequestMultimedia.GetAudioClip(URL, AudioType.MPEG);

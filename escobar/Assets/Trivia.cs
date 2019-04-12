@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Trivia : ScreenBase
+public class Trivia : MainScreen
 {
     public GameObject triviaContent;
     public Text field;
@@ -13,16 +13,28 @@ public class Trivia : ScreenBase
     public Chronometer chronometer;
     public Character character;
     int[] all;
+    Animation anim;
 
+    void Start()
+    {
+        anim = GetComponent<Animation>();
+        Events.OnAudioReady += OnAudioReady;
+    }
     public override void OnInit()
     {
+        anim.Play("trivia_talk");       
         character.Init();
+    }
+    void OnAudioReady()
+    {
+        anim.Play("trivia_on");
+        triviaContent.SetActive(true);
         all = new int[] { 0, 1, 2 };
         Utils.ShuffleListNums(all);
         Utils.RemoveAllChildsIn(container);
         LoadData(Data.Instance.triviaData.GetActualQuestion());
         chronometer.Init(10);
-    }
+    }    
     void LoadData(JWPlayerData.PlaylistData dataQuestion)
     {
         field.text = dataQuestion.title;
