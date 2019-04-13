@@ -8,4 +8,10 @@ public class Summary : MainScreen
     {
         
     }
+    public void Replay()
+    {
+        Data.Instance.userData.Reset();
+        Data.Instance.GetComponent<JWPlayerData>().questionID = 0;
+        UI.Instance.screensManager.LoadScreen(1, false);
+    }
 }

@@ -36,4 +36,8 @@ public class UserData : MonoBehaviour
     {
         answers.Add(id);
     }
+    public void Reset()
+    {
+        answers.Clear();
+    }
 }
