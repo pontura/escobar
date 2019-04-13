@@ -37,6 +37,7 @@ public class Trivia : MainScreen
     }
     void Question()
     {
+        character.Talk();
         state = states.QUESTION;            
     }
     void OnAudioReady()
@@ -53,6 +54,7 @@ public class Trivia : MainScreen
     }   
     void SetTrivia()
     {
+        character.Idle();
         state = states.TRIVIA;
         anim.Play(clip_off.name);
         triviaContent.SetActive(true);
@@ -79,12 +81,16 @@ public class Trivia : MainScreen
     }
     public void ButtonClicked(int id)
     {
-        Respuesta();
+        if (state == states.SUMMARY)
+            return;
+        state = states.SUMMARY;
+        Invoke("Respuesta", 1.5f);
         Data.Instance.userData.SetAnswer(id);
     }
     public void Respuesta()
     {
-        state = states.SUMMARY;
+        character.Answer();
+        
         anim.Play(clip_on.name);
         Events.OnAnswer(Data.Instance.triviaData.GetActualQuestion());
     }

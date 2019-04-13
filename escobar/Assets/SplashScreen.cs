@@ -20,7 +20,7 @@ public class SplashScreen : MainScreen
     {
         print("Done");
         if (!Data.Instance.userData.IsLogged())
-            UI.Instance.screensManager.LoadScreen(2, true);
+            UI.Instance.screensManager.LoadScreen(3, true); 
        else
             UI.Instance.screensManager.LoadScreen(1, true);
     }
