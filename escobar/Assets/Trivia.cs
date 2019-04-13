@@ -84,7 +84,7 @@ public class Trivia : MainScreen
         if (state == states.SUMMARY)
             return;
         state = states.SUMMARY;
-        Invoke("Respuesta", 1.5f);
+        Invoke("Respuesta", 2);
         Data.Instance.userData.SetAnswer(id);
     }
     public void Respuesta()
