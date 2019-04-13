@@ -13,10 +13,23 @@ public class AudioPlayer : MonoBehaviour
     void Start()
     {
         Events.OnNewQuestion += OnNewQuestion;
+        Events.OnAnswer += OnAnswer;
     }
     void OnDestroy()
     {
         Events.OnNewQuestion -= OnNewQuestion;
+        Events.OnAnswer -= OnAnswer;
+    }
+    void OnAnswer(JWPlayerData.PlaylistData data)
+    {
+        isOn = true;
+        AudioClip clip = data.respuesta;
+        audioSource.clip = clip;
+        audioSource.Play();
+        timerTotal = clip.length;
+        timer = 0;
+        //string url = Data.Instance.triviaData.GetVideoSource().file;
+        //  StartCoroutine( LoadAudio(url) );
     }
     void OnNewQuestion(JWPlayerData.PlaylistData data)
     {

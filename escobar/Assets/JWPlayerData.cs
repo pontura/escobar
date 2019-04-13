@@ -24,6 +24,7 @@ public class JWPlayerData : MonoBehaviour
         public string image;
         public Sources[] sources;
         public AudioClip clip;
+        public AudioClip respuesta;
     }
     [Serializable]
     public class Sources
@@ -54,7 +55,8 @@ public class JWPlayerData : MonoBehaviour
     public string[] GetAnswwers()
     {
         PlaylistData question = GetActualQuestion();
-        return question.description.Split("\n"[0]);
+        return question.description.Split("_"[0]);
+        //return question.description.Split("\n"[0]);
     }
     public Sources GetVideoSource()
     {
