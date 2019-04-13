@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
+    public AnimationClip idle;
+    public AnimationClip talk;
+    public AnimationClip answer;
+
+    public Animator anim;
     public AudioSpectrum audioSpectrum;
     float audioValue;
 
@@ -23,7 +28,18 @@ public class Character : MonoBehaviour
     {
         audioSpectrum.SetOff();
     }
-
+    public void Idle()
+    {
+        anim.Play(idle.name);
+    }
+    public void Talk()
+    {
+        anim.Play(talk.name);
+    }
+    public void Answer()
+    {
+        anim.Play(answer.name);
+    }
     void Update()
     {
         audioValue = audioSpectrum.result;
@@ -38,8 +54,11 @@ public class Character : MonoBehaviour
             ClosedMouth.SetActive(false);
             mouth.SetActive(true);
             Vector3 s = mouth.transform.localScale;
-           
-            s.y = Mathf.Lerp(s.y, dest+ miniumScale, smooth);
+
+            if (dest < miniumScale)
+                dest = miniumScale;
+
+            s.y = Mathf.Lerp(s.y, dest, smooth);
             mouth.transform.localScale = s; 
         }
 
