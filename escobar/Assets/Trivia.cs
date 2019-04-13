@@ -5,6 +5,14 @@ using UnityEngine.UI;
 
 public class Trivia : MainScreen
 {
+    public states state;
+
+    public enum states
+    {           
+        QUESTION,
+        TRIVIA,
+        SUMMARY
+    }
     public GameObject triviaContent;
     public Text field;
     public TriviaButton button;
@@ -23,11 +31,29 @@ public class Trivia : MainScreen
     }
     public override void OnInit()
     {
-        anim.Play(clip_on.name);       
+        anim.Play(clip_on.name);
+        Question();
         character.Init();
+    }
+    void Question()
+    {
+        state = states.QUESTION;            
     }
     void OnAudioReady()
     {
+        if (state == states.QUESTION)
+        {
+            SetTrivia();
+        }
+        else if (state == states.SUMMARY)
+        {
+            Data.Instance.StartNextQuestion();
+            Question();
+        }
+    }   
+    void SetTrivia()
+    {
+        state = states.TRIVIA;
         anim.Play(clip_off.name);
         triviaContent.SetActive(true);
         all = new int[] { 0, 1, 2 };
@@ -35,7 +61,7 @@ public class Trivia : MainScreen
         Utils.RemoveAllChildsIn(container);
         LoadData(Data.Instance.triviaData.GetActualQuestion());
         chronometer.Init(10);
-    }    
+    }
     void LoadData(JWPlayerData.PlaylistData dataQuestion)
     {
         field.text = dataQuestion.title;
@@ -53,8 +79,13 @@ public class Trivia : MainScreen
     }
     public void ButtonClicked(int id)
     {
+        Respuesta();
         Data.Instance.userData.SetAnswer(id);
-        //UI.Instance.screensManager.Reset();
-        Data.Instance.StartNextQuestion();
+    }
+    public void Respuesta()
+    {
+        state = states.SUMMARY;
+        anim.Play(clip_on.name);
+        Events.OnAnswer(Data.Instance.triviaData.GetActualQuestion());
     }
 }

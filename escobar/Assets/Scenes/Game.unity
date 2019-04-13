@@ -1381,28 +1381,30 @@ MonoBehaviour:
   questionID: 0
   data:
     playlist:
-    - title: "\xBFEn qu\xE9 a\xF1o fu\xE9 la batalla de vuelta de Obligado?"
-      description: '1845
-
-        1920
-
-        1795'
+    - title: "\xBFCu\xE1l es la capital de la Provincia de Buenos Aires?"
+      description: Escobar_C.A.B.A._La Plata
       image: https://cdn.jwplayer.com/thumbs/uToaFYxn-720.jpg
       sources:
       - width: 0
         file: https://cdn.jwplayer.com/videos/uToaFYxn-6ZeMtR6n.m4a
-      clip: {fileID: 8300000, guid: 8191f768564be4e46b5b9d7715374778, type: 3}
-    - title: "\xBFEn qu\xE9 zona de Buenos Aires se encuentra el partido de Escobar?"
-      description: 'Zona Norte
-
-        Zona Sur
-
-        Zona Oeste'
+      clip: {fileID: 8300000, guid: f909cb6303cba3e47a349a6ba5580b09, type: 3}
+      respuesta: {fileID: 8300000, guid: de90285903231964293c09bb4d37bbeb, type: 3}
+    - title: "\xBFQu\xE9 ciudad est\xE1 m\xE1s cerca de Buenos Aires?"
+      description: "Santiago_Brasilia_Bogot\xE1"
       image: https://cdn.jwplayer.com/thumbs/PHVjcZl8-720.jpg
       sources:
       - width: 0
         file: https://cdn.jwplayer.com/videos/PHVjcZl8-6ZeMtR6n.m4a
-      clip: {fileID: 8300000, guid: 47d33b0518aaef143880056817b40dbb, type: 3}
+      clip: {fileID: 8300000, guid: d2c20a254544fbb479cac491c1e620a5, type: 3}
+      respuesta: {fileID: 8300000, guid: 4241323665ae76a4382db9864516b461, type: 3}
+    - title: "\xBFCu\xE1l de estos r\xEDos es m\xE1s largo?"
+      description: Mississippi_Amazonas_De La Plata
+      image: https://cdn.jwplayer.com/thumbs/PHVjcZl8-720.jpg
+      sources:
+      - width: 0
+        file: https://cdn.jwplayer.com/videos/PHVjcZl8-6ZeMtR6n.m4a
+      clip: {fileID: 8300000, guid: ce75af8078d7ce543b60fb2f7aafc7bf, type: 3}
+      respuesta: {fileID: 8300000, guid: 58246183ffc15ef4b922a3c48a9de457, type: 3}
   loaded: 1
   DontLoadData: 1
 --- !u!114 &675240621
@@ -3515,6 +3517,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   backSceneName: 
   backScreenID: 0
+  state: 0
   triviaContent: {fileID: 264546899}
   field: {fileID: 1154165235}
   button: {fileID: 5889015563556600793, guid: d450e9ebb79327144a5130d73e566c11, type: 3}
@@ -3522,8 +3525,8 @@ MonoBehaviour:
   chronometer: {fileID: 2144040637}
   character: {fileID: 1226462373}
   anim: {fileID: 1846717015}
-  clip_on: {fileID: 0}
-  clip_off: {fileID: 7400000, guid: b11d41e1eb7abee40966e44748bfb1a3, type: 2}
+  clip_on: {fileID: 7400000, guid: ea7e2c4b37252544598a4507c1bd0929, type: 2}
+  clip_off: {fileID: 7400000, guid: 059201f7392ee5f42b0ea0ef331041b9, type: 2}
 --- !u!224 &1846717014
 RectTransform:
   m_ObjectHideFlags: 0
