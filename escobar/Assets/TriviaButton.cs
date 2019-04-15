@@ -11,9 +11,29 @@ public class TriviaButton : MonoBehaviour
     public GameObject idle;
     public GameObject assetCorrect;
     public GameObject assetIncorrect;
+    Button btn;
+
+    void Start()
+    {
+        btn = GetComponent<Button>();
+        Events.OnTriviaTimeOut += TimeOut;
+    }
+
+    private void OnDestroy()
+    {
+        Events.OnTriviaTimeOut -= TimeOut;
+    }
+
+    void TimeOut()
+    {
+        btn.interactable = false;
+    }
 
     public void Init(Trivia trivia, int id, string title )
     {
+        if(btn==null)
+            btn = GetComponent<Button>();
+        btn.interactable = true ;
         idle.SetActive(true);
         assetCorrect.SetActive(false);
         assetIncorrect.SetActive(false);
@@ -21,6 +41,7 @@ public class TriviaButton : MonoBehaviour
         this.id = id;
         field.text = title;
     }
+
     public void Clicked()
     {
         GetComponent<Animation>().Play("buttonClicked");

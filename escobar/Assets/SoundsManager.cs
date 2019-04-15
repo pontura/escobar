@@ -7,6 +7,7 @@ public class SoundsManager : MonoBehaviour
     public AudioSource audiosSource;
     public AudioClip si;
     public AudioClip no;
+    public AudioClip timeout;
 
     void Start()
     {
@@ -23,6 +24,9 @@ public class SoundsManager : MonoBehaviour
                 break;
             case "no":
                 clip = no;
+                break;
+            case "timeout":
+                clip = timeout;
                 break;
         }
         if (clip == null)

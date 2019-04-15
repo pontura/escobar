@@ -9,12 +9,22 @@ public class Chronometer : MonoBehaviour
     float totalTime;
     float initialTime;
     public Image bar;
+    public Image center;
     public Text field;
+
+    Color centerDefault;
+
+    void Start()
+    {
+        centerDefault = center.color;
+
+    }
 
     public void Init(float totalTime)
     {
         initialTime = Time.time;
         this.totalTime = totalTime;
+        center.color = centerDefault;
         isOn = true;
     }
     void Update()
@@ -42,6 +52,9 @@ public class Chronometer : MonoBehaviour
             print("DOne");
             field.text = "0";
             bar.fillAmount = 0;
+            center.color = Color.red;       
+            Events.OnUIFX("timeout");
+            Events.OnTriviaTimeOut();            
         }
     }
 }

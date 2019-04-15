@@ -28,6 +28,7 @@ public class Trivia : MainScreen
     void Start()
     {
         Events.OnAudioReady += OnAudioReady;
+        Events.OnTriviaTimeOut += OnTimeOut;
     }
     public override void OnInit()
     {
@@ -87,10 +88,23 @@ public class Trivia : MainScreen
         Invoke("Respuesta", 2);
         Data.Instance.userData.SetAnswer(id);
     }
+
+    void OnTimeOut()
+    {
+        state = states.SUMMARY;
+        Data.Instance.userData.SetAnswer(3);
+        Invoke("Summary", 1);        
+    }
+
     public void Respuesta()
     {
         character.Answer();
-        
+
+        Summary();
+    }
+
+    public void Summary()
+    {
         anim.Play(clip_on.name);
         Events.OnAnswer(Data.Instance.triviaData.GetActualQuestion());
     }
