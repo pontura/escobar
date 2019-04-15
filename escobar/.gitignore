@@ -1,4 +1,15 @@
 # =============== #
+# FIREBASE #
+# =============== #
+Assets/Editor Default Resources/Firebase*
+Assets/Firebase*
+Assets/Parse*
+Assets/PlayServicesResolver*
+google-services.json
+google-services-desktop.json
+GoogleService-Info.plist
+
+# =============== #
 # Unity generated #
 # =============== #
 Temp/
@@ -8,6 +19,8 @@ Library/
 web/
 Assets/AssetStoreTools*
 Assets/Plugins*
+.vs/
+.gradle/
 
 # ===================================== #
 # Visual Studio / MonoDevelop generated #

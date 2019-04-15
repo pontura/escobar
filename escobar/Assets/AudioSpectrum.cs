@@ -24,7 +24,8 @@ public class AudioSpectrum : MonoBehaviour
 
         float[] spectrum = new float[256];
 
-        AudioListener.GetSpectrumData(spectrum, 0, FFTWindow.Rectangular);
+        //AudioListener.GetSpectrumData(spectrum, 0, FFTWindow.Rectangular);
+        audioSource.GetSpectrumData(spectrum, 0, FFTWindow.Rectangular);
 
         float total = 0;
         for (int i = 1; i < spectrum.Length - 1; i++)
