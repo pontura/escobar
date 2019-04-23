@@ -9,20 +9,23 @@ public class VideoPlayerManager : MonoBehaviour
     void Start()
     {
         Events.OnNewQuestion += OnNewQuestion;
+        Events.OnPreLoadVideo += OnPreLoadVideo;
         videoPlayer.loopPointReached += EndReached;
     }
-    void OnDestroy()
+    void OnPreLoadVideo(string file)
     {
-        Events.OnNewQuestion -= OnNewQuestion;
+        print("Preloading... " + file);
+        videoPlayer.url = file;
     }
     void OnNewQuestion(JWPlayerData.PlaylistData data)
     {
-        videoPlayer.url = Data.Instance.triviaData.GetVideoSource().file;
+        print("OnNewQuestion");
         videoPlayer.Play();
     }
     void EndReached(UnityEngine.Video.VideoPlayer vp)
     {
-        UI.Instance.screensManager.LoadScreen(2, true);
+       // UI.Instance.screensManager.LoadScreen(2, true);
+        Events.OnShowTrivia();
     }
 
 }

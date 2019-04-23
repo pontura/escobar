@@ -56,7 +56,7 @@ public class AudioPlayer : MonoBehaviour
     void AudioDone()
     {
         isOn = false;
-        Events.OnAudioReady();
+      //  Events.OnAudioReady();
     }
     IEnumerator LoadAudio(string URL)
     {

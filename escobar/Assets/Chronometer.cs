@@ -17,7 +17,6 @@ public class Chronometer : MonoBehaviour
     void Start()
     {
         centerDefault = center.color;
-
     }
 
     public void Init(float totalTime)
@@ -49,7 +48,6 @@ public class Chronometer : MonoBehaviour
         if (resto >= totalTime)
         {
             isOn = false;
-            print("DOne");
             field.text = "0";
             bar.fillAmount = 0;
             center.color = Color.red;       
