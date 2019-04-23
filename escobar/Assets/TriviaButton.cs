@@ -16,17 +16,6 @@ public class TriviaButton : MonoBehaviour
     void Start()
     {
         btn = GetComponent<Button>();
-        Events.OnTriviaTimeOut += TimeOut;
-    }
-
-    private void OnDestroy()
-    {
-        Events.OnTriviaTimeOut -= TimeOut;
-    }
-
-    void TimeOut()
-    {
-        btn.interactable = false;
     }
 
     public void Init(Trivia trivia, int id, string title )
@@ -64,6 +53,9 @@ public class TriviaButton : MonoBehaviour
             Events.OnUIFX("no");
             assetIncorrect.SetActive(true);
         }
-
+    }
+    public void AnimateOut()
+    {
+        GetComponent<Animation>().Play("button_off");
     }
 }

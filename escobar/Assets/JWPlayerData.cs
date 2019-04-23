@@ -55,12 +55,24 @@ public class JWPlayerData : MonoBehaviour
     public string[] GetAnswwers()
     {
         PlaylistData question = GetActualQuestion();
-        return question.description.Split("_"[0]);
-        //return question.description.Split("\n"[0]);
+        return question.description.Split("\n"[0]);
     }
     public Sources GetVideoSource()
     {
         foreach(Sources source in GetActualQuestion().sources)
+        {
+            if (source.width == 270)
+                return source;
+        }
+        return data.playlist[questionID].sources[0];
+    }
+    public Sources GetNextVideoSource()
+    {
+        if(data.playlist.Length <= questionID+1)
+            return null;
+
+        PlaylistData nextData = data.playlist[questionID+1];
+        foreach (Sources source in nextData.sources)
         {
             if (source.width == 270)
                 return source;

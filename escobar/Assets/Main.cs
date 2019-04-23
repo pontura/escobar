@@ -9,8 +9,8 @@ public class Main : MainScreen
     }
     public void StartTrivia()
     {
-        //UI.Instance.screensManager.Reset();
-        Events.OnNewQuestion(Data.Instance.triviaData.GetActualQuestion());
+        string file = Data.Instance.triviaData.GetVideoSource().file;
+        Events.OnPreLoadVideo(file);
         UI.Instance.screensManager.LoadScreen(2, true);
     }
 }
