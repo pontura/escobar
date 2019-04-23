@@ -3,62 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Trivia : MainScreen
+public class Trivia : ScreenBase
 {
-    public states state;
-
-    public enum states
-    {           
-        QUESTION,
-        TRIVIA,
-        SUMMARY
-    }
-    public GameObject triviaContent;
     public Text field;
     public TriviaButton button;
     public Transform container;
     int buttonId = 0;
     public Chronometer chronometer;
-    public Character character;
     int[] all;
-    public  Animation anim;
-    public AnimationClip clip_on;
-    public AnimationClip clip_off;
 
-    void Start()
-    {
-        Events.OnAudioReady += OnAudioReady;
-        Events.OnTriviaTimeOut += OnTimeOut;
-    }
     public override void OnInit()
     {
-        anim.Play(clip_on.name);
-        Question();
-        character.Init();
-    }
-    void Question()
-    {
-        character.Talk();
-        state = states.QUESTION;            
-    }
-    void OnAudioReady()
-    {
-        if (state == states.QUESTION)
-        {
-            SetTrivia();
-        }
-        else if (state == states.SUMMARY)
-        {
-            Data.Instance.StartNextQuestion();
-            Question();
-        }
-    }   
-    void SetTrivia()
-    {
-        character.Idle();
-        state = states.TRIVIA;
-        anim.Play(clip_off.name);
-        triviaContent.SetActive(true);
         all = new int[] { 0, 1, 2 };
         Utils.ShuffleListNums(all);
         Utils.RemoveAllChildsIn(container);
@@ -82,30 +37,8 @@ public class Trivia : MainScreen
     }
     public void ButtonClicked(int id)
     {
-        if (state == states.SUMMARY)
-            return;
-        state = states.SUMMARY;
-        Invoke("Respuesta", 2);
         Data.Instance.userData.SetAnswer(id);
-    }
-
-    void OnTimeOut()
-    {
-        state = states.SUMMARY;
-        Data.Instance.userData.SetAnswer(3);
-        Invoke("Summary", 1);        
-    }
-
-    public void Respuesta()
-    {
-        character.Answer();
-
-        Summary();
-    }
-
-    public void Summary()
-    {
-        anim.Play(clip_on.name);
-        Events.OnAnswer(Data.Instance.triviaData.GetActualQuestion());
+        //UI.Instance.screensManager.Reset();
+        Data.Instance.StartNextQuestion();
     }
 }
