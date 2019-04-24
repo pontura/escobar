@@ -61,10 +61,10 @@ public class JWPlayerData : MonoBehaviour
     {
         foreach(Sources source in GetActualQuestion().sources)
         {
-            if (source.width == 270)
+            if (source.width == 320)
                 return source;
         }
-        return data.playlist[questionID].sources[0];
+        return data.playlist[questionID].sources[1];
     }
     public Sources GetNextVideoSource()
     {
@@ -74,9 +74,9 @@ public class JWPlayerData : MonoBehaviour
         PlaylistData nextData = data.playlist[questionID+1];
         foreach (Sources source in nextData.sources)
         {
-            if (source.width == 270)
+            if (source.width == 320)
                 return source;
         }
-        return data.playlist[questionID].sources[0];
+        return data.playlist[questionID+1].sources[1];
     }
 }
