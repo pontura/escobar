@@ -15,6 +15,7 @@ public class Trivia : MainScreen
     int[] all;
     public List<TriviaButton> buttons;
     public bool done;
+    public GameObject loading;
 
     void Start()
     {
@@ -22,7 +23,15 @@ public class Trivia : MainScreen
         OnHideTrivia();
         Events.OnShowTrivia += OnShowTrivia;
         Events.OnTriviaTimeOut += OnTriviaTimeOut;
+        Events.OnHideTrivia += OnHideTrivia;
     }
+
+    private void OnDestroy() {
+        Events.OnShowTrivia -= OnShowTrivia;
+        Events.OnTriviaTimeOut -= OnTriviaTimeOut;
+        Events.OnHideTrivia -= OnHideTrivia;
+    }
+
     public override void OnInit()
     {
         timeOut.SetActive(false);
@@ -30,6 +39,7 @@ public class Trivia : MainScreen
     }
     void OnTriviaTimeOut()
     {
+        done = true;
         Invoke("TimeOutDelayed", 0.4f);
         Data.Instance.userData.SetAnswer(-1);
         StartCoroutine(ResetTrivia(0));
@@ -60,7 +70,7 @@ public class Trivia : MainScreen
         }
     }
     void OnHideTrivia()
-    {
+    {        
         content.SetActive(false);
     }
     void LoadData(JWPlayerData.PlaylistData dataQuestion)
@@ -86,6 +96,7 @@ public class Trivia : MainScreen
         if (done)
             return;
 
+        chronometer.Pause();
         done = true;
         Data.Instance.userData.SetAnswer(id);
         StartCoroutine( ResetTrivia(0.2f) );           

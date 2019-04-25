@@ -9,10 +9,9 @@ public class SplashScreen : MainScreen
     {
         LoopTillloaded();
     }
-    void LoopTillloaded()
-    {
+    void LoopTillloaded() {
         if (Data.Instance.triviaData.loaded)
-            Done();
+            Invoke("Done", 2f); 
         else
             Invoke("LoopTillloaded", 0.1f);
     }

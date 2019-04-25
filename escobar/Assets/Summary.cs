@@ -11,7 +11,12 @@ public class Summary : MainScreen
     public void Replay()
     {
         Data.Instance.userData.Reset();
-        Data.Instance.GetComponent<JWPlayerData>().questionID = 0;
+        Data.Instance.triviaData.SetQuestions();
         UI.Instance.screensManager.LoadScreen(1, false);
+    }
+
+    public void Streaming() {
+        Data.Instance.userData.Reset();
+        Data.Instance.triviaData.SetStreaming();        
     }
 }

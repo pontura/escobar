@@ -11,5 +11,6 @@ public static class Events {
     public static System.Action OnShowTrivia = delegate { };
 
     public static System.Action OnTriviaTimeOut = delegate { };
+    public static System.Action OnHideTrivia = delegate { };
 
 }
