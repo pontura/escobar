@@ -38,6 +38,7 @@ public class Data : MonoBehaviour {
         {
             Data.Instance.serverManager.Send();
             UI.Instance.screensManager.LoadScreen(4, true);
+            Events.OnHideTrivia();
         }
     }
 }

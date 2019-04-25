@@ -7,9 +7,19 @@ using System;
 public class JWPlayerData : MonoBehaviour
 {
 
+    public string questionsURL = "vYe6YRHr";
+    public string streamingURL = "ehFXPETl";
+
     public int questionID;
 
     public JWData data;
+
+    public SOURCE source;
+    public enum SOURCE {
+        unloaded,
+        questions,
+        streaming
+    }
 
     [Serializable]
     public class JWData
@@ -38,15 +48,39 @@ public class JWPlayerData : MonoBehaviour
 
     void Start()
     {
-        if(!DontLoadData)
-            StartCoroutine(LoadFromJWPlayer());
+        if (!DontLoadData)
+            SetQuestions();
+    }    
+
+    public void SetQuestions() {
+        questionID = 0;
+        if (source == SOURCE.questions)
+            return;
+        StartCoroutine(LoadFromJWPlayer(questionsURL));
+        source = SOURCE.questions;
     }
-    IEnumerator LoadFromJWPlayer()
+
+    public void SetStreaming() {
+        questionID = 0;
+        if (source == SOURCE.streaming)
+            return;
+        StartCoroutine(LoadFromJWPlayer(streamingURL));
+        source = SOURCE.streaming;
+    }
+
+    IEnumerator LoadFromJWPlayer(string url)
     {
-        WWW www = new WWW("https://cdn.jwplayer.com/v2/playlists/vYe6YRHr");
+        Debug.Log("aca");
+        WWW www = new WWW("https://cdn.jwplayer.com/v2/playlists/"+url);
         yield return www;
         data = JsonUtility.FromJson<JWData>(www.text);
         loaded = true;
+
+        if (source == SOURCE.streaming) {
+            string file = Data.Instance.triviaData.GetVideoSource().file;
+            Events.OnPreLoadVideo(file);
+            UI.Instance.screensManager.LoadScreen(2, false);
+        }
     }
     public PlaylistData GetActualQuestion()
     {

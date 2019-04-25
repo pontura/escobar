@@ -55,4 +55,8 @@ public class Chronometer : MonoBehaviour
             Events.OnTriviaTimeOut();            
         }
     }
+
+    public void Pause() {
+        isOn = false;
+    }
 }
