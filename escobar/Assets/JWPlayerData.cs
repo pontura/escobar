@@ -6,8 +6,8 @@ using System;
 
 public class JWPlayerData : MonoBehaviour
 {
+    public List<string> playlist_URL;
 
-    public string questionsURL = "vYe6YRHr";
     public string streamingURL = "ehFXPETl";
 
     public int questionID;
@@ -24,17 +24,17 @@ public class JWPlayerData : MonoBehaviour
     [Serializable]
     public class JWData
     {
-        public PlaylistData[] playlist;
+        public VideoData[] playlist;
+        public string date;
+        public string time;
     }
     [Serializable]
-    public class PlaylistData
+    public class VideoData
     {
         public string title;
         public string description;
         public string image;
         public Sources[] sources;
-        public AudioClip clip;
-        public AudioClip respuesta;
     }
     [Serializable]
     public class Sources
@@ -49,14 +49,14 @@ public class JWPlayerData : MonoBehaviour
     void Start()
     {
         if (!DontLoadData)
-            SetQuestions();
+            SetTrivia();
     }    
 
-    public void SetQuestions() {
+    public void SetTrivia() {
         questionID = 0;
         if (source == SOURCE.questions)
             return;
-        StartCoroutine(LoadFromJWPlayer(questionsURL));
+        StartCoroutine(LoadFromJWPlayer(playlist_URL[0]));
         source = SOURCE.questions;
     }
 
@@ -82,13 +82,13 @@ public class JWPlayerData : MonoBehaviour
             UI.Instance.screensManager.LoadScreen(2, false);
         }
     }
-    public PlaylistData GetActualQuestion()
+    public VideoData GetActualQuestion()
     {
         return data.playlist[questionID];
     }
     public string[] GetAnswwers()
     {
-        PlaylistData question = GetActualQuestion();
+        VideoData question = GetActualQuestion();
         return question.description.Split("\n"[0]);
     }
     public Sources GetVideoSource()
@@ -105,7 +105,7 @@ public class JWPlayerData : MonoBehaviour
         if(data.playlist.Length <= questionID+1)
             return null;
 
-        PlaylistData nextData = data.playlist[questionID+1];
+        VideoData nextData = data.playlist[questionID+1];
         foreach (Sources source in nextData.sources)
         {
             if (source.width == 270)

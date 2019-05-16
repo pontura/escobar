@@ -13,4 +13,10 @@ public class Main : MainScreen
         Events.OnPreLoadVideo(file);
         UI.Instance.screensManager.LoadScreen(2, true);
     }
+    public void StartTrining()
+    {
+        Trivia trivia = UI.Instance.screensManager.all[2] as Trivia;
+        trivia.type = Trivia.types.TRAINING;
+        UI.Instance.screensManager.LoadScreen(2, true);
+    }
 }

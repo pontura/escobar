@@ -21,7 +21,7 @@ public class VideoPlayerManager : MonoBehaviour
         print("Preloading... " + file);
         videoPlayer.url = file.Replace("https","http");
     }
-    void OnNewQuestion(JWPlayerData.PlaylistData data)
+    void OnNewQuestion(JWPlayerData.VideoData data)
     {        
         print("OnNewQuestion");
         videoPlayer.Play();
