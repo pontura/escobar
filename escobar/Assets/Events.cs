@@ -13,7 +13,7 @@ public static class Events {
 
     public static System.Action OnTriviaTimeOut = delegate { };
     public static System.Action OnHideTrivia = delegate { };
-
+    public static System.Action<string, Transform> OnTooltip = delegate { };
     public static System.Action<string, System.Action<Firebase.Database.DataSnapshot>> OnGetTrainingQuestions = delegate { };
 
 }
