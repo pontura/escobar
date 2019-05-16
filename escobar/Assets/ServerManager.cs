@@ -53,7 +53,6 @@ public class ServerManager : MonoBehaviour
 
     public void Send()
     {
-        print("Send");
         TriviaData data = new TriviaData();
         data.capitulo = 1;
         UserData userData = Data.Instance.userData;
@@ -89,5 +88,11 @@ public class ServerManager : MonoBehaviour
            }
         }
         );
+    }
+    public void SendQuestion(TrainingData.Question question)
+    {
+        string json = JsonUtility.ToJson(question);
+        reference.Child("entrenamiento").Push().SetRawJsonValueAsync(json);
+        print("Sended " + json);
     }
 }

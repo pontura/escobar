@@ -9,6 +9,6 @@ public class AdminMain : MainScreen
     }
     public void GotoTraining()
     {
-        UI.Instance.screensManager.LoadScreen(2, true);
+        UI.Instance.screensManager.LoadScreen(1, true);
     }
 }

@@ -9,6 +9,7 @@ public class TrainingAdmin : MainScreen
 
     public override void OnInit()
     {
+        int id = 0;
         Utils.RemoveAllChildsIn(container);
         foreach (TrainingData.Question q in Data.Instance.trainingData.preguntas)
         {
@@ -17,10 +18,21 @@ public class TrainingAdmin : MainScreen
             button.transform.SetParent(container);
             button.transform.localScale = Vector3.one;
             button.Init(q, OnClicked);
+            button.id = id;
+            id++;
         }
     }
     void OnClicked(AdminButton button)
     {
-        print(button.questionData.pregunta);
+        Data.Instance.trainingData.activeQuestion = Data.Instance.trainingData.preguntas[button.id];
+        GotoEdit();
+    }
+    public void AddNewQuestion()
+    {
+        GotoEdit();
+    }
+    void GotoEdit()
+    {
+        UI.Instance.screensManager.LoadScreen(2, true);
     }
 }

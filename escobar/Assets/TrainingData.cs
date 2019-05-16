@@ -8,6 +8,7 @@ public class TrainingData : MonoBehaviour
 {
     public List<Question> preguntas;
     public int questionID = 0;
+    public Question activeQuestion;
 
     [Serializable]
     public class Question
