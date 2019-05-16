@@ -5,6 +5,12 @@ using UnityEngine.UI;
 
 public class Trivia : MainScreen
 {
+    public types type;
+    public enum types
+    {
+        TORNEO,
+        TRAINING
+    }
     public GameObject timeOut;
     public Text field;
     public TriviaButton button;
@@ -18,8 +24,7 @@ public class Trivia : MainScreen
     public GameObject loading;
 
     void Start()
-    {
-        
+    {        
         OnHideTrivia();
         Events.OnShowTrivia += OnShowTrivia;
         Events.OnTriviaTimeOut += OnTriviaTimeOut;
@@ -35,7 +40,11 @@ public class Trivia : MainScreen
     public override void OnInit()
     {
         timeOut.SetActive(false);
-        Events.OnNewQuestion(Data.Instance.triviaData.GetActualQuestion());        
+
+        if(type == types.TORNEO)
+            Events.OnNewQuestion(Data.Instance.triviaData.GetActualQuestion());
+        else
+            Events.OnNewTrainingQuestion(Data.Instance.trainingData.GetActualQuestion());
     }
     void OnTriviaTimeOut()
     {
@@ -56,7 +65,7 @@ public class Trivia : MainScreen
         all = new int[] { 0, 1, 2 };
         Utils.ShuffleListNums(all);
         Utils.RemoveAllChildsIn(container);
-        LoadData(Data.Instance.triviaData.GetActualQuestion());
+        LoadData();
         chronometer.Init(10);
         Invoke("DelayToPreload", 0.5f);
     }
@@ -73,13 +82,37 @@ public class Trivia : MainScreen
     {        
         content.SetActive(false);
     }
-    void LoadData(JWPlayerData.PlaylistData dataQuestion)
+    void LoadData()
+    {
+        if (type == types.TORNEO)
+            LoadDataFromVideoData(Data.Instance.triviaData.GetActualQuestion());
+        else
+            LoadDataFromTraining(Data.Instance.trainingData.GetActualQuestion());
+    }
+    void LoadDataFromVideoData(JWPlayerData.VideoData dataQuestion)
     {
         field.text = dataQuestion.title;
         string[] resp = Data.Instance.triviaData.GetAnswwers();
-        AddButton(resp[all[0]], all[0]);
-        AddButton(resp[all[1]], all[1]);
-        AddButton(resp[all[2]], all[2]);
+
+        for (int a = 0; a < 3; a++)
+        {
+            string r = resp[all[a]];
+            AddButton(r, all[a]);
+        }
+
+        AnimateButtons(true);
+    }
+    void LoadDataFromTraining(TrainingData.Question dataQuestion)
+    {
+        field.text = dataQuestion.pregunta;
+        string[] resp = Data.Instance.trainingData.GetAnswwers();
+
+        for (int a = 0; a < 3; a++)
+        {
+            string r = resp[all[a]];
+            AddButton(r, all[a]);
+        }
+
         AnimateButtons(true);
     }
     void AddButton(string text, int id)
@@ -98,18 +131,29 @@ public class Trivia : MainScreen
 
         chronometer.Pause();
         done = true;
-        Data.Instance.userData.SetAnswer(id);
+
+        if (type == types.TORNEO)
+            Data.Instance.userData.SetAnswer(id);
+
         StartCoroutine( ResetTrivia(0.2f) );           
     }
     IEnumerator ResetTrivia(float delay)
     {
         yield return new WaitForSeconds(delay);
         AnimateButtons(false);
-        Data.Instance.StartNextQuestion();
+
+        if(type == types.TORNEO)
+            Data.Instance.StartNextQuestion();
+
         yield return new WaitForSeconds(0.6f);
         content.GetComponent<Animation>().Play("trivia_off");       
         yield return new WaitForSeconds(0.5f);
-        OnHideTrivia();        
+        OnHideTrivia();
+        if (type == types.TRAINING)
+        {
+            yield return new WaitForSeconds(2);
+            Events.OnNewTrainingQuestion(Data.Instance.trainingData.GetActualQuestion());
+        }
     }
     void AnimateButtons(bool isOn)
     {

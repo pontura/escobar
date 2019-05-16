@@ -11,7 +11,7 @@ public class Summary : MainScreen
     public void Replay()
     {
         Data.Instance.userData.Reset();
-        Data.Instance.triviaData.SetQuestions();
+        Data.Instance.triviaData.SetTrivia();
         UI.Instance.screensManager.LoadScreen(1, false);
     }
 

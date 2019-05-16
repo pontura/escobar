@@ -10,6 +10,7 @@ public class Data : MonoBehaviour {
     public ServerManager serverManager;
     public JWPlayerData triviaData;
     public UserData userData;
+    public TrainingData trainingData;
 
     public static Data Instance
     {
@@ -27,6 +28,7 @@ public class Data : MonoBehaviour {
 		DontDestroyOnLoad(this);
         serverManager = GetComponent<ServerManager>();
         userData = GetComponent<UserData>();
+        trainingData = GetComponent<TrainingData>();
     }
     public void StartNextQuestion()
     {

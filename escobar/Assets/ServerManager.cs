@@ -13,22 +13,14 @@ public class ServerManager : MonoBehaviour
 
     void Start()
     {
-        // Set this before calling into the realtime database.
+        Events.OnGetTrainingQuestions += OnGetTrainingQuestions;
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://triviaescobar.firebaseio.com/");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
 
         Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task => {
             var dependencyStatus = task.Result;
-            print("1 " + dependencyStatus);
             if (dependencyStatus == Firebase.DependencyStatus.Available)
             {
-                
-                // Create and hold a reference to your FirebaseApp, i.e.
-               //   app = Firebase.FirebaseApp.DefaultInstance;
-                // where app is a Firebase.FirebaseApp property of your application class.
-
-                // Set a flag here indicating that Firebase is ready to use by your
-                // application.
                 print("App ready");
             }
             else
@@ -38,6 +30,10 @@ public class ServerManager : MonoBehaviour
                 // Firebase Unity SDK is not safe to use here.
             }
         });
+    }
+    void OnDestroy()
+    {
+        Events.OnGetTrainingQuestions -= OnGetTrainingQuestions;
     }
 
     public Dictionary<string, object> ToDictionary()
@@ -74,8 +70,24 @@ public class ServerManager : MonoBehaviour
         reference.Child("usuarios").Push().SetRawJsonValueAsync(json);
         print("Sended " + json);
     }
-    void Read()
+
+  
+
+    public void OnGetTrainingQuestions(string childName, System.Action<DataSnapshot> OnReady)
     {
-      
+        FirebaseDatabase.DefaultInstance
+       .GetReference(childName)
+       .GetValueAsync().ContinueWith(task => {
+            if (task.IsFaulted)
+            {
+                // Handle the error...
+            }
+            else if (task.IsCompleted)
+            {
+                DataSnapshot snapshot = task.Result;
+               OnReady(snapshot);
+           }
+        }
+        );
     }
 }
