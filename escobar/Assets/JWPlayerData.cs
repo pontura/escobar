@@ -12,46 +12,31 @@ public class JWPlayerData : MonoBehaviour
 
     public int questionID;
 
-    public JWData data;
+    public PlaylistData data;
 
     public SOURCE source;
+
     public enum SOURCE {
         unloaded,
         questions,
         streaming
     }
-
-    [Serializable]
-    public class JWData
-    {
-        public VideoData[] playlist;
-        public string date;
-        public string time;
-    }
-    [Serializable]
-    public class VideoData
-    {
-        public string title;
-        public string description;
-        public string image;
-        public Sources[] sources;
-    }
-    [Serializable]
-    public class Sources
-    {
-        public int width;
-        public string file;
-    }
+    
     public bool loaded;
-
     public bool DontLoadData;
 
     void Start()
     {
         if (!DontLoadData)
             SetTrivia();
-    }    
-
+    }
+    System.Action OnLoaded;
+    public void LoadPlaylist(string playlistID, System.Action OnLoaded)
+    {
+        StopAllCoroutines();
+        StartCoroutine(LoadFromJWPlayer(playlistID));
+        this.OnLoaded = OnLoaded;
+    }
     public void SetTrivia() {
         questionID = 0;
         if (source == SOURCE.questions)
@@ -68,49 +53,57 @@ public class JWPlayerData : MonoBehaviour
         source = SOURCE.streaming;
     }
 
-    IEnumerator LoadFromJWPlayer(string url)
+    IEnumerator LoadFromJWPlayer(string playlistID)
     {
-        Debug.Log("aca");
-        WWW www = new WWW("https://cdn.jwplayer.com/v2/playlists/"+url);
+        Debug.Log("LoadFromJWPlayer " + playlistID);
+        WWW www = new WWW("https://cdn.jwplayer.com/v2/playlists/"+ playlistID);
         yield return www;
-        data = JsonUtility.FromJson<JWData>(www.text);
+        data = JsonUtility.FromJson<PlaylistData>(www.text);
         loaded = true;
 
-        if (source == SOURCE.streaming) {
-            string file = Data.Instance.triviaData.GetVideoSource().file;
-            Events.OnPreLoadVideo(file);
-            UI.Instance.screensManager.LoadScreen(2, false);
+        if (OnLoaded != null)
+        {            
+            OnLoaded();
+            OnLoaded = null;
         }
+
+        //if (source == SOURCE.streaming) {
+        //    string file = Data.Instance.triviaData.GetVideoSource().file;
+        //    Events.OnPreLoadVideo(file);
+        //    UI.Instance.screensManager.LoadScreen(2, false);
+        //}
     }
-    public VideoData GetActualQuestion()
+    public PlaylistData.VideoData GetActualQuestion()
     {
         return data.playlist[questionID];
     }
     public string[] GetAnswwers()
     {
-        VideoData question = GetActualQuestion();
+        PlaylistData.VideoData question = GetActualQuestion();
         return question.description.Split("\n"[0]);
     }
-    public Sources GetVideoSource()
+    public PlaylistData.Sources GetVideoSource()
     {
-        foreach(Sources source in GetActualQuestion().sources)
+        foreach (PlaylistData.Sources source in GetActualQuestion().sources)
         {
             if (source.width == 270)
                 return source;
         }
         return data.playlist[questionID].sources[1];
     }
-    public Sources GetNextVideoSource()
+    public PlaylistData.Sources GetNextVideoSource()
     {
         if(data.playlist.Length <= questionID+1)
             return null;
 
-        VideoData nextData = data.playlist[questionID+1];
-        foreach (Sources source in nextData.sources)
+        PlaylistData.VideoData nextData = data.playlist[questionID+1];
+        foreach (PlaylistData.Sources source in nextData.sources)
         {
             if (source.width == 270)
                 return source;
         }
         return data.playlist[questionID+1].sources[1];
     }
+
+    
 }

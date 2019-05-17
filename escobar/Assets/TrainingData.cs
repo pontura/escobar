@@ -41,7 +41,7 @@ public class TrainingData : MonoBehaviour
     }
     void LoadData()
     {
-        Events.OnGetTrainingQuestions("entrenamiento", OnReady);
+        Events.OnGetServerData("entrenamiento", OnReady);
     }
     void OnRefreshTrainingData()
     {

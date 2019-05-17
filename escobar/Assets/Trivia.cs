@@ -71,7 +71,7 @@ public class Trivia : MainScreen
     }
     void DelayToPreload()
     {
-        JWPlayerData.Sources s = Data.Instance.triviaData.GetNextVideoSource();
+        PlaylistData.Sources s = Data.Instance.triviaData.GetNextVideoSource();
         if (s != null)
         {
             string file = s.file;
@@ -89,7 +89,7 @@ public class Trivia : MainScreen
         else
             LoadDataFromTraining(Data.Instance.trainingData.GetActualQuestion());
     }
-    void LoadDataFromVideoData(JWPlayerData.VideoData dataQuestion)
+    void LoadDataFromVideoData(PlaylistData.VideoData dataQuestion)
     {
         field.text = dataQuestion.title;
         string[] resp = Data.Instance.triviaData.GetAnswwers();

@@ -21,7 +21,7 @@ public class VideoPlayerManager : MonoBehaviour
         print("Preloading... " + file);
         videoPlayer.url = file.Replace("https","http");
     }
-    void OnNewQuestion(JWPlayerData.VideoData data)
+    void OnNewQuestion(PlaylistData.VideoData data)
     {        
         print("OnNewQuestion");
         videoPlayer.Play();
@@ -33,7 +33,7 @@ public class VideoPlayerManager : MonoBehaviour
             Events.OnShowTrivia();
             loading.SetActive(true);
         } else if (Data.Instance.triviaData.source == JWPlayerData.SOURCE.streaming) {
-            JWPlayerData.Sources s = Data.Instance.triviaData.GetNextVideoSource();
+            PlaylistData.Sources s = Data.Instance.triviaData.GetNextVideoSource();
             if (s != null) {
                 string file = s.file;
                 Events.OnPreLoadVideo(file);
