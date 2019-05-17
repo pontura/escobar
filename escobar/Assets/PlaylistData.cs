@@ -4,8 +4,6 @@
 public class PlaylistData
 {
     public VideoData[] playlist;
-    public string date;
-    public string time;
     public string playlistID;
 
     [Serializable]

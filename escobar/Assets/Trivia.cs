@@ -22,6 +22,7 @@ public class Trivia : MainScreen
     public List<TriviaButton> buttons;
     public bool done;
     public GameObject loading;
+    public GameObject videoPanel;
 
     void Start()
     {        
@@ -36,15 +37,23 @@ public class Trivia : MainScreen
         Events.OnTriviaTimeOut -= OnTriviaTimeOut;
         Events.OnHideTrivia -= OnHideTrivia;
     }
-
-    public override void OnInit()
+    public override void OnEnabled()
     {
         timeOut.SetActive(false);
 
-        if(type == types.TORNEO)
-            Events.OnNewQuestion(Data.Instance.triviaData.GetActualQuestion());
+        if (type == types.TORNEO)
+            videoPanel.SetActive(true);
         else
+            videoPanel.SetActive(false);
+    }
+    public override void OnInit()
+    {
+        if (type == types.TORNEO)
+        {
+            Events.OnNewQuestion(Data.Instance.triviaData.GetActualQuestion());
+        } else { 
             Events.OnNewTrainingQuestion(Data.Instance.trainingData.GetActualQuestion());
+        }
     }
     void OnTriviaTimeOut()
     {
