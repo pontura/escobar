@@ -6,23 +6,25 @@ using UnityEngine.UI;
 public class Tooltip : MonoBehaviour
 {
     public Text field;
+    public GameObject target;
     void Start()
     {
         Events.OnTooltip += OnTooltip;
-        gameObject.SetActive(false);
+        target.gameObject.SetActive(false);
     }
 
     void OnTooltip(string text, Transform t)
     {
-        field.text = text;
-        transform.SetParent(t);
-        transform.localPosition = Vector3.zero;
         CancelInvoke();
-        gameObject.SetActive(true);
+        field.text = text;
+        target.transform.SetParent(t);
+        target.transform.localPosition = Vector3.zero;
+        
+        target.gameObject.SetActive(true);
         Invoke("Reset", 2);
     }
     void Reset()
     {
-        gameObject.SetActive(false);
+        target.gameObject.SetActive(false);
     }
 }

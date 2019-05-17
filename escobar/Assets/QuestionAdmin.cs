@@ -5,30 +5,37 @@ using UnityEngine.UI;
 
 public class QuestionAdmin : MainScreen
 {
+    public GameObject deleteButton;
     public InputField pregunta;
     public InputField respuesta_bien;
     public InputField respuesta_1;
     public InputField respuesta_2;
     bool sended;
 
-    public override void OnInit()
+    public override void OnEnabled  ()
     {
         sended = false;
-        if(Data.Instance.trainingData.activeQuestion != null)
+        if(Data.Instance.trainingData.activeQuestion != null && Data.Instance.trainingData.activeQuestion.key.Length>0)
         {
-            TrainingData.Question question = Data.Instance.trainingData.activeQuestion;
+            deleteButton.SetActive(true);
+            TrainingData.Question question = Data.Instance.trainingData.activeQuestion.preguntas;
             pregunta.text = question.pregunta;
             respuesta_bien.text = question.respuesta_bien;
             respuesta_1.text = question.respuesta_mal_1;
             respuesta_2.text = question.respuesta_mal_2;
         }
+        else
+        {
+            pregunta.text = "";
+            respuesta_bien.text = "";
+            respuesta_1.text = "";
+            respuesta_2.text = "";
+            deleteButton.SetActive(false);
+        }
     }
     public void OnSubmit()
     {
-        if (sended)
-            return;
-
-        sended = true;
+    
         string tooltipText = "No puede estar vacío este campo";
         if (IsEmpty(pregunta))
             Events.OnTooltip(tooltipText, pregunta.transform);
@@ -40,12 +47,25 @@ public class QuestionAdmin : MainScreen
             Events.OnTooltip(tooltipText, respuesta_2.transform);
         else
         {
+            if (sended)
+                return;
+
+            sended = true;
+
             TrainingData.Question question = new TrainingData.Question();
             question.pregunta = pregunta.text;
             question.respuesta_bien = respuesta_bien.text;
             question.respuesta_mal_1 = respuesta_1.text;
             question.respuesta_mal_2 = respuesta_2.text;
-            Data.Instance.serverManager.SendQuestion(question);
+            TrainingData.Training activeQuestion = Data.Instance.trainingData.activeQuestion;
+            if(activeQuestion != null)
+                Data.Instance.serverManager.UpdateQuestion(activeQuestion.key, question);
+            else
+                Data.Instance.serverManager.PushQuestion(question);
+
+            Events.OnRefreshTrainingData();
+
+            Invoke("Back", 1);
         }
     }
     public bool IsEmpty(InputField field)
@@ -53,5 +73,22 @@ public class QuestionAdmin : MainScreen
         if (field.text.Length < 1)
             return true;
         return false;
+    }
+    public void Delete()
+    {
+        if (sended)
+            return;
+
+        sended = true;
+
+        TrainingData.Training activeQuestion = Data.Instance.trainingData.activeQuestion;
+        Data.Instance.serverManager.DeleteQuestion(activeQuestion.key);
+
+        Events.OnRefreshTrainingData();
+
+    }
+    public override void OnBack()
+    {
+        Data.Instance.trainingData.activeQuestion = null;
     }
 }

@@ -6,9 +6,16 @@ using System;
 
 public class TrainingData : MonoBehaviour
 {
-    public List<Question> preguntas;
+    public List<Training> entrenamiento;
+
+    [Serializable]
+    public class Training
+    {
+        public string key;
+        public Question preguntas;
+    }
     public int questionID = 0;
-    public Question activeQuestion;
+    public Training activeQuestion;
 
     [Serializable]
     public class Question
@@ -22,22 +29,36 @@ public class TrainingData : MonoBehaviour
     void Start()
     {
         //PONTURA: cambiar a futuro...
-        Invoke("Delayed", 2);
+        Invoke("LoadData", 1);
+
         Events.OnNewTrainingQuestion += OnNewTrainingQuestion;
+        Events.OnRefreshTrainingData += OnRefreshTrainingData;
+    }
+    void OnDestroy()
+    {
+        Events.OnNewTrainingQuestion -= OnNewTrainingQuestion;
+        Events.OnRefreshTrainingData -= OnRefreshTrainingData;
+    }
+    void LoadData()
+    {
+        Events.OnGetTrainingQuestions("entrenamiento", OnReady);
+    }
+    void OnRefreshTrainingData()
+    {
+        entrenamiento.Clear();
+        LoadData();
+        activeQuestion = null;
     }
     void OnNewTrainingQuestion(Question q)
     {
         Events.OnShowTrivia();
         questionID++;
     }
-    void Delayed()
-    {
-        Events.OnGetTrainingQuestions("entrenamiento", OnReady);
-    }
+    
     public string[] GetAnswwers()
     {
         string[] arr = new string[3];
-        Question question = preguntas[questionID];
+        Question question = entrenamiento[questionID].preguntas;
         arr[0] = question.respuesta_bien;
         arr[1] = question.respuesta_mal_1;
         arr[2] = question.respuesta_mal_2;
@@ -45,19 +66,25 @@ public class TrainingData : MonoBehaviour
     }
     public Question GetActualQuestion()
     {
-        return preguntas[questionID];
+        return entrenamiento[questionID].preguntas;
     }
-    void OnReady(DataSnapshot snapshot )
+    void OnReady(DataSnapshot snapshot)
     {
         foreach (DataSnapshot data in snapshot.Children)
         {
             Question tData = new Question();
             IDictionary dataDictiontary = (IDictionary)data.Value;
+
             tData.pregunta = dataDictiontary["pregunta"].ToString();
             tData.respuesta_bien = dataDictiontary["respuesta_bien"].ToString();
             tData.respuesta_mal_1 = dataDictiontary["respuesta_mal_1"].ToString();
             tData.respuesta_mal_2 = dataDictiontary["respuesta_mal_2"].ToString();
-            preguntas.Add(tData);
+
+            Training t = new Training();
+            t.key = data.Key;
+            t.preguntas = tData;
+
+            entrenamiento.Add(t);
         }
     }
 }
