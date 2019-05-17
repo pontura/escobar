@@ -11,6 +11,7 @@ public class CapitulosAdmin : MainScreen
 
     public override void OnEnabled()
     {
+        Data.Instance.capitulosData.activeCapitulo = null;
         int id = 0;
         all.Clear();
         Utils.RemoveAllChildsIn(container);
@@ -28,10 +29,11 @@ public class CapitulosAdmin : MainScreen
     void OnClicked(AdminButton button)
     {
         print("CapitulosAdmin clicked" + button.id);
-        Data.Instance.triviaData.LoadPlaylist(Data.Instance.capitulosData.capitulos[button.id].playlistID, GotoEdit);
+        Data.Instance.capitulosData.activeCapitulo = Data.Instance.capitulosData.capitulos[button.id];
+        Data.Instance.triviaData.LoadPlaylist(Data.Instance.capitulosData.activeCapitulo.playlistID, GotoEdit);
     }
     public void AddNew()
-    {
+    {        
         GotoEdit();
     }
     void GotoEdit()

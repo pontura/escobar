@@ -7,13 +7,14 @@ using System;
 public class TrainingData : MonoBehaviour
 {
     public List<Training> entrenamiento;
-
+    int totalQuestions = 5;
     [Serializable]
     public class Training
     {
         public string key;
         public Question preguntas;
     }
+    public int totalDone;
     public int questionID = 0;
     public Training activeQuestion;
 
@@ -34,6 +35,10 @@ public class TrainingData : MonoBehaviour
         Events.OnNewTrainingQuestion += OnNewTrainingQuestion;
         Events.OnRefreshTrainingData += OnRefreshTrainingData;
     }
+    public void Init()
+    {
+        totalDone = 0;
+    }
     void OnDestroy()
     {
         Events.OnNewTrainingQuestion -= OnNewTrainingQuestion;
@@ -45,14 +50,26 @@ public class TrainingData : MonoBehaviour
     }
     void OnRefreshTrainingData()
     {
+        totalDone = 0;
         entrenamiento.Clear();
         LoadData();
         activeQuestion = null;
     }
     void OnNewTrainingQuestion(Question q)
     {
-        Events.OnShowTrivia();
-        questionID++;
+        
+        if(totalDone >= totalQuestions)
+        {
+            UI.Instance.screensManager.LoadScreen(5, true);
+        } else
+        {                      
+            questionID++;
+            if (questionID >= entrenamiento.Count)
+                questionID = 0;
+
+            Events.OnShowTrivia();
+        }
+        totalDone++;
     }
     
     public string[] GetAnswwers()

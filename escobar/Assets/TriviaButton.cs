@@ -42,6 +42,10 @@ public class TriviaButton : MonoBehaviour
     }
     public void SetResult(bool correct)
     {
+        Trivia trivia = UI.Instance.screensManager.all[2] as Trivia;
+        if (trivia.type == Trivia.types.TRAINING)
+            Events.OnTrainingResponse(correct);
+
         idle.SetActive(false);
         if (correct)
         {

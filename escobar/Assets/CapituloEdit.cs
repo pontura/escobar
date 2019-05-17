@@ -14,7 +14,7 @@ public class CapituloEdit : MainScreen
     public override void OnEnabled()
     {
         sended = false;
-        if (Data.Instance.triviaData.data != null)
+        if (Data.Instance.capitulosData.activeCapitulo != null && Data.Instance.capitulosData.activeCapitulo.key != "")
         {
             deleteButton.SetActive(true);       
         }
@@ -23,7 +23,7 @@ public class CapituloEdit : MainScreen
             deleteButton.SetActive(false);
         }
 
-        PlaylistData data = Data.Instance.triviaData.data;
+        CapitulosData.Capitulo data = Data.Instance.capitulosData.activeCapitulo;
         dateField.text = data.date;
         timeField.text = data.time;
         playlistIDField.text = data.playlistID;
@@ -43,7 +43,7 @@ public class CapituloEdit : MainScreen
 
             sended = true;
 
-            PlaylistData d = new PlaylistData();
+            CapitulosData.Capitulo d = new CapitulosData.Capitulo();
             d.date = dateField.text;
             d.time = timeField.text;
             d.playlistID = playlistIDField.text;
@@ -80,5 +80,15 @@ public class CapituloEdit : MainScreen
     public override void OnBack()
     {
         Data.Instance.trainingData.activeQuestion = null;
+    }
+
+
+    public AdminButton button;
+    public Transform container;
+    public List<AdminButton> all;
+
+    void LoadTrivia()
+    {
+
     }
 }

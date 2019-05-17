@@ -12,6 +12,7 @@ public class Data : MonoBehaviour {
     public UserData userData;
     public CapitulosData capitulosData;
     public TrainingData trainingData;
+    public TrainingResults trainingResults;
 
     public static Data Instance
     {
@@ -31,6 +32,7 @@ public class Data : MonoBehaviour {
         userData = GetComponent<UserData>();
         trainingData = GetComponent<TrainingData>();
         capitulosData = GetComponent<CapitulosData>();
+        trainingResults = GetComponent<TrainingResults>();
     }
     public void StartNextQuestion()
     {
