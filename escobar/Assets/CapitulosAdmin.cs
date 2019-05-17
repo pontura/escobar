@@ -2,37 +2,41 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TrainingAdmin : MainScreen
+public class CapitulosAdmin : MainScreen
 {
     public AdminButton adminButton;
     public Transform container;
 
+    public List<AdminButton> all;
+
     public override void OnEnabled()
     {
         int id = 0;
+        all.Clear();
         Utils.RemoveAllChildsIn(container);
-        foreach (TrainingData.Training q in Data.Instance.trainingData.entrenamiento)
+        foreach (CapitulosData.Capitulo c in Data.Instance.capitulosData.capitulos)
         {
-            
+
             AdminButton button = Instantiate(adminButton);
             button.transform.SetParent(container);
             button.transform.localScale = Vector3.one;
-            button.Init(id, q.preguntas.pregunta, OnClicked);
+            button.Init(id, c.date + " " + c.time + "hs", OnClicked);
             id++;
+            all.Add(button);
         }
     }
     void OnClicked(AdminButton button)
     {
-        Data.Instance.trainingData.activeQuestion = Data.Instance.trainingData.entrenamiento[button.id];
-        GotoEdit();
+        print("CapitulosAdmin clicked" + button.id);
+        Data.Instance.triviaData.LoadPlaylist(Data.Instance.capitulosData.capitulos[button.id].playlistID, GotoEdit);
     }
-    public void AddNewQuestion()
+    public void AddNew()
     {
         GotoEdit();
     }
     void GotoEdit()
     {
-        UI.Instance.screensManager.LoadScreen(2, true);
+        UI.Instance.screensManager.LoadScreen(4, true);
     }
 
 }

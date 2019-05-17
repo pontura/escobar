@@ -11,4 +11,8 @@ public class AdminMain : MainScreen
     {
         UI.Instance.screensManager.LoadScreen(1, true);
     }
+    public void GotoCapitulos()
+    {
+        UI.Instance.screensManager.LoadScreen(3, true);
+    }
 }

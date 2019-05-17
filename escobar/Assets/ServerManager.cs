@@ -13,7 +13,7 @@ public class ServerManager : MonoBehaviour
 
     void Start()
     {
-        Events.OnGetTrainingQuestions += OnGetTrainingQuestions;
+        Events.OnGetServerData += OnGetServerData;
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://triviaescobar.firebaseio.com/");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
 
@@ -33,7 +33,7 @@ public class ServerManager : MonoBehaviour
     }
     void OnDestroy()
     {
-        Events.OnGetTrainingQuestions -= OnGetTrainingQuestions;
+        Events.OnGetServerData -= OnGetServerData;
     }
 
     public Dictionary<string, object> ToDictionary()
@@ -72,7 +72,7 @@ public class ServerManager : MonoBehaviour
 
   
 
-    public void OnGetTrainingQuestions(string childName, System.Action<DataSnapshot> OnReady)
+    public void OnGetServerData(string childName, System.Action<DataSnapshot> OnReady)
     {
         FirebaseDatabase.DefaultInstance
        .GetReference(childName)
@@ -89,16 +89,16 @@ public class ServerManager : MonoBehaviour
         }
         );
     }
-    public void UpdateQuestion(string key, TrainingData.Question question)
+    public void UpdateData(string table, string key, object obj)
     {
-        string json = JsonUtility.ToJson(question);
-        reference.Child("entrenamiento").Child(key).SetRawJsonValueAsync(json);
+        string json = JsonUtility.ToJson(obj);
+        reference.Child(table).Child(key).SetRawJsonValueAsync(json);
         print("UpdateQuestion " + json);    
     }
-    public void PushQuestion(TrainingData.Question question)
+    public void PushData(string table, object obj)
     {
-        string json = JsonUtility.ToJson(question);
-        reference.Child("entrenamiento").Push().SetRawJsonValueAsync(json);
+        string json = JsonUtility.ToJson(obj);
+        reference.Child(table).Push().SetRawJsonValueAsync(json);
         print("PushQuestion " + json);
     }
     public void DeleteQuestion(string key)

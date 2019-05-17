@@ -58,10 +58,10 @@ public class QuestionAdmin : MainScreen
             question.respuesta_mal_1 = respuesta_1.text;
             question.respuesta_mal_2 = respuesta_2.text;
             TrainingData.Training activeQuestion = Data.Instance.trainingData.activeQuestion;
-            if(activeQuestion != null)
-                Data.Instance.serverManager.UpdateQuestion(activeQuestion.key, question);
+            if(activeQuestion != null && activeQuestion.key != "")
+                Data.Instance.serverManager.UpdateData("entrenamiento", activeQuestion.key, question);
             else
-                Data.Instance.serverManager.PushQuestion(question);
+                Data.Instance.serverManager.PushData("entrenamiento", question);
 
             Events.OnRefreshTrainingData();
 
