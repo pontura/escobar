@@ -63,8 +63,10 @@ public class MainScreen : MonoBehaviour
 	public virtual void Back()
 	{		
 		screensManager.LoadScreen (backScreenID, false);
-	}
-	public virtual void OnEnabled() { }
+        OnBack();
+    }
+    public virtual void OnBack() { }
+    public virtual void OnEnabled() { }
 	public virtual void OnButtonClicked(ButtonStandard button) { }
 	public virtual void OnInit() 	{ }
 	public virtual void OnReset() 	{ }

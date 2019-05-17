@@ -89,10 +89,21 @@ public class ServerManager : MonoBehaviour
         }
         );
     }
-    public void SendQuestion(TrainingData.Question question)
+    public void UpdateQuestion(string key, TrainingData.Question question)
+    {
+        string json = JsonUtility.ToJson(question);
+        reference.Child("entrenamiento").Child(key).SetRawJsonValueAsync(json);
+        print("UpdateQuestion " + json);    
+    }
+    public void PushQuestion(TrainingData.Question question)
     {
         string json = JsonUtility.ToJson(question);
         reference.Child("entrenamiento").Push().SetRawJsonValueAsync(json);
-        print("Sended " + json);
+        print("PushQuestion " + json);
+    }
+    public void DeleteQuestion(string key)
+    {
+        reference.Child("entrenamiento").Child(key).RemoveValueAsync();
+        print("DeleteQuestion " + key);
     }
 }

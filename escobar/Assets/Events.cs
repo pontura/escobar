@@ -10,6 +10,7 @@ public static class Events {
     public static System.Action<TrainingData.Question> OnNewTrainingQuestion = delegate { };
     public static System.Action<JWPlayerData.VideoData> OnAnswer = delegate { };
     public static System.Action OnShowTrivia = delegate { };
+    public static System.Action OnRefreshTrainingData = delegate { }; 
 
     public static System.Action OnTriviaTimeOut = delegate { };
     public static System.Action OnHideTrivia = delegate { };
