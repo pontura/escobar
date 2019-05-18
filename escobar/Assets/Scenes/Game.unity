@@ -768,7 +768,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 9.1835e-41, y: 1.1e-44, z: 0, w: 9.1835e-41}
+  m_BoundingSphereOverride: {x: 8.35e-43, y: 9.4e-44, z: 0, w: 0.0000000017916557}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -6753,11 +6753,7 @@ MonoBehaviour:
   buttons: []
   done: 0
   loading: {fileID: 442531282}
-<<<<<<< HEAD
   videoPanel: {fileID: 0}
-=======
-  videoPanel: {fileID: 1753432930}
->>>>>>> question line
 --- !u!224 &1846717014
 RectTransform:
   m_ObjectHideFlags: 0
