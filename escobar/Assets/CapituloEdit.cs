@@ -16,17 +16,17 @@ public class CapituloEdit : MainScreen
         sended = false;
         if (Data.Instance.capitulosData.activeCapitulo != null && Data.Instance.capitulosData.activeCapitulo.key != "")
         {
-            deleteButton.SetActive(true);       
+            deleteButton.SetActive(true);
+            LoadTrivia();
+            CapitulosData.Capitulo data = Data.Instance.capitulosData.activeCapitulo;
+            dateField.text = data.date;
+            timeField.text = data.time;
+            playlistIDField.text = data.playlistID;
         }
         else
         {
             deleteButton.SetActive(false);
         }
-
-        CapitulosData.Capitulo data = Data.Instance.capitulosData.activeCapitulo;
-        dateField.text = data.date;
-        timeField.text = data.time;
-        playlistIDField.text = data.playlistID;
     }
     public void OnSubmit()
     {
@@ -83,12 +83,25 @@ public class CapituloEdit : MainScreen
     }
 
 
-    public AdminButton button;
+    public QuestionLine qline;
     public Transform container;
     public List<AdminButton> all;
 
     void LoadTrivia()
     {
-
+        Utils.RemoveAllChildsIn(container);
+        PlaylistData data = Data.Instance.triviaData.data;
+        foreach(PlaylistData.VideoData d in data.playlist)
+        {
+            QuestionLine line = Instantiate(qline);
+            line.transform.SetParent(container);
+            line.Init(d, null);
+            line.transform.transform.localScale = Vector3.one;
+        }
+    }
+    
+    public void EditPlaylist()
+    {
+        Data.Instance.triviaData.Open_URL(Data.Instance.capitulosData.activeCapitulo.playlistID);
     }
 }

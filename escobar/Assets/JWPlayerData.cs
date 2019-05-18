@@ -104,6 +104,10 @@ public class JWPlayerData : MonoBehaviour
         }
         return data.playlist[questionID+1].sources[1];
     }
-
+    public void Open_URL(string playlistID)
+    {
+        string url = "https://dashboard.jwplayer.com/#/content/playlists/manual_detail?key=" + playlistID;
+        Application.OpenURL(url);
+    }
     
 }
