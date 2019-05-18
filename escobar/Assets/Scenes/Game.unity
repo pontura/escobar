@@ -6753,7 +6753,11 @@ MonoBehaviour:
   buttons: []
   done: 0
   loading: {fileID: 442531282}
+<<<<<<< HEAD
   videoPanel: {fileID: 0}
+=======
+  videoPanel: {fileID: 1753432930}
+>>>>>>> question line
 --- !u!224 &1846717014
 RectTransform:
   m_ObjectHideFlags: 0
