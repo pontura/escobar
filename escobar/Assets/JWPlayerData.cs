@@ -109,5 +109,10 @@ public class JWPlayerData : MonoBehaviour
         string url = "https://dashboard.jwplayer.com/#/content/playlists/manual_detail?key=" + playlistID;
         Application.OpenURL(url);
     }
+    public void OPEN_VIDEO_EDIT(string videoID)
+    {        
+        string url = "https://dashboard.jwplayer.com/#/content/detail?key=" + videoID;
+        Application.OpenURL(url);
+    }
     
 }

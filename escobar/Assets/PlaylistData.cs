@@ -9,6 +9,7 @@ public class PlaylistData
     [Serializable]
     public class VideoData
     {
+        public string mediaid;
         public string playlistID;
         public string title;
         public string description;

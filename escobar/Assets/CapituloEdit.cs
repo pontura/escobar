@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class CapituloEdit : MainScreen
 {
     public GameObject deleteButton;
-    public InputField dateField;
+    public DatePanel dateField;
     public InputField timeField;
     public InputField playlistIDField;
     bool sended;
@@ -19,7 +19,7 @@ public class CapituloEdit : MainScreen
             deleteButton.SetActive(true);
             LoadTrivia();
             CapitulosData.Capitulo data = Data.Instance.capitulosData.activeCapitulo;
-            dateField.text = data.date;
+            dateField.Init(data.date);
             timeField.text = data.time;
             playlistIDField.text = data.playlistID;
         }
@@ -30,7 +30,7 @@ public class CapituloEdit : MainScreen
     }
     public void OnSubmit()
     {
-        if (IsEmpty(dateField))
+        if (dateField.GetValue() == "")
             Events.OnTooltip("Indica una fecha: (ej: 22/01/2019)", dateField.transform);
         else if (IsEmpty(timeField))
             Events.OnTooltip("Indica una hora: (ej: 19hs)", timeField.transform);
@@ -44,7 +44,7 @@ public class CapituloEdit : MainScreen
             sended = true;
 
             CapitulosData.Capitulo d = new CapitulosData.Capitulo();
-            d.date = dateField.text;
+            d.date = dateField.GetValue();
             d.time = timeField.text;
             d.playlistID = playlistIDField.text;
             
@@ -95,11 +95,14 @@ public class CapituloEdit : MainScreen
         {
             QuestionLine line = Instantiate(qline);
             line.transform.SetParent(container);
-            line.Init(d, null);
+            line.Init(d, OnClicked);
             line.transform.transform.localScale = Vector3.one;
         }
     }
-    
+    public void OnClicked(PlaylistData.VideoData data)
+    {
+        Data.Instance.triviaData.OPEN_VIDEO_EDIT(data.mediaid);
+    }
     public void EditPlaylist()
     {
         Data.Instance.triviaData.Open_URL(Data.Instance.capitulosData.activeCapitulo.playlistID);

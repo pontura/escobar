@@ -11,7 +11,6 @@ public static class Events {
     public static System.Action<PlaylistData.VideoData> OnAnswer = delegate { };
     public static System.Action OnShowTrivia = delegate { };
     public static System.Action OnRefreshTrainingData = delegate { };
-    public static System.Action OnRefreshCapitulos = delegate { };
 
     public static System.Action OnTriviaTimeOut = delegate { };
     public static System.Action OnHideTrivia = delegate { };

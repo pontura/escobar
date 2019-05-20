@@ -44,18 +44,23 @@ public class TriviaButton : MonoBehaviour
     {
         Trivia trivia = UI.Instance.screensManager.all[2] as Trivia;
         if (trivia.type == Trivia.types.TRAINING)
-            Events.OnTrainingResponse(correct);
-
-        idle.SetActive(false);
-        if (correct)
         {
-            assetCorrect.SetActive(true);
-            Events.OnUIFX("si");
+            Events.OnTrainingResponse(correct);
+            idle.SetActive(false);
+            if (correct)
+            {
+                assetCorrect.SetActive(true);
+                Events.OnUIFX("si");
+            }
+            else
+            {
+                Events.OnUIFX("no");
+                assetIncorrect.SetActive(true);
+            }
         }
         else
         {
-            Events.OnUIFX("no");
-            assetIncorrect.SetActive(true);
+            Events.OnUIFX("si");
         }
     }
     public void AnimateOut()

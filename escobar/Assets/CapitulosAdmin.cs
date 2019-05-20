@@ -11,6 +11,22 @@ public class CapitulosAdmin : MainScreen
 
     public override void OnEnabled()
     {
+        Data.Instance.capitulosData.OnRefreshCapitulos();
+        Load();
+    }
+    void Load()
+    {
+        if(Data.Instance.capitulosData.capitulos.Count == 0)
+        {
+            Invoke("Load", 0.2f);
+        }
+        else
+        {
+            DrawData();
+        }
+    }
+    void DrawData()
+    {
         Data.Instance.capitulosData.activeCapitulo = null;
         int id = 0;
         all.Clear();
