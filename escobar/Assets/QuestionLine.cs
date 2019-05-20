@@ -12,11 +12,14 @@ public class QuestionLine : MonoBehaviour
     public Text mal_1;
     public Text mal_2;
 
-    public System.Action<QuestionLine> OnClick;
+    public System.Action<PlaylistData.VideoData> OnClick;
+    PlaylistData.VideoData data;
     public int id;
 
-    public void Init(PlaylistData.VideoData d, System.Action<AdminButton> OnClick)
+    public void Init(PlaylistData.VideoData d, System.Action<PlaylistData.VideoData> OnClick)
     {
+        this.OnClick = OnClick;
+        this.data = d;
         field.text = d.title;
         string[] arr = d.description.Split("\n"[0]);
         if (arr == null || arr.Length < 3)
@@ -34,6 +37,6 @@ public class QuestionLine : MonoBehaviour
     }
     public void OnClicked()
     {
-        this.OnClick(this);
+        this.OnClick(data);
     }
 }

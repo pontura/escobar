@@ -23,18 +23,12 @@ public class CapitulosData : MonoBehaviour
     {
         //PONTURA: cambiar a futuro...
         Invoke("LoadData", 1);
-
-        Events.OnRefreshCapitulos += OnRefreshCapitulos;
-    }
-    void OnDestroy()
-    {
-        Events.OnRefreshCapitulos -= OnRefreshCapitulos;
     }
     void LoadData()
     {
         Events.OnGetServerData("capitulos", OnReady);
     }
-    void OnRefreshCapitulos()
+   public void OnRefreshCapitulos()
     {
         capitulos.Clear();
         LoadData();
