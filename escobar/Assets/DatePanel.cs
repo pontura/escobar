@@ -12,7 +12,7 @@ public class DatePanel : MonoBehaviour
     public Dropdown year;
 
     List<string> daysList;
-    List<string> monthList;
+    public List<string> monthList;
     List<string> yearList;
 
     public void Init(string value)
@@ -33,12 +33,14 @@ public class DatePanel : MonoBehaviour
     }
     void InitDays(int dayID)
     {
-        days.AddOptions(daysList);
+        if (days.options.Count == 0)
+            days.AddOptions(daysList);
         days.value = dayID-1;
     }
-    void InitMonths(string monthID)
+    public void InitMonths(string monthID)
     {       
-        month.AddOptions(monthList);
+        if(month.options.Count==0)
+            month.AddOptions(monthList);
         int value = 0;
         foreach (string n in monthList)
         {
@@ -48,8 +50,9 @@ public class DatePanel : MonoBehaviour
         }
     }
     void InitYears(string yearID)
-    {        
-        year.AddOptions(yearList);
+    {
+        if (year.options.Count == 0)
+            year.AddOptions(yearList);
         int value = 0;
         foreach(string n in yearList)
         {
