@@ -9,6 +9,23 @@ public class TrainingAdmin : MainScreen
 
     public override void OnEnabled()
     {
+        Data.Instance.trainingData.OnRefreshTrainingData();
+        Load();
+    }
+    void Load()
+    {
+        if (Data.Instance.trainingData.entrenamiento.Count == 0)
+        {
+            Invoke("Load", 0.2f);
+        }
+        else
+        {
+            DrawData();
+        }
+    }
+    void DrawData()
+    {
+        CancelInvoke();
         int id = 0;
         Utils.RemoveAllChildsIn(container);
         foreach (TrainingData.Training q in Data.Instance.trainingData.entrenamiento)

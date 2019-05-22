@@ -27,6 +27,7 @@ public class CapitulosAdmin : MainScreen
     }
     void DrawData()
     {
+        CancelInvoke();
         Data.Instance.capitulosData.activeCapitulo = null;
         int id = 0;
         all.Clear();

@@ -48,7 +48,7 @@ public class TrainingData : MonoBehaviour
     {
         Events.OnGetServerData("entrenamiento", OnReady);
     }
-    void OnRefreshTrainingData()
+    public void OnRefreshTrainingData()
     {
         totalDone = 0;
         entrenamiento.Clear();
