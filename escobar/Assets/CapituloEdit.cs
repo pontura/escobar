@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class CapituloEdit : MainScreen
 {
+    public GameObject editButton;
     public GameObject deleteButton;
     public DatePanel dateField;
     public InputField timeField;
@@ -19,6 +20,7 @@ public class CapituloEdit : MainScreen
         if (Data.Instance.capitulosData.activeCapitulo != null && Data.Instance.capitulosData.activeCapitulo.key != null)
         {
             deleteButton.SetActive(true);
+            editButton.SetActive(true);
             LoadTrivia();
             CapitulosData.Capitulo data = Data.Instance.capitulosData.activeCapitulo;
             dateField.Init(data.date);
@@ -31,6 +33,7 @@ public class CapituloEdit : MainScreen
             dateField.Init(today);
             dateField.InitMonths(dateField.monthList[System.DateTime.Now.Month-1]);
             deleteButton.SetActive(false);
+            editButton.SetActive(false);
             timeField.text = "";
             playlistIDField.text = "";
         }
