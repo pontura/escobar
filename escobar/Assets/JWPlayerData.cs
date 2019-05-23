@@ -6,9 +6,9 @@ using System;
 
 public class JWPlayerData : MonoBehaviour
 {
-    public List<string> playlist_URL;
+  //  public List<string> playlist_URL;
 
-    public string streamingURL = "ehFXPETl";
+    //public string streamingURL = "ehFXPETl";
 
     public int questionID;
 
@@ -25,11 +25,6 @@ public class JWPlayerData : MonoBehaviour
     public bool loaded;
     public bool DontLoadData;
 
-    void Start()
-    {
-        if (!DontLoadData)
-            SetTrivia();
-    }
     System.Action OnLoaded;
     public void LoadPlaylist(string playlistID, System.Action OnLoaded)
     {
@@ -37,21 +32,24 @@ public class JWPlayerData : MonoBehaviour
         StartCoroutine(LoadFromJWPlayer(playlistID));
         this.OnLoaded = OnLoaded;
     }
-    public void SetTrivia() {
+    public void SetTrivia(string playlistID) {
         questionID = 0;
         if (source == SOURCE.questions)
             return;
-        StartCoroutine(LoadFromJWPlayer(playlist_URL[0]));
+        StartCoroutine(LoadFromJWPlayer(playlistID));
         source = SOURCE.questions;
     }
-
-    public void SetStreaming() {
-        questionID = 0;
-        if (source == SOURCE.streaming)
-            return;
-        StartCoroutine(LoadFromJWPlayer(streamingURL));
-        source = SOURCE.streaming;
+    public void Restart()
+    {
+        questionID = 0; ;
     }
+    //public void SetStreaming() {
+    //    questionID = 0;
+    //    if (source == SOURCE.streaming)
+    //        return;
+    //    StartCoroutine(LoadFromJWPlayer(streamingURL));
+    //    source = SOURCE.streaming;
+    //}
 
     IEnumerator LoadFromJWPlayer(string playlistID)
     {

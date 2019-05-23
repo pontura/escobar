@@ -7,15 +7,26 @@ public class SplashScreen : MainScreen
 
     public override void OnInit()
     {
-        LoopTillloaded();
+        LoopTillCapitulosLoaded();
     }
-    void LoopTillloaded() {
-        if (Data.Instance.triviaData.loaded)
-            Invoke("Done", 2f); 
+    void LoopTillCapitulosLoaded()
+    {
+        if (Data.Instance.capitulosData.capitulos.Count > 0)
+        {
+            //DEMO: carga el primero de la lista
+            Data.Instance.triviaData.SetTrivia(Data.Instance.capitulosData.capitulos[0].playlistID);
+            LoopTillPlaylistLoaded();
+        }
         else
-            Invoke("LoopTillloaded", 0.1f);
+            Invoke("LoopTillCapitulosLoaded", 0.2f);
     }
-    void Done()
+    void LoopTillPlaylistLoaded() {
+        if (Data.Instance.triviaData.loaded)
+            Invoke("ReadyToStart", 2f); 
+        else
+            Invoke("LoopTillPlaylistLoaded", 0.2f);
+    }
+    void ReadyToStart()
     {
         if (!Data.Instance.userData.IsLogged())
             UI.Instance.screensManager.LoadScreen(3, true); 

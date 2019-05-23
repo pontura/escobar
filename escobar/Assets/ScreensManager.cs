@@ -23,6 +23,8 @@ public class ScreensManager : MonoBehaviour
 	}
 	public void LoadScreen(int id, bool isRight)
 	{
+        print("LoadScreen " + id);
+
 		if (loading)
 			return;
 			
