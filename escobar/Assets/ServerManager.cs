@@ -12,12 +12,14 @@ using System.IO;
 
 public class ServerManager : MonoBehaviour
 {
+    int diferenciaHoraria = 243;
+
     DatabaseReference reference;
     Firebase.FirebaseApp app;
 
     void Start()
     {
-        print("GetTimeNist(): " + GetTimeNist());
+        print("Horario local (internet): " + GetTimeNist());
         Events.OnGetServerData += OnGetServerData;
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://triviaescobar.firebaseio.com/");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
@@ -54,6 +56,7 @@ public class ServerManager : MonoBehaviour
             string html = stream.ReadToEnd();//<timestamp time=\"1395772696469995\" delay=\"1395772696469995\"/>
             string time = Regex.Match(html, @"(?<=\btime="")[^""]*").Value;
             double milliseconds = Convert.ToInt64(time) / 1000.0;
+            milliseconds += diferenciaHoraria * (60 * 1000);
             dateTime = new DateTime(1970, 1, 1).AddMilliseconds(milliseconds).ToLocalTime();
         }
 
@@ -63,6 +66,7 @@ public class ServerManager : MonoBehaviour
     {
         Events.OnGetServerData -= OnGetServerData;
     }
+    
 
     public Dictionary<string, object> ToDictionary()
     {
