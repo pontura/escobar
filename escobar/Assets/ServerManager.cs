@@ -5,6 +5,10 @@ using Firebase;
 using Firebase.Database;
 using Firebase.Unity.Editor;
 using UnityEngine.Networking;
+using System;
+using System.Net;
+using System.Text.RegularExpressions;
+using System.IO;
 
 public class ServerManager : MonoBehaviour
 {
@@ -13,6 +17,7 @@ public class ServerManager : MonoBehaviour
 
     void Start()
     {
+        print("GetTimeNist(): " + GetTimeNist());
         Events.OnGetServerData += OnGetServerData;
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://triviaescobar.firebaseio.com/");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
@@ -30,6 +35,29 @@ public class ServerManager : MonoBehaviour
                 // Firebase Unity SDK is not safe to use here.
             }
         });
+    }
+
+    public DateTime GetTimeNist()
+    {
+        DateTime dateTime = DateTime.MinValue;
+
+        HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://nist.time.gov/actualtime.cgi?lzbc=siqm9b");
+        request.Method = "GET";
+        request.Accept = "text/html, application/xhtml+xml, */*";
+        request.UserAgent = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)";
+        request.ContentType = "application/x-www-form-urlencoded";
+        request.CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.NoCacheNoStore); //No caching
+        HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+        if (response.StatusCode == HttpStatusCode.OK)
+        {
+            StreamReader stream = new StreamReader(response.GetResponseStream());
+            string html = stream.ReadToEnd();//<timestamp time=\"1395772696469995\" delay=\"1395772696469995\"/>
+            string time = Regex.Match(html, @"(?<=\btime="")[^""]*").Value;
+            double milliseconds = Convert.ToInt64(time) / 1000.0;
+            dateTime = new DateTime(1970, 1, 1).AddMilliseconds(milliseconds).ToLocalTime();
+        }
+
+        return dateTime;
     }
     void OnDestroy()
     {
