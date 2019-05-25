@@ -52,4 +52,10 @@ public class CapitulosData : MonoBehaviour
             capitulos.Add(tData);
         }
     }
+    public Capitulo GetNext()
+    {
+        foreach (Capitulo c in capitulos)
+            return c;
+        return null;
+    }
 }
