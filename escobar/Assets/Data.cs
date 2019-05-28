@@ -13,6 +13,7 @@ public class Data : MonoBehaviour {
     public CapitulosData capitulosData;
     public TrainingData trainingData;
     public TrainingResults trainingResults;
+    public DateData dateData;
 
     public static Data Instance
     {
@@ -33,6 +34,7 @@ public class Data : MonoBehaviour {
         trainingData = GetComponent<TrainingData>();
         capitulosData = GetComponent<CapitulosData>();
         trainingResults = GetComponent<TrainingResults>();
+        dateData = GetComponent<DateData>();
     }
     public void StartNextQuestion()
     {

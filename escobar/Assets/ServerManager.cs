@@ -19,7 +19,7 @@ public class ServerManager : MonoBehaviour
 
     void Start()
     {
-        print("Horario local (internet): " + GetTimeNist());
+       // print("Horario local (internet): " + GetTimeNist());
         Events.OnGetServerData += OnGetServerData;
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://triviaescobar.firebaseio.com/");
         reference = FirebaseDatabase.DefaultInstance.RootReference;

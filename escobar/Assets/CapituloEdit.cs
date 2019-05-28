@@ -10,6 +10,7 @@ public class CapituloEdit : MainScreen
     public DatePanel dateField;
     public InputField timeField;
     public InputField playlistIDField;
+    public Tutorial tutorial;
     bool sended;
 
     public override void OnEnabled()
@@ -26,16 +27,18 @@ public class CapituloEdit : MainScreen
             dateField.Init(data.date);
             timeField.text = data.time;
             playlistIDField.text = data.playlistID;
+            tutorial.panel.gameObject.SetActive(false);
         }
         else
         {
             string today = System.DateTime.Now.Day + "/" + "Feb" + "/" + System.DateTime.Now.Year;
             dateField.Init(today);
-            dateField.InitMonths(dateField.monthList[System.DateTime.Now.Month-1]);
+            dateField.InitMonths(Data.Instance.dateData.monthList[System.DateTime.Now.Month-1]);
             deleteButton.SetActive(false);
             editButton.SetActive(false);
             timeField.text = "";
             playlistIDField.text = "";
+            tutorial.panel.gameObject.SetActive(true);
         }
     }
     public void OnSubmit()
