@@ -6,6 +6,7 @@ public class CapitulosAdmin : MainScreen
 {
     public AdminButton adminButton;
     public Transform container;
+    public GameObject isEmptyPanel;
 
     public List<AdminButton> all;
 
@@ -34,14 +35,20 @@ public class CapitulosAdmin : MainScreen
         Utils.RemoveAllChildsIn(container);
         foreach (CapitulosData.Capitulo c in Data.Instance.capitulosData.capitulos)
         {
-
-            AdminButton button = Instantiate(adminButton);
-            button.transform.SetParent(container);
-            button.transform.localScale = Vector3.one;
-            button.Init(id, c.date + " " + c.time + "hs", OnClicked);
+            if (!Data.Instance.dateData.IsFromThePast(c.date))
+            { 
+                AdminButton button = Instantiate(adminButton);
+                button.transform.SetParent(container);
+                button.transform.localScale = Vector3.one;
+                button.Init(id, c.date + " " + c.time + "hs", OnClicked);                
+                all.Add(button);
+            }
             id++;
-            all.Add(button);
         }
+        if (all.Count == 0)
+            isEmptyPanel.SetActive(true);
+        else
+            isEmptyPanel.SetActive(false);
     }
     void OnClicked(AdminButton button)
     {

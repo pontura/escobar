@@ -19,10 +19,9 @@ public class UI : MonoBehaviour
             return mInstance;
         }
     }
-    void Awake()
+    void Start()
     {
         mInstance = this;
-        DontDestroyOnLoad(this);
         screensManager = GetComponent<ScreensManager>();
     }
 }
