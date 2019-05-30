@@ -99,7 +99,7 @@ public class VideoTest : MonoBehaviour {
     }
 
     IEnumerator CheckVideoRate() {
-        Debug.Log("aca");
+        Debug.Log("CHECK VIDEO RATE");
         debug.text += "CHECK VIDEO RATE";
 
         while (playing) {
@@ -107,9 +107,10 @@ public class VideoTest : MonoBehaviour {
             if (lastTime < videoPlayer.time) {
                 lastTime = videoPlayer.time;
             } else if(videoPlayer.time>0){                
-                Debug.Log("TIMEOUT");
+                Debug.Log("TIMEOUT: lastT="+lastTime+" VP="+videoPlayer.time);
                 debug.text += "\nTIMEOUT";
                 playing = false;
+                videoPlayer.Pause();
                 if (sizeIndex == 0) {                    
                     NoInternet();
                 } else {
@@ -142,6 +143,9 @@ public class VideoTest : MonoBehaviour {
     }
 
     public void PlayNext() {
+        Debug.Log("NEXT");
+        videoPlayer.Stop();
+        lastTime = 0;
         sizeIndex = 3;
         videoIndex++;
         if (videoIndex > videos.Count - 1)
