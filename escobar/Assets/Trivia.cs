@@ -80,11 +80,10 @@ public class Trivia : MainScreen
     }
     void DelayToPreload()
     {
-        PlaylistData.Sources s = Data.Instance.triviaData.GetNextVideoSource();
+        PlaylistData.Sources[] s = Data.Instance.triviaData.GetNextVideoSource();
         if (s != null)
         {
-            string file = s.file;
-            Events.OnPreLoadVideo(file);
+            Events.OnPreLoadVideo(s);
         }
     }
     void OnHideTrivia()

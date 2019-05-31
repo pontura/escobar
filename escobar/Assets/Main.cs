@@ -64,9 +64,8 @@ public class Main : MainScreen
     public void StartTrivia()
     {
         Trivia trivia = UI.Instance.screensManager.all[2] as Trivia;
-        trivia.type = Trivia.types.TORNEO;
-        string file = Data.Instance.triviaData.GetVideoSource().file;
-        Events.OnPreLoadVideo(file);
+        trivia.type = Trivia.types.TORNEO;        
+        Events.OnPreLoadVideo(Data.Instance.triviaData.GetVideoSource());
         UI.Instance.screensManager.LoadScreen(2, true);
     }
     public void StartTrining()
