@@ -80,27 +80,17 @@ public class JWPlayerData : MonoBehaviour
         PlaylistData.VideoData question = GetActualQuestion();
         return question.description.Split("\n"[0]);
     }
-    public PlaylistData.Sources GetVideoSource()
+    public PlaylistData.Sources[] GetVideoSource()
     {
-        foreach (PlaylistData.Sources source in GetActualQuestion().sources)
-        {
-            if (source.width == 270)
-                return source;
-        }
-        return data.playlist[questionID].sources[1];
+        return data.playlist[questionID].sources;
     }
-    public PlaylistData.Sources GetNextVideoSource()
+    public PlaylistData.Sources[] GetNextVideoSource()
     {
         if(data.playlist.Length <= questionID+1)
             return null;
 
-        PlaylistData.VideoData nextData = data.playlist[questionID+1];
-        foreach (PlaylistData.Sources source in nextData.sources)
-        {
-            if (source.width == 270)
-                return source;
-        }
-        return data.playlist[questionID+1].sources[1];
+        PlaylistData.VideoData nextData = data.playlist[questionID+1];        
+        return data.playlist[questionID+1].sources;
     }
     public void Open_URL(string playlistID)
     {

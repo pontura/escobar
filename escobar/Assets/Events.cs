@@ -5,7 +5,7 @@ public static class Events {
     
     public static System.Action<string> OnUIFX = delegate { };
     public static System.Action<ButtonStandard> OnButtonClicked = delegate { };
-    public static System.Action<string> OnPreLoadVideo = delegate { };
+    public static System.Action<PlaylistData.Sources[]> OnPreLoadVideo = delegate { };
     public static System.Action<PlaylistData.VideoData> OnNewQuestion = delegate { };
     public static System.Action<TrainingData.Question> OnNewTrainingQuestion = delegate { };
     public static System.Action<PlaylistData.VideoData> OnAnswer = delegate { };
@@ -19,4 +19,8 @@ public static class Events {
 
     public static System.Action<bool> OnTrainingResponse = delegate { };
     public static System.Action OnTrainingReset = delegate { };
+
+    public static System.Action OnVideoError = delegate { };
+    public static System.Action OnNoConnection = delegate { };
+
 }
