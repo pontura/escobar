@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class UserData : MonoBehaviour
 {
+    public string lastChapterPlayedKey;
     public string username;
     public string tel;
     public string deviceID;
-    public string lastTriviaPlayed;
     public List<int> answers;
 
     void Start()
     {
+        lastChapterPlayedKey = PlayerPrefs.GetString("lastChapterPlayedKey", "");
         username = PlayerPrefs.GetString("username", "");
         tel = PlayerPrefs.GetString("tel", "");
         deviceID = PlayerPrefs.GetString("deviceID", "");
@@ -31,6 +32,11 @@ public class UserData : MonoBehaviour
         PlayerPrefs.SetString("deviceID", deviceID);
         PlayerPrefs.SetString("username", username);
         PlayerPrefs.SetString("tel", tel);
+    }
+    public void SaveLastChapterPlayed()
+    {
+        lastChapterPlayedKey = Data.Instance.capitulosData.activeCapitulo.key;
+        PlayerPrefs.SetString("lastChapterPlayedKey", lastChapterPlayedKey);
     }
     public void SetAnswer(int id)
     {

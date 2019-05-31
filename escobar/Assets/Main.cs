@@ -2,36 +2,64 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class Main : MainScreen
 {
     public GameObject triviaOn;
     public GameObject triviaOff;
 
-    public states state;
     public Text title;
     public Text field;
 
-    public enum states
-    {
-        TRIVIA_ON,
-        TRIVIA_OFF
-    }
     public override void OnEnabled()
     {
-        state = states.TRIVIA_OFF;
-        if(state == states.TRIVIA_ON)
+        LoopTillTimeLoaded();
+    }
+    void LoopTillTimeLoaded()
+    {
+        if (Data.Instance.dateData.dateTime == null)
+        {
+            Invoke("LoopTillTimeLoaded", 0.1f);
+        }
+        else
+        {
+            TimeLoaded();
+        }
+    }
+    void TimeLoaded()
+    {
+        CapitulosData.Capitulo cap = Data.Instance.capitulosData.GetActual();
+
+        print(Data.Instance.capitulosData.activeCapitulo.key + " --------------- " + Data.Instance.userData.lastChapterPlayedKey);
+
+        if (cap == null)
+        {
+            triviaOn.SetActive(false);
+            triviaOff.SetActive(true);
+
+            title.text = "HOY NO HAY DESAFÍO";
+            CapitulosData.Capitulo newCap = Data.Instance.capitulosData.GetNext();
+            if (newCap == null)
+            {
+                field.text = "Aún no hay nuevos capítulos";
+                return;
+            }
+            string date = newCap.date;
+            field.text = "Próx: " + date;
+        } else if (Data.Instance.capitulosData.activeCapitulo.key == Data.Instance.userData.lastChapterPlayedKey)
+        {
+            triviaOn.SetActive(false);
+            triviaOff.SetActive(true);
+
+            title.text = "¡Ya jugaste!";
+            field.text = "La transmisión es a las " + Data.Instance.capitulosData.activeCapitulo.time + " hs.";
+        }
+        else
         {
             triviaOn.SetActive(true);
             triviaOff.SetActive(false);
-        } else
-        {
-            title.text = "HOY NO HAY DESAFÍO";
-            string date = Data.Instance.capitulosData.GetNext().date;
-            field.text = "PRÓX: " + date;
-            triviaOn.SetActive(false);
-            triviaOff.SetActive(true);
-        }
+        } 
     }
     public void StartTrivia()
     {

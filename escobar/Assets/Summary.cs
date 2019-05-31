@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Summary : MainScreen
 {
-    public override void OnInit()
+    public Text field;
+
+    public override void OnEnabled()
     {
-        
+        field.text = "No te pierdas la transmision en vivo a las " + Data.Instance.capitulosData.activeCapitulo.time + " horas.";
     }
     public void Replay()
     {
