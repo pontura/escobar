@@ -19,7 +19,6 @@ public class ServerManager : MonoBehaviour
 
     void Start()
     {
-       // print("Horario local (internet): " + GetTimeNist());
         Events.OnGetServerData += OnGetServerData;
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://triviaescobar.firebaseio.com/");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
@@ -38,35 +37,10 @@ public class ServerManager : MonoBehaviour
             }
         });
     }
-
-    public DateTime GetTimeNist()
-    {
-        DateTime dateTime = DateTime.MinValue;
-
-        HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://nist.time.gov/actualtime.cgi?lzbc=siqm9b");
-        request.Method = "GET";
-        request.Accept = "text/html, application/xhtml+xml, */*";
-        request.UserAgent = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)";
-        request.ContentType = "application/x-www-form-urlencoded";
-        request.CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.NoCacheNoStore); //No caching
-        HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-        if (response.StatusCode == HttpStatusCode.OK)
-        {
-            StreamReader stream = new StreamReader(response.GetResponseStream());
-            string html = stream.ReadToEnd();//<timestamp time=\"1395772696469995\" delay=\"1395772696469995\"/>
-            string time = Regex.Match(html, @"(?<=\btime="")[^""]*").Value;
-            double milliseconds = Convert.ToInt64(time) / 1000.0;
-            milliseconds += diferenciaHoraria * (60 * 1000);
-            dateTime = new DateTime(1970, 1, 1).AddMilliseconds(milliseconds).ToLocalTime();
-        }
-
-        return dateTime;
-    }
     void OnDestroy()
     {
         Events.OnGetServerData -= OnGetServerData;
-    }
-    
+    }    
 
     public Dictionary<string, object> ToDictionary()
     {
@@ -98,8 +72,10 @@ public class ServerManager : MonoBehaviour
         data.respuestas = userData.answers;
 
         string json = JsonUtility.ToJson(data);
-        reference.Child("usuarios").Push().SetRawJsonValueAsync(json);
+        string capituloKey = Data.Instance.capitulosData.activeCapitulo.key;
+        reference.Child("capitulos").Child(capituloKey).Child("respuestas").Push().SetRawJsonValueAsync(json);        
         print("Sended " + json);
+        Data.Instance.userData.SaveLastChapterPlayed();
     }
 
   
@@ -138,4 +114,31 @@ public class ServerManager : MonoBehaviour
         reference.Child("entrenamiento").Child(key).RemoveValueAsync();
         print("DeleteQuestion " + key);
     }
+
+
+    //public DateTime GetTimeNist()
+    //{
+    //    DateTime dateTime = DateTime.MinValue;
+
+    //    HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://nist.time.gov/actualtime.cgi?lzbc=siqm9b");
+    //    request.Method = "GET";
+    //    request.Accept = "text/html, application/xhtml+xml, */*";
+    //    request.UserAgent = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)";
+    //    request.ContentType = "application/x-www-form-urlencoded";
+    //    request.CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.NoCacheNoStore); //No caching
+    //    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+    //    if (response.StatusCode == HttpStatusCode.OK)
+    //    {
+    //        StreamReader stream = new StreamReader(response.GetResponseStream());
+    //        string html = stream.ReadToEnd();//<timestamp time=\"1395772696469995\" delay=\"1395772696469995\"/>
+    //        string time = Regex.Match(html, @"(?<=\btime="")[^""]*").Value;
+    //        double milliseconds = Convert.ToInt64(time) / 1000.0;
+    //        milliseconds += diferenciaHoraria * (60 * 1000);
+    //        dateTime = new DateTime(1970, 1, 1).AddMilliseconds(milliseconds).ToLocalTime();
+    //    }
+
+    //    return dateTime;
+    //}
+
+
 }

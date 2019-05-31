@@ -20,7 +20,7 @@ public class ScreensManager : MonoBehaviour
 		}
 		ResetAll ();
 		LoadScreen (0, true);
-	}
+    }
 	public void LoadScreen(int id, bool isRight)
 	{
         print("LoadScreen " + id + loading);

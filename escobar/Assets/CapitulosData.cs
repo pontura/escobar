@@ -36,7 +36,16 @@ public class CapitulosData : MonoBehaviour
     }
     public Capitulo GetActual()
     {
-        return capitulos[capituloID];
+        string today = Data.Instance.dateData.GetTodayParsed();
+        foreach (Capitulo c in capitulos)
+        {
+            if (c.date == today)
+            {
+                activeCapitulo = c;
+                return capitulos[capituloID];
+            }
+        }
+        return null;        
     }
     void OnReady(DataSnapshot snapshot)
     {
@@ -54,8 +63,16 @@ public class CapitulosData : MonoBehaviour
     }
     public Capitulo GetNext()
     {
+        string today = Data.Instance.dateData.GetTodayParsed();
         foreach (Capitulo c in capitulos)
-            return c;
+        {
+            if (c.date == today)
+            {
+                if (capituloID+1 == capitulos.Count)
+                    return null;
+                else  return capitulos[capituloID + 1];
+            }
+        }
         return null;
     }
 }
