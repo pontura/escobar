@@ -73,7 +73,7 @@ public class ServerManager : MonoBehaviour
 
         string json = JsonUtility.ToJson(data);
         string capituloKey = Data.Instance.capitulosData.activeCapitulo.key;
-        reference.Child("capitulos").Child(capituloKey).Child("respuestas").Push().SetRawJsonValueAsync(json);        
+        reference.Child("capitulos").Child(capituloKey).Child("participantes").Push().SetRawJsonValueAsync(json);        
         print("Sended " + json);
         Data.Instance.userData.SaveLastChapterPlayed();
     }

@@ -3888,6 +3888,7 @@ MonoBehaviour:
   daysList: []
   monthList: []
   yearList: []
+  diferenciaHoraria: -178
 --- !u!1 &677082545
 GameObject:
   m_ObjectHideFlags: 0
@@ -4757,6 +4758,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   videoPlayer: {fileID: 795938960}
   loading: {fileID: 0}
+  videoCheckRate: 0
+  maxPrepareTime: 0
+  prepareTimeStep: 0
+  prepareTime: 0
+  duration: 0
+  lastTime: 0
 --- !u!328 &795938960
 VideoPlayer:
   m_ObjectHideFlags: 0
@@ -9076,7 +9083,7 @@ MonoBehaviour:
     contenga."
   - "Arrastrar los vidoes al Playlist en el orden que van a aparecen en el cap\xEDtulo."
   - "Una vez terminado el Playlist copiar el Playlist ID en esta secci\xF3n, especificando
-    tambip\xE9n. la fecha de inicio y el horario"
+    tambi\xE9n la fecha de inicio y el horario"
   allPanels:
   - {fileID: 1307273558}
   - {fileID: 862855928}
