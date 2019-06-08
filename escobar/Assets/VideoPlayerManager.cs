@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Video;
 public class VideoPlayerManager : MonoBehaviour {
+
+
     public VideoPlayer videoPlayer;
     public GameObject loading;
 
@@ -38,9 +40,14 @@ public class VideoPlayerManager : MonoBehaviour {
     }
 
     void SetPreload(PlaylistData.Sources[] s) {
-        //loading.SetActive(true);
-        sources = s;
+        loading.SetActive(true);
+        sources = s;        
         sourcesIndex = sources.Length - 1;
+        // le agrego que arranque por la segunda:
+        sourcesIndex--;
+        if (sourcesIndex < 0)
+            sourcesIndex = 0;
+
         OnPreLoadVideo();
     }
 
@@ -53,7 +60,7 @@ public class VideoPlayerManager : MonoBehaviour {
         print("Preloading... " + file);
         videoPlayer.url = file.Replace("https", "http");
         videoPlayer.Prepare();
-        //loading.SetActive(true);
+        loading.SetActive(true);
         if (sourcesIndex > 1)
             StartCoroutine(CheckOnPrepareRate());
     }
@@ -70,7 +77,7 @@ public class VideoPlayerManager : MonoBehaviour {
     IEnumerator CheckOnPrepareRate() {
         Debug.Log("BEGIN: " + prepareTime + " <= " + maxPrepareTime);
         while (prepareTime < maxPrepareTime && !videoPlayer.isPrepared) {
-            Debug.Log(prepareTime + " <= " + maxPrepareTime);
+           // Debug.Log(prepareTime + " <= " + maxPrepareTime);
             prepareTime += prepareTimeStep;
             yield return new WaitForSecondsRealtime(prepareTimeStep);
         }
@@ -97,8 +104,7 @@ public class VideoPlayerManager : MonoBehaviour {
         duration = videoPlayer.length;
         videoPlayer.time = lastTime;
         videoPlayer.Play();
-        //loading.SetActive(false);
-        Invoke("HideLoading", 0.1f);
+        loading.SetActive(false);
         playing = true;
         StartCoroutine(CheckVideoRate());
     }
@@ -131,11 +137,10 @@ public class VideoPlayerManager : MonoBehaviour {
     void OnNewQuestion(PlaylistData.VideoData data) {
         print("OnNewQuestion");
         if (videoPlayer.isPrepared)
-            videoPlayer.Play();
+            VideoPlay();
         else
             waiting2Play = true;
     }
-
 
 
     void EndReached(UnityEngine.Video.VideoPlayer vp) {
@@ -155,10 +160,6 @@ public class VideoPlayerManager : MonoBehaviour {
             }
             Data.Instance.StartNextQuestion();
         }
-    }
-
-    void HideLoading() {
-        loading.SetActive(false);
     }
 
     void NoInternet() {

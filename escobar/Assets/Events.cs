@@ -2,7 +2,6 @@
 
 public static class Events {
 
-    
     public static System.Action<string> OnUIFX = delegate { };
     public static System.Action<ButtonStandard> OnButtonClicked = delegate { };
     public static System.Action<PlaylistData.Sources[]> OnPreLoadVideo = delegate { };
