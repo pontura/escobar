@@ -28,6 +28,7 @@ public class ServerManager : MonoBehaviour
             if (dependencyStatus == Firebase.DependencyStatus.Available)
             {
                 print("App ready");
+                OnAuth();
             }
             else
             {
@@ -36,6 +37,27 @@ public class ServerManager : MonoBehaviour
                 // Firebase Unity SDK is not safe to use here.
             }
         });
+    }
+    void OnAuth()
+    {
+        Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
+
+       auth.SignInAnonymouslyAsync().ContinueWith(task => {
+           if (task.IsCanceled)
+           {
+               Debug.LogError("SignInAnonymouslyAsync was canceled.");
+               return;
+           }
+           if (task.IsFaulted)
+           {
+               Debug.LogError("SignInAnonymouslyAsync encountered an error: " + task.Exception);
+               return;
+           }
+
+           Firebase.Auth.FirebaseUser newUser = task.Result;
+           Data.Instance.userData.uid = newUser.UserId;
+           Debug.LogFormat("User signed in successfully: {0} ({1})",  newUser.DisplayName, newUser.UserId);
+       });
     }
     void OnDestroy()
     {
@@ -60,11 +82,12 @@ public class ServerManager : MonoBehaviour
     public void Send()
     {
         TriviaData data = new TriviaData();
-        data.capitulo = 1;
+        data.key = Data.Instance.capitulosData.activeCapitulo.key;
         UserData userData = Data.Instance.userData;
         data.id = userData.deviceID;
         data.nombre = userData.username;
         data.telefono = userData.tel;
+        data.uid = Data.Instance.userData.uid;
         //data.email = "pontura@gmail.com";
         //int[] respuestas = new int[2];
         //respuestas[0] = 1;
@@ -73,8 +96,8 @@ public class ServerManager : MonoBehaviour
 
         string json = JsonUtility.ToJson(data);
         string capituloKey = Data.Instance.capitulosData.activeCapitulo.key;
-        reference.Child("capitulos").Child(capituloKey).Child("participantes").Push().SetRawJsonValueAsync(json);        
-        print("Sended " + json);
+        // reference.Child("capitulos").Child(capituloKey).Child("participantes").Push().SetRawJsonValueAsync(json);      
+        reference.Child("capitulos").Child(data.key).Child("participantes").Child(Data.Instance.userData.uid).SetRawJsonValueAsync(json);
         Data.Instance.userData.SaveLastChapterPlayed();
     }
 

@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class TriviaData
 {
-    public int capitulo;
+    public string key;
+  
+    public string uid;
     public string id;
     public string email;
     public string nombre;
