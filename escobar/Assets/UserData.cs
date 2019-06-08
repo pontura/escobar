@@ -5,6 +5,7 @@ using UnityEngine;
 public class UserData : MonoBehaviour
 {
     public string lastChapterPlayedKey;
+    public string uid;
     public string username;
     public string tel;
     public string deviceID;
