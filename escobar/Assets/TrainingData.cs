@@ -26,15 +26,23 @@ public class TrainingData : MonoBehaviour
         public string respuesta_mal_1;
         public string respuesta_mal_2;
     }
-
-    void Start()
+    void Awake()
     {
-        //PONTURA: cambiar a futuro...
-        Invoke("LoadData", 1);
-
         Events.OnNewTrainingQuestion += OnNewTrainingQuestion;
         Events.OnRefreshTrainingData += OnRefreshTrainingData;
     }
+    void Start()
+    {
+        LoopTillFirebaseReady();
+    }
+    void LoopTillFirebaseReady()
+    {
+        if (!Data.Instance.serverManager.isDone)
+            Invoke("LoopTillFirebaseReady", 0.25f);
+        else
+            LoadData();
+    }
+    
     public void Init()
     {
         totalDone = 0;

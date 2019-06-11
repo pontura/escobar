@@ -53,8 +53,10 @@ public class JWPlayerData : MonoBehaviour
 
     IEnumerator LoadFromJWPlayer(string playlistID)
     {
-        Debug.Log("LoadFromJWPlayer " + playlistID);
-        WWW www = new WWW("https://cdn.jwplayer.com/v2/playlists/"+ playlistID);
+        string url = "https://cdn.jwplayer.com/v2/playlists/" + playlistID;
+        WWW www = new WWW(url);
+        Debug.Log("LoadFromJWPlayer " + playlistID +  "url: " + url);
+
         yield return www;
         data = JsonUtility.FromJson<PlaylistData>(www.text);
         loaded = true;

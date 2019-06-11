@@ -3781,6 +3781,7 @@ GameObject:
   - component: {fileID: 675240624}
   - component: {fileID: 675240621}
   - component: {fileID: 675240625}
+  - component: {fileID: 675240626}
   m_Layer: 0
   m_Name: Data
   m_TagString: Untagged
@@ -3802,7 +3803,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverManager: {fileID: 0}
   triviaData: {fileID: 675240620}
-  userData: {fileID: 0}
+  userData: {fileID: 675240626}
   capitulosData: {fileID: 0}
   trainingData: {fileID: 675240624}
   trainingResults: {fileID: 0}
@@ -3833,6 +3834,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6df4fea8825e5954bab30338fc907832, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDone: 0
 --- !u!114 &675240620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3867,6 +3869,7 @@ MonoBehaviour:
   capitulos: []
   capituloID: 0
   activeCapitulo:
+    uid: 
     key: 
     date: 
     time: 
@@ -4021,6 +4024,24 @@ MonoBehaviour:
   monthList: []
   yearList: []
   diferenciaHoraria: -178
+--- !u!114 &675240626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 675240616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b58e616fa1a5d3c42954072d15931fb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lastChapterPlayedKey: 
+  uid: 
+  username: 
+  tel: 
+  deviceID: 
+  answers: 
 --- !u!1 &677082545
 GameObject:
   m_ObjectHideFlags: 0
@@ -11902,6 +11923,8 @@ MonoBehaviour:
   - {fileID: 847386396}
   - {fileID: 1165105068}
   - {fileID: 1401886706}
+  activeScreen: {fileID: 0}
+  isAdmin: 1
 --- !u!114 &1802481208
 MonoBehaviour:
   m_ObjectHideFlags: 0

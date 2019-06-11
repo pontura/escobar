@@ -75,13 +75,11 @@ public class VideoPlayerManager : MonoBehaviour {
     }
 
     IEnumerator CheckOnPrepareRate() {
-        Debug.Log("BEGIN: " + prepareTime + " <= " + maxPrepareTime);
         while (prepareTime < maxPrepareTime && !videoPlayer.isPrepared) {
            // Debug.Log(prepareTime + " <= " + maxPrepareTime);
             prepareTime += prepareTimeStep;
             yield return new WaitForSecondsRealtime(prepareTimeStep);
         }
-
         prepareTime = 0f;
         if (!videoPlayer.isPrepared) {
             Debug.Log("not prepared");
@@ -108,16 +106,29 @@ public class VideoPlayerManager : MonoBehaviour {
         playing = true;
         StartCoroutine(CheckVideoRate());
     }
-
+    bool triviaShowed;
+    void CheckForTriviaShow(int time)
+    {
+        if (triviaShowed)
+            return;      
+        print("CheckTime: " + time +  " duration " + data.duration);
+        if (time > data.duration - 4)
+        {
+            triviaShowed = true;
+            Events.OnShowTrivia();
+        }
+    }
     IEnumerator CheckVideoRate() {
         Debug.Log("CHECK VIDEO RATE");
 
         while (playing) {
+            double time = videoPlayer.time;
+            CheckForTriviaShow((int)time);            
             //debug.text += lastTime+" : "+ videoPlayer.time+" / ";
-            if (lastTime < videoPlayer.time) {
-                lastTime = videoPlayer.time;
-            } else if (videoPlayer.time > 0) {
-                Debug.Log("TIMEOUT: lastT=" + lastTime + " VP=" + videoPlayer.time);
+            if (lastTime < time) {
+                lastTime = time;
+            } else if (time > 0) {
+                Debug.Log("TIMEOUT: lastT=" + lastTime + " VP=" + time);
                 playing = false;
                 videoPlayer.Pause();
                 if (sourcesIndex == 1) {
@@ -133,9 +144,11 @@ public class VideoPlayerManager : MonoBehaviour {
         }
         yield return null;
     }
-
+    PlaylistData.VideoData data;
     void OnNewQuestion(PlaylistData.VideoData data) {
-        print("OnNewQuestion");
+        videoPlayer.Stop();
+        triviaShowed = false;
+        this.data = data;
         if (videoPlayer.isPrepared)
             VideoPlay();
         else
@@ -151,8 +164,8 @@ public class VideoPlayerManager : MonoBehaviour {
 
         // UI.Instance.screensManager.LoadScreen(2, true);
         if (Data.Instance.triviaData.source == JWPlayerData.SOURCE.questions) {
-            Events.OnShowTrivia();
-            loading.SetActive(true);
+           // Events.OnShowTrivia();
+          //  loading.SetActive(true);
         } else if (Data.Instance.triviaData.source == JWPlayerData.SOURCE.streaming) {
             PlaylistData.Sources[] s = Data.Instance.triviaData.GetNextVideoSource();
             if (s != null) {

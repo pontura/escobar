@@ -9,12 +9,24 @@ public class SplashScreen : MainScreen
 
     public override void OnInit()
     {
-        print("SplashScreen Init");
-        LoopTillCapitulosLoaded();
-        field.text = "Cargando capítulo...";
+        Events.OnFirebaseLogin();
+        print("Cargando datos del usuario...");
+        field.text = "Levantando datos del usuario";
+        LoopTillUserLogin();
+    }
+    void LoopTillUserLogin()
+    {        
+        if (Data.Instance.userData.uid.Length > 0)
+        {
+            LoopTillCapitulosLoaded();
+            print("Cargando capitulos...");
+            field.text = "Cargando capítulo...";
+        }            
+        else
+            Invoke("LoopTillUserLogin", 0.2f);
     }
     void LoopTillCapitulosLoaded()
-    {
+    {        
         if (Data.Instance.capitulosData.capitulos.Count > 0)
         {
             print("Cargando horario local...");
@@ -37,8 +49,7 @@ public class SplashScreen : MainScreen
         else
             Invoke("CapitulosLoaded", 0.2f);
     }
-    void LoopTillPlaylistLoaded() {
-        
+    void LoopTillPlaylistLoaded() {        
         if (Data.Instance.triviaData.loaded)
             Invoke("ReadyToStart", 2f); 
         else
@@ -46,9 +57,6 @@ public class SplashScreen : MainScreen
     }
     void ReadyToStart()
     {
-        if (!Data.Instance.userData.IsLogged())
-            UI.Instance.screensManager.LoadScreen(3, true); 
-       else
-            UI.Instance.screensManager.LoadScreen(1, true);
+         UI.Instance.screensManager.LoadScreen(1, true);
     }
 }

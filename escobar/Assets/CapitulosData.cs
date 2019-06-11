@@ -11,6 +11,7 @@ public class CapitulosData : MonoBehaviour
     [Serializable]
     public class Capitulo
     {
+        public string uid;
         public string key;
         public string date;
         public string time;
@@ -21,8 +22,14 @@ public class CapitulosData : MonoBehaviour
 
     void Start()
     {
-        //PONTURA: cambiar a futuro...
-        Invoke("OnRefreshCapitulos", 1);
+        LoopTillFirebaseReady();
+    }
+    void LoopTillFirebaseReady()
+    {
+        if(!Data.Instance.serverManager.isDone)
+            Invoke("LoopTillFirebaseReady", 0.25f);
+        else
+            OnRefreshCapitulos();
     }
     void LoadData()
     {

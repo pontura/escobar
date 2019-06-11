@@ -16,7 +16,7 @@ public class MainScreen : MonoBehaviour
 		this.screensManager = screensManager;
 		this.id = id;
 		gameObject.SetActive (false);
-	}
+    }
 	public void SetCenterPosition()
 	{
 		gameObject.transform.localPosition = Vector2.zero;
@@ -54,7 +54,6 @@ public class MainScreen : MonoBehaviour
 	void OnEnable()
 	{		
 		Events.OnButtonClicked += OnButtonClicked;
-
 	}
 	void OnDisable()
 	{
