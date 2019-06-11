@@ -105,13 +105,15 @@ public class ServerManager : MonoBehaviour
 
     public void OnGetServerData(string childName, System.Action<DataSnapshot> OnReady)
     {
+        print("OnGetServerData " + childName);
+
         FirebaseDatabase.DefaultInstance
        .GetReference(childName)
        .GetValueAsync().ContinueWith(task => {
             if (task.IsFaulted)
             {
-                // Handle the error...
-            }
+               print("error " + task);
+           }
             else if (task.IsCompleted)
             {
                 DataSnapshot snapshot = task.Result;

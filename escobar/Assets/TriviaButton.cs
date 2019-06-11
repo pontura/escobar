@@ -34,6 +34,8 @@ public class TriviaButton : MonoBehaviour
     public void Clicked()
     {
         GetComponent<Animation>().Play("buttonClicked");
+        if (trivia.done)
+            return;
         trivia.ButtonClicked(id);
         if(id==0)
             SetResult(true);
