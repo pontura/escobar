@@ -22,7 +22,7 @@ public class CapitulosData : MonoBehaviour
     void Start()
     {
         //PONTURA: cambiar a futuro...
-        Invoke("LoadData", 1);
+        Invoke("OnRefreshCapitulos", 1);
     }
     void LoadData()
     {
@@ -49,6 +49,7 @@ public class CapitulosData : MonoBehaviour
     }
     void OnReady(DataSnapshot snapshot)
     {
+        capitulos.Clear();
         foreach (DataSnapshot data in snapshot.Children)
         {
             Capitulo tData = new Capitulo();
