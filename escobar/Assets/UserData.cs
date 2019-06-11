@@ -11,7 +11,7 @@ public class UserData : MonoBehaviour
     public string deviceID;
     public List<int> answers;
 
-    void Start()
+    void Awake()
     {
         lastChapterPlayedKey = PlayerPrefs.GetString("lastChapterPlayedKey", "");
         username = PlayerPrefs.GetString("username", "");
@@ -33,6 +33,8 @@ public class UserData : MonoBehaviour
         PlayerPrefs.SetString("deviceID", deviceID);
         PlayerPrefs.SetString("username", username);
         PlayerPrefs.SetString("tel", tel);
+
+        Data.Instance.serverManager.SaveUserData();
     }
     public void SaveLastChapterPlayed()
     {

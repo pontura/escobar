@@ -13,13 +13,17 @@ using System.IO;
 public class ServerManager : MonoBehaviour
 {
     int diferenciaHoraria = 243;
-
     DatabaseReference reference;
     Firebase.FirebaseApp app;
+    public bool isDone;
 
-    void Start()
+    void Awake()
     {
         Events.OnGetServerData += OnGetServerData;
+        Events.OnFirebaseLogin += OnFirebaseLogin;
+    }
+    void Start()
+    {
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://triviaescobar.firebaseio.com/");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
 
@@ -27,8 +31,8 @@ public class ServerManager : MonoBehaviour
             var dependencyStatus = task.Result;
             if (dependencyStatus == Firebase.DependencyStatus.Available)
             {
-                print("App ready");
-                OnAuth();
+                Debug.Log("App ready. OnFirebaseDone");
+                isDone = true;
             }
             else
             {
@@ -38,8 +42,37 @@ public class ServerManager : MonoBehaviour
             }
         });
     }
-    void OnAuth()
+
+
+
+    //Admin:
+    public void SignInWithEmailAndPassword(string email, string password)
     {
+        Debug.Log("OnFirebaseLogin");
+        Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
+
+        auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task => {
+            if (task.IsCanceled)
+            {
+                Debug.LogError("SignInWithEmailAndPassword was canceled.");
+                return;
+            }
+            if (task.IsFaulted)
+            {
+                Debug.LogError("SignInWithEmailAndPassword encountered an error: " + task.Exception);
+                return;
+            }
+            Firebase.Auth.FirebaseUser newUser = task.Result;
+            Data.Instance.userData.uid = newUser.UserId;
+            Debug.LogFormat("User signed in successfully: {0} ({1})", newUser.DisplayName, newUser.UserId);
+        });
+    }
+
+
+    //All USers:
+    void OnFirebaseLogin()
+    {
+        Debug.Log("OnFirebaseLogin");
         Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 
        auth.SignInAnonymouslyAsync().ContinueWith(task => {
@@ -53,66 +86,53 @@ public class ServerManager : MonoBehaviour
                Debug.LogError("SignInAnonymouslyAsync encountered an error: " + task.Exception);
                return;
            }
-
            Firebase.Auth.FirebaseUser newUser = task.Result;
            Data.Instance.userData.uid = newUser.UserId;
            Debug.LogFormat("User signed in successfully: {0} ({1})",  newUser.DisplayName, newUser.UserId);
        });
     }
+
+
     void OnDestroy()
     {
         Events.OnGetServerData -= OnGetServerData;
     }    
 
-    public Dictionary<string, object> ToDictionary()
-    {
-        Dictionary<string, object> result = new Dictionary<string, object>();
-        result["capitulo"] = "Capitulo 1";
-        result["id"] = "ASDASD";
-        result["nombre"] = "Pontura";
-        result["telefono"] = "123423423423";
-        result["email"] = "pontura@gmail.com";
-        int[] respuestas = new int[2];
-        respuestas[0] = 1;
-        respuestas[1] = 1;
-        result["respuestas"] = respuestas;
-        return result;
-    }
-
     public void Send()
     {
         TriviaData data = new TriviaData();
-        data.key = Data.Instance.capitulosData.activeCapitulo.key;
         UserData userData = Data.Instance.userData;
-        data.id = userData.deviceID;
-        data.nombre = userData.username;
-        data.telefono = userData.tel;
         data.uid = Data.Instance.userData.uid;
-        //data.email = "pontura@gmail.com";
-        //int[] respuestas = new int[2];
-        //respuestas[0] = 1;
-        //respuestas[1] = 1;
         data.respuestas = userData.answers;
 
         string json = JsonUtility.ToJson(data);
         string capituloKey = Data.Instance.capitulosData.activeCapitulo.key;
-        // reference.Child("capitulos").Child(capituloKey).Child("participantes").Push().SetRawJsonValueAsync(json);      
-        reference.Child("capitulos").Child(data.key).Child("participantes").Child(Data.Instance.userData.uid).SetRawJsonValueAsync(json);
+        reference.Child("capitulos").Child(Data.Instance.capitulosData.activeCapitulo.key).Child("participantes").Child(Data.Instance.userData.uid).SetRawJsonValueAsync(json);
         Data.Instance.userData.SaveLastChapterPlayed();
     }
+    public void SaveUserData()
+    {
+        FirebaseUserData fUserData = new FirebaseUserData();
+        fUserData.uid = Data.Instance.userData.uid;
+        fUserData.username = Data.Instance.userData.username;
+        fUserData.tel = Data.Instance.userData.tel;
+        fUserData.deviceID = Data.Instance.userData.deviceID;
 
-  
+        string json = JsonUtility.ToJson(fUserData);
+        reference.Child("usuarios").Child(Data.Instance.userData.uid).SetRawJsonValueAsync(json);
+    }
+
 
     public void OnGetServerData(string childName, System.Action<DataSnapshot> OnReady)
     {
-        print("OnGetServerData " + childName);
+        Debug.Log("OnGetServerData " + childName);
 
         FirebaseDatabase.DefaultInstance
        .GetReference(childName)
        .GetValueAsync().ContinueWith(task => {
             if (task.IsFaulted)
             {
-               print("error " + task);
+               Debug.Log("error " + task);
            }
             else if (task.IsCompleted)
             {
@@ -126,44 +146,19 @@ public class ServerManager : MonoBehaviour
     {
         string json = JsonUtility.ToJson(obj);
         reference.Child(table).Child(key).SetRawJsonValueAsync(json);
-        print("UpdateQuestion " + json);    
+        Debug.Log("UpdateQuestion " + json);    
     }
     public void PushData(string table, object obj)
     {
         string json = JsonUtility.ToJson(obj);
         reference.Child(table).Push().SetRawJsonValueAsync(json);
-        print("PushQuestion " + json);
+        Debug.Log("PushQuestion " + json);
     }
     public void DeleteQuestion(string key)
     {
         reference.Child("entrenamiento").Child(key).RemoveValueAsync();
-        print("DeleteQuestion " + key);
+        Debug.Log("DeleteQuestion " + key);
     }
-
-
-    //public DateTime GetTimeNist()
-    //{
-    //    DateTime dateTime = DateTime.MinValue;
-
-    //    HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://nist.time.gov/actualtime.cgi?lzbc=siqm9b");
-    //    request.Method = "GET";
-    //    request.Accept = "text/html, application/xhtml+xml, */*";
-    //    request.UserAgent = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)";
-    //    request.ContentType = "application/x-www-form-urlencoded";
-    //    request.CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.NoCacheNoStore); //No caching
-    //    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-    //    if (response.StatusCode == HttpStatusCode.OK)
-    //    {
-    //        StreamReader stream = new StreamReader(response.GetResponseStream());
-    //        string html = stream.ReadToEnd();//<timestamp time=\"1395772696469995\" delay=\"1395772696469995\"/>
-    //        string time = Regex.Match(html, @"(?<=\btime="")[^""]*").Value;
-    //        double milliseconds = Convert.ToInt64(time) / 1000.0;
-    //        milliseconds += diferenciaHoraria * (60 * 1000);
-    //        dateTime = new DateTime(1970, 1, 1).AddMilliseconds(milliseconds).ToLocalTime();
-    //    }
-
-    //    return dateTime;
-    //}
 
 
 }

@@ -6,29 +6,61 @@ public class ScreensManager : MonoBehaviour
 {
 	public MainScreen[] all;
 
-	MainScreen activeScreen;
+    public MainScreen activeScreen;
 	MainScreen lastActiveScreen;
+    public bool isAdmin;
 
-	bool loading;
+    bool loading;
 
-	void Start()
-	{
-		int id = 0;
-		foreach (MainScreen mainScreen in all) {
-			mainScreen.Init (this, id);
-			id++;
-		}
-		ResetAll ();
-		LoadScreen (0, true);
+    void Start()
+    {
+        int id = 0;
+        foreach (MainScreen mainScreen in all)
+        {
+            mainScreen.Init(this, id);
+            id++;
+        }
+        ResetAll();
+        LoopTillFirebaseDone();
+    }
+    void LoopTillFirebaseDone()
+    {
+        if (Data.Instance.serverManager.isDone)
+            OnFirebaseDone();
+        else
+            Invoke("LoopTillFirebaseDone", 0.2f);
+    }
+    void OnFirebaseDone()
+    {
+        Debug.Log("OnFirebaseDone");
+       
+        if(isAdmin)
+        {
+            Data.Instance.serverManager.SignInWithEmailAndPassword("yaguar@gmail.com", "yaguar");
+            LoadScreen(0, true);
+            return;
+        }
+        bool logged = Data.Instance.userData.IsLogged();
+
+        if (!logged)
+        {
+            Debug.Log("Abre Register");
+            LoadScreen(3, true);
+        }
+        else
+        {
+            Debug.Log("App Registed");
+            LoadScreen(0, true);
+        }
     }
 	public void LoadScreen(int id, bool isRight)
 	{
-        print("LoadScreen " + id + loading);
+        Debug.Log("LoadScreen " + id + " loading: " + loading + " activeScreen: " + activeScreen);
 
-		if (loading)
+        if (loading)
 			return;
-			
-		Events.OnUIFX("swipe");
+
+        Events.OnUIFX("swipe");
 
 		loading = true;
 		if (activeScreen != null) {
@@ -36,15 +68,16 @@ public class ScreensManager : MonoBehaviour
 			activeScreen.MoveTo (isRight);
 			lastActiveScreen = activeScreen;
 		}
-		
-		activeScreen = all [id];
-		activeScreen.gameObject.SetActive (true);
-		activeScreen.SetInitialPosition (isRight);
-		activeScreen.MoveTo (isRight);
-	}
+
+        activeScreen = all [id];
+        activeScreen.gameObject.SetActive (true);
+        activeScreen.SetInitialPosition (isRight);
+        activeScreen.MoveTo (isRight);
+
+    }
 	public void OnTransitionDone()
 	{
-		if (!loading)
+        if (!loading)
 			return;
 		loading = false;
 		if (lastActiveScreen != null) {
@@ -55,7 +88,8 @@ public class ScreensManager : MonoBehaviour
 	}
 	public void ResetAll()
 	{
-		foreach (MainScreen mainScreen in all) {
+        Debug.Log("ResetAll");
+        foreach (MainScreen mainScreen in all) {
 			mainScreen.gameObject.SetActive (false);
 		}
 	}

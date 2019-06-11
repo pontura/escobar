@@ -8,13 +8,19 @@ public class RegisterScreen : MainScreen
     public InputField usernameField;
     public InputField telField;
     public Text debbugField;
+    bool isNew;
 
-    public override void OnInit()
+    public override void OnEnabled()
     {
-        base.OnInit();
+        Debug.Log("RegisterScreen");
+
+       // base.OnInit();
         debbugField.text = "";
 
-        if (Data.Instance.userData.username.Length > 1)
+        if (Data.Instance.userData.username == "")
+            isNew = true;
+
+        if (!isNew)
             usernameField.text = Data.Instance.userData.username;
         if (Data.Instance.userData.tel.Length > 1)
             telField.text = Data.Instance.userData.tel;
@@ -30,12 +36,30 @@ public class RegisterScreen : MainScreen
         {
             debbugField.text = "Enviando datos...";
             Data.Instance.userData.SaveUser(usernameField.text, telField.text);
-            UI.Instance.screensManager.LoadScreen(1, false);
+            
+            if (isNew)
+            {
+                Events.OnFirebaseLogin();
+                LoopTillUserRegistered();
+            }
+            else
+                UI.Instance.screensManager.LoadScreen(1, false);
         }
         Invoke("Reset", 2);
     }
     void Reset()
     {
         debbugField.text = "";
+    }
+    void LoopTillUserRegistered()
+    {
+        if (Data.Instance.userData.uid.Length < 1)
+        {
+            Invoke("LoopTillUserRegistered", 0.5f);
+        }
+        else
+        {
+            UI.Instance.screensManager.LoadScreen(0, true);
+        }
     }
 }

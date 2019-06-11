@@ -76,7 +76,7 @@ public class Trivia : MainScreen
         Utils.RemoveAllChildsIn(container);
         LoadData();
         chronometer.Init(10);
-        Invoke("DelayToPreload", 0.5f);
+       // Invoke("DelayToPreload", 0.5f);
     }
     void DelayToPreload()
     {
@@ -136,6 +136,8 @@ public class Trivia : MainScreen
     {
         if (done)
             return;
+
+        DelayToPreload();
 
         chronometer.Pause();
         done = true;
