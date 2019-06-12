@@ -48,23 +48,23 @@ public class ServerManager : MonoBehaviour
     //Admin:
     public void SignInWithEmailAndPassword(string email, string password)
     {
-        Debug.Log("OnFirebaseLogin");
+        Debug.Log("ADMIN: SignInWithEmailAndPassword");
         Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 
         auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task => {
             if (task.IsCanceled)
             {
-                Debug.LogError("SignInWithEmailAndPassword was canceled.");
+                Debug.LogError("ADMIN: SignInWithEmailAndPassword was canceled.");
                 return;
             }
             if (task.IsFaulted)
             {
-                Debug.LogError("SignInWithEmailAndPassword encountered an error: " + task.Exception);
+                Debug.LogError("ADMIN: SignInWithEmailAndPassword encountered an error: " + task.Exception);
                 return;
             }
             Firebase.Auth.FirebaseUser newUser = task.Result;
             Data.Instance.userData.uid = newUser.UserId;
-            Debug.LogFormat("User signed in successfully: {0} ({1})", newUser.DisplayName, newUser.UserId);
+            Debug.LogFormat("ADMIN: User signed in successfully: {0} ({1})", newUser.DisplayName, newUser.UserId);
         });
     }
 
@@ -107,7 +107,7 @@ public class ServerManager : MonoBehaviour
 
         string json = JsonUtility.ToJson(data);
         string capituloKey = Data.Instance.capitulosData.activeCapitulo.key;
-        reference.Child("capitulos").Child(Data.Instance.capitulosData.activeCapitulo.key).Child("participantes").Child(Data.Instance.userData.uid).SetRawJsonValueAsync(json);
+        reference.Child("capitulos_participantes").Child(Data.Instance.capitulosData.activeCapitulo.key).Child("participantes").Child(Data.Instance.userData.uid).SetRawJsonValueAsync(json);
         Data.Instance.userData.SaveLastChapterPlayed();
     }
     public void SaveUserData()
@@ -119,6 +119,7 @@ public class ServerManager : MonoBehaviour
         fUserData.deviceID = Data.Instance.userData.deviceID;
 
         string json = JsonUtility.ToJson(fUserData);
+        Debug.Log("SaveUserData ______________" + Data.Instance.userData.uid);
         reference.Child("usuarios").Child(Data.Instance.userData.uid).SetRawJsonValueAsync(json);
     }
 

@@ -61,6 +61,7 @@ public class VideoPlayerManager : MonoBehaviour {
         videoPlayer.url = file.Replace("https", "http");
         videoPlayer.Prepare();
         loading.SetActive(true);
+        StopAllCoroutines();
         if (sourcesIndex > 1)
             StartCoroutine(CheckOnPrepareRate());
     }
@@ -104,15 +105,16 @@ public class VideoPlayerManager : MonoBehaviour {
         videoPlayer.Play();
         loading.SetActive(false);
         playing = true;
+        StopAllCoroutines();
         StartCoroutine(CheckVideoRate());
     }
     bool triviaShowed;
-    void CheckForTriviaShow(int time)
+    void CheckForTriviaShow(int _time)
     {
         if (triviaShowed)
             return;      
-        print("CheckTime: " + time +  " duration " + data.duration);
-        if (time > data.duration - 4)
+        print("CheckTime: " + _time +  " duration " + data.duration);
+        if (_time > data.duration - 4)
         {
             triviaShowed = true;
             Events.OnShowTrivia();
@@ -122,13 +124,13 @@ public class VideoPlayerManager : MonoBehaviour {
         Debug.Log("CHECK VIDEO RATE");
 
         while (playing) {
-            double time = videoPlayer.time;
-            CheckForTriviaShow((int)time);            
+            double videoTimer = videoPlayer.time;
+            CheckForTriviaShow((int)videoTimer);            
             //debug.text += lastTime+" : "+ videoPlayer.time+" / ";
-            if (lastTime < time) {
-                lastTime = time;
-            } else if (time > 0) {
-                Debug.Log("TIMEOUT: lastT=" + lastTime + " VP=" + time);
+            if (lastTime < videoTimer) {
+                lastTime = videoTimer;
+            } else if (videoTimer > 0) {
+                Debug.Log("TIMEOUT: lastT=" + lastTime + " VP=" + videoTimer);
                 playing = false;
                 videoPlayer.Pause();
                 if (sourcesIndex == 1) {
@@ -146,7 +148,9 @@ public class VideoPlayerManager : MonoBehaviour {
     }
     PlaylistData.VideoData data;
     void OnNewQuestion(PlaylistData.VideoData data) {
+        lastTime = 0;
         videoPlayer.Stop();
+        playing = false;
         triviaShowed = false;
         this.data = data;
         if (videoPlayer.isPrepared)
@@ -159,8 +163,7 @@ public class VideoPlayerManager : MonoBehaviour {
     void EndReached(UnityEngine.Video.VideoPlayer vp) {
 
         // UI.Instance.screensManager.LoadScreen(2, true);
-        lastTime = 0;
-        playing = false;
+        
 
         // UI.Instance.screensManager.LoadScreen(2, true);
         if (Data.Instance.triviaData.source == JWPlayerData.SOURCE.questions) {

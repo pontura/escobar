@@ -14,8 +14,11 @@ GoogleService-Info.plist
 # =============== #
 Temp/
 Obj/
+obj/
+Logs/
 UnityGenerated/
 Library/
+Packages/
 web/
 Assets/AssetStoreTools*
 Assets/Plugins*
