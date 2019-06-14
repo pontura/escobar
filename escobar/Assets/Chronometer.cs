@@ -23,7 +23,7 @@ public class Chronometer : MonoBehaviour
     {
         initialTime = Time.time;
         this.totalTime = totalTime;
-        center.color = centerDefault;
+        center.color = Color.black;
         isOn = true;
     }
     void Update()

@@ -24,4 +24,8 @@ public class UI : MonoBehaviour
         mInstance = this;
         screensManager = GetComponent<ScreensManager>();
     }
+    public void OnQuit()
+    {
+        Application.Quit();
+    }
 }
