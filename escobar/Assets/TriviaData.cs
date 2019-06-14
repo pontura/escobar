@@ -5,7 +5,7 @@ using UnityEngine;
 public class TriviaData
 {
     public string uid;
-    public List<int> respuestas;
+    public List<UserData.AnswersData> respuestas;
 
    
 }

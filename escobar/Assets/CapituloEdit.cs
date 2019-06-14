@@ -60,6 +60,7 @@ public class CapituloEdit : MainScreen
             d.uid = Data.Instance.userData.uid;
             d.date = dateField.GetValue();
             d.time = timeField.text;
+            d.ts = dateField.GetTimestamp();
             d.playlistID = playlistIDField.text;
             
             if (Data.Instance.triviaData.data != null && Data.Instance.triviaData.data.playlistID != "")

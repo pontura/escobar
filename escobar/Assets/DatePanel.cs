@@ -54,5 +54,15 @@ public class DatePanel : MonoBehaviour
         value = (days.value + 1) + "/" + month.options[month.value].text + "/" + year.options[year.value].text;
         return value;
     }
-   
+    public string GetTimestamp(int hour  =0)
+    {
+        int y = int.Parse(year.options[year.value].text);
+        int m = month.value+1;
+        int d = days.value + 1;
+       // print(y + "/" + m + "/" + d);
+        System.DateTime dateTime = new System.DateTime(y, m, d, hour, 0, 0, 0, 0);
+        print("dateTime " + dateTime);
+        return Utils.ConvertToToTimestamp(dateTime).ToString();
+    }
+
 }

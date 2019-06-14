@@ -60,7 +60,7 @@ public class VideoPlayerManager : MonoBehaviour {
         print("Preloading... " + file);
         videoPlayer.url = file.Replace("https", "http");
         videoPlayer.Prepare();
-        loading.SetActive(true);
+        //loading.SetActive(true);
         StopAllCoroutines();
         if (sourcesIndex > 1)
             StartCoroutine(CheckOnPrepareRate());
@@ -150,6 +150,7 @@ public class VideoPlayerManager : MonoBehaviour {
     void OnNewQuestion(PlaylistData.VideoData data) {
         lastTime = 0;
         videoPlayer.Stop();
+        loading.SetActive(true);
         playing = false;
         triviaShowed = false;
         this.data = data;
@@ -161,9 +162,9 @@ public class VideoPlayerManager : MonoBehaviour {
 
 
     void EndReached(UnityEngine.Video.VideoPlayer vp) {
-
+        playing = false;
         // UI.Instance.screensManager.LoadScreen(2, true);
-        
+        return;
 
         // UI.Instance.screensManager.LoadScreen(2, true);
         if (Data.Instance.triviaData.source == JWPlayerData.SOURCE.questions) {
