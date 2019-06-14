@@ -48,4 +48,10 @@
 	{
 		return string.Format ("{0:#,#}",  num);
 	}
- }
+    public static int ConvertToToTimestamp(System.DateTime value)
+    {
+        System.DateTime epochStart = new System.DateTime(1970, 1, 1, 0, 0, 0, System.DateTimeKind.Utc);
+        int cur_time = (int)(value - epochStart).TotalSeconds;
+        return cur_time;
+    }
+}

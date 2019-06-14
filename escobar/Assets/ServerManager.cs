@@ -147,7 +147,9 @@ public class ServerManager : MonoBehaviour
     {
         string json = JsonUtility.ToJson(obj);
         reference.Child(table).Child(key).SetRawJsonValueAsync(json);
-        Debug.Log("UpdateQuestion " + json);    
+        Debug.Log("_UpdateQuestion " + json);
+        Debug.Log("_en key " + key);
+        Debug.Log("_obj " + obj);
     }
     public void PushData(string table, object obj)
     {

@@ -11,6 +11,7 @@ public class CapitulosData : MonoBehaviour
     [Serializable]
     public class Capitulo
     {
+        public string ts;
         public string uid;
         public string key;
         public string date;

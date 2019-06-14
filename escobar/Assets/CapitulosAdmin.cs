@@ -23,7 +23,6 @@ public class CapitulosAdmin : MainScreen
     {
         Data.Instance.capitulosData.OnRefreshCapitulos();
         Load();
-
     }
     void Load()
     {

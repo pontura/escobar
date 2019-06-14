@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class UserData : MonoBehaviour
 {
@@ -9,7 +10,14 @@ public class UserData : MonoBehaviour
     public string username;
     public string tel;
     public string deviceID;
-    public List<int> answers;
+    public List<AnswersData> answers;
+
+    [Serializable]
+    public class AnswersData
+    {
+        public int respuesta;
+        public float timer;
+    }
 
     void Awake()
     {
@@ -41,9 +49,12 @@ public class UserData : MonoBehaviour
         lastChapterPlayedKey = Data.Instance.capitulosData.activeCapitulo.key;
         PlayerPrefs.SetString("lastChapterPlayedKey", lastChapterPlayedKey);
     }
-    public void SetAnswer(int id)
+    public void SetAnswer(int id, float timer)
     {
-        answers.Add(id);
+        AnswersData ad = new AnswersData();
+        ad.respuesta = id;
+        ad.timer = timer;
+        answers.Add(ad);
     }
     public void Reset()
     {

@@ -23,6 +23,7 @@ public class Trivia : MainScreen
     public bool done;
     public GameObject loading;
     public GameObject videoPanel;
+    float startTimerToResponse;
 
     void Start()
     {        
@@ -57,10 +58,19 @@ public class Trivia : MainScreen
     }
     void OnTriviaTimeOut()
     {
+        if (done)
+            return;
+
         done = true;
-        Invoke("TimeOutDelayed", 0.4f);
-        Data.Instance.userData.SetAnswer(-1);
-        StartCoroutine(ResetTrivia(0));
+        DelayToPreload();
+        chronometer.Pause();
+        done = true;
+        if (type == types.TORNEO)
+        {
+            float duration = Time.time - startTimerToResponse;
+            Data.Instance.userData.SetAnswer(-1, duration);
+        }
+        StartCoroutine(ResetTrivia(0.2f));
     }
     void TimeOutDelayed()
     {
@@ -68,6 +78,7 @@ public class Trivia : MainScreen
     }
     void OnShowTrivia()
     {
+        startTimerToResponse = Time.time;
         buttons.Clear();
         done = false;
         content.SetActive(true);
@@ -143,7 +154,10 @@ public class Trivia : MainScreen
         done = true;
 
         if (type == types.TORNEO)
-            Data.Instance.userData.SetAnswer(id);
+        {
+            float duration = Time.time - startTimerToResponse;
+            Data.Instance.userData.SetAnswer(id, duration);
+        }
 
         StartCoroutine( ResetTrivia(0.2f) );           
     }
