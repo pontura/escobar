@@ -27,9 +27,10 @@ public class CapitulosData : MonoBehaviour
     }
     void LoopTillFirebaseReady()
     {
-        if(!Data.Instance.serverManager.isDone)
+        if (!Data.Instance.serverManager.isDone)
+        {
             Invoke("LoopTillFirebaseReady", 0.25f);
-        else
+        } else if (!UI.Instance.screensManager.isAdmin)
             OnRefreshCapitulos();
     }
     void LoadData()

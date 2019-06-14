@@ -22,6 +22,8 @@ public class CapitulosAdmin : MainScreen
     public override void OnEnabled()
     {
         Data.Instance.capitulosData.OnRefreshCapitulos();
+        state = states.ONLY_ACTIVE;
+        SetOtherButton();
         Load();
     }
     void Load()
