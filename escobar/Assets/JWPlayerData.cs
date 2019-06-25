@@ -39,6 +39,10 @@ public class JWPlayerData : MonoBehaviour
         StartCoroutine(LoadFromJWPlayer(playlistID));
         source = SOURCE.questions;
     }
+    public void SetTriviaNoTriviaToday()
+    {
+        loaded = true;
+    }
     public void Restart()
     {
         questionID = 0; ;

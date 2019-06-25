@@ -17,22 +17,35 @@ public class SplashScreen : MainScreen
     void LoopTillUserLogin()
     {        
         if (Data.Instance.userData.uid.Length > 0)
-        {
-            LoopTillCapitulosLoaded();
+        {            
             print("Cargando capitulos...");
             field.text = "Cargando capítulo...";
+            LoopTillCapitulosLoaded();
         }            
         else
             Invoke("LoopTillUserLogin", 0.2f);
     }
     void LoopTillCapitulosLoaded()
-    {        
+    {
+        print("Data.Instance.capitulosData.capitulos.Count" + Data.Instance.capitulosData.capitulos.Count);
         if (Data.Instance.capitulosData.capitulos.Count > 0)
         {
             print("Cargando horario local...");
             field.text = "Cargando horario local...";
-            Data.Instance.triviaData.SetTrivia(Data.Instance.capitulosData.capitulos[0].playlistID);
             Data.Instance.dateData.GetRealTime();
+            // Data.Instance.triviaData.SetTrivia(Data.Instance.capitulosData.capitulos[0].playlistID);
+            CapitulosData.Capitulo todayCap = Data.Instance.capitulosData.GetActual();
+            if (todayCap == null)
+            {
+                Debug.LogError("No hay caps hoy");
+                Data.Instance.triviaData.SetTriviaNoTriviaToday();
+            }
+            else
+            {
+                string playlistIDToday = todayCap.playlistID;
+                Data.Instance.triviaData.SetTrivia(playlistIDToday);
+            }
+            
             CapitulosLoaded();            
         }
         else
