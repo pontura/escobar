@@ -31,7 +31,7 @@ public class Main : MainScreen
     {
         CapitulosData.Capitulo cap = Data.Instance.capitulosData.GetActual();
 
-        print(Data.Instance.capitulosData.activeCapitulo.key + " --------------- " + Data.Instance.userData.lastChapterPlayedKey);
+       // print(Data.Instance.capitulosData.activeCapitulo.key + " --------------- " + Data.Instance.userData.lastChapterPlayedKey);
 
         if (cap == null)
         {

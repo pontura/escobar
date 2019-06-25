@@ -48,10 +48,11 @@ public class CapitulosData : MonoBehaviour
         string today = Data.Instance.dateData.GetTodayParsed();
         foreach (Capitulo c in capitulos)
         {
+           // print(c.date + "          today : " + today);
             if (c.date == today)
             {
                 activeCapitulo = c;
-                return capitulos[capituloID];
+                return activeCapitulo;
             }
         }
         return null;        

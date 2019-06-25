@@ -57,7 +57,7 @@ public class VideoPlayerManager : MonoBehaviour {
 
         string file = sources[sourcesIndex].file;
 
-        print("Preloading... " + file);
+       // print("Preloading... " + file);
         videoPlayer.url = file.Replace("https", "http");
         videoPlayer.Prepare();
         //loading.SetActive(true);
@@ -83,7 +83,7 @@ public class VideoPlayerManager : MonoBehaviour {
         }
         prepareTime = 0f;
         if (!videoPlayer.isPrepared) {
-            Debug.Log("not prepared");
+           // Debug.Log("not prepared");
             sourcesIndex--;
             if (sourcesIndex < 1) {
                 sourcesIndex = 1;
@@ -97,7 +97,7 @@ public class VideoPlayerManager : MonoBehaviour {
     }
 
     void VideoPlay() {
-        Debug.Log("Prepared Complete");
+      //  Debug.Log("Prepared Complete");
         waiting2Play = false;
         //videoPlayer.timeReference = VideoTimeReference.ExternalTime;
         duration = videoPlayer.length;
@@ -113,7 +113,7 @@ public class VideoPlayerManager : MonoBehaviour {
     {
         if (triviaShowed)
             return;      
-        print("CheckTime: " + _time +  " duration " + data.duration);
+       // print("CheckTime: " + _time +  " duration " + data.duration);
         if (_time > data.duration - 4)
         {
             triviaShowed = true;
@@ -121,7 +121,7 @@ public class VideoPlayerManager : MonoBehaviour {
         }
     }
     IEnumerator CheckVideoRate() {
-        Debug.Log("CHECK VIDEO RATE");
+      //  Debug.Log("CHECK VIDEO RATE");
 
         while (playing) {
             double videoTimer = videoPlayer.time;
@@ -130,7 +130,7 @@ public class VideoPlayerManager : MonoBehaviour {
             if (lastTime < videoTimer) {
                 lastTime = videoTimer;
             } else if (videoTimer > 0) {
-                Debug.Log("TIMEOUT: lastT=" + lastTime + " VP=" + videoTimer);
+              //  Debug.Log("TIMEOUT: lastT=" + lastTime + " VP=" + videoTimer);
                 playing = false;
                 videoPlayer.Pause();
                 if (sourcesIndex == 1) {
