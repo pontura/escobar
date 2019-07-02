@@ -7,6 +7,10 @@ public class AdminMain : MainScreen
     public override void OnInit()
     {
     }
+    public void Results()
+    {
+        UI.Instance.screensManager.LoadScreen(5, true);
+    }
     public void GotoTraining()
     {
         UI.Instance.screensManager.LoadScreen(1, true);
