@@ -55,6 +55,8 @@ public class TrainingData : MonoBehaviour
     void LoadData()
     {
         Events.OnGetServerData("entrenamiento", OnReady);
+        if(!UI.Instance.screensManager.isAdmin)
+            LoopToLoadOldTrivias();
     }
     public void OnRefreshTrainingData()
     {
@@ -110,6 +112,63 @@ public class TrainingData : MonoBehaviour
             t.preguntas = tData;
 
             entrenamiento.Add(t);
+        }
+        Shuffle(entrenamiento);
+    }
+    void LoopToLoadOldTrivias()
+    {
+        if (Data.Instance.capitulosData.capitulos.Count > 0)
+        {
+            OldTriviasLoaded();
+        }
+        else
+        {
+            Invoke("LoopToLoadOldTrivias", 0.5f);
+        }
+    }
+    void OldTriviasLoaded()
+    {
+        foreach(CapitulosData.Capitulo capitulo in Data.Instance.capitulosData.capitulos)
+        {
+           if( Data.Instance.dateData.IsFromThePast(capitulo.date))
+                Data.Instance.triviaData.LoadPlaylist(capitulo.playlistID, null, false);
+        }
+    }
+    public void AddOldTriviaToTrainingList(PlaylistData.VideoData[] videosData)
+    {
+        foreach (PlaylistData.VideoData videoData in videosData)
+            AddToOldTraining(videoData);
+
+        Shuffle(entrenamiento);
+    }
+    public void AddToOldTraining(PlaylistData.VideoData videoData)
+    {
+        Training newTraining = new Training();
+        newTraining.preguntas = new Question();
+        newTraining.preguntas.pregunta = videoData.title;
+        string[] arr = videoData.description.Split("\n"[0]);
+        if (arr != null && arr.Length == 3)
+        {
+            newTraining.preguntas.respuesta_bien = arr[0];
+            newTraining.preguntas.respuesta_mal_1 = arr[1];
+            newTraining.preguntas.respuesta_mal_2 = arr[2];
+            entrenamiento.Add(newTraining);
+        }
+    }
+    void OnOldTriviaDataLoaded(PlaylistData playListData)
+    {
+        print("____________old " + playListData.playlistID);
+    }
+    void Shuffle(List<Training> nums)
+    {
+        if (nums.Count < 2) return;
+        for (int a = 0; a < 100; a++)
+        {
+            int id = UnityEngine.Random.Range(1, nums.Count);
+            Training value1 = nums[0];
+            Training value2 = nums[id];
+            nums[0] = value2;
+            nums[id] = value1;
         }
     }
 }

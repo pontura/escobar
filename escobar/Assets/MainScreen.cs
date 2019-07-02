@@ -29,7 +29,7 @@ public class MainScreen : MonoBehaviour
 			destination = -screenWidth;
 		gameObject.transform.localPosition = new Vector2 (destination, 0);
 	}
-	public void MoveTo(bool toRight)
+	public void MoveTo(bool toRight, float delay = 1)
 	{		
 		float destination = gameObject.transform.localPosition.x-screenWidth;
 		if (!toRight)
@@ -38,7 +38,7 @@ public class MainScreen : MonoBehaviour
 		iTween.MoveTo (gameObject, iTween.Hash (
 			"x", destination,
 			"islocal", true,
-			"time", 1	,
+			"time", delay,
 			"oncomplete", "TransitionDone",
 			"oncompletetarget", this.gameObject
 		));

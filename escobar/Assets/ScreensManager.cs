@@ -9,7 +9,7 @@ public class ScreensManager : MonoBehaviour
     public MainScreen activeScreen;
 	MainScreen lastActiveScreen;
     public bool isAdmin;
-
+    public float timeToTransition = 1;
     bool loading;
 
     void Start()
@@ -31,9 +31,7 @@ public class ScreensManager : MonoBehaviour
             Invoke("LoopTillFirebaseDone", 0.2f);
     }
     void OnFirebaseDone()
-    {
-        Debug.Log("OnFirebaseDone");
-       
+    {       
         if(isAdmin)
         {
             Data.Instance.serverManager.SignInWithEmailAndPassword("yaguar@gmail.com", "yaguar");
@@ -65,14 +63,14 @@ public class ScreensManager : MonoBehaviour
 		loading = true;
 		if (activeScreen != null) {
 			activeScreen.SetCenterPosition ();
-			activeScreen.MoveTo (isRight);
+			activeScreen.MoveTo (isRight, timeToTransition);
 			lastActiveScreen = activeScreen;
 		}
 
         activeScreen = all [id];
         activeScreen.gameObject.SetActive (true);
         activeScreen.SetInitialPosition (isRight);
-        activeScreen.MoveTo (isRight);
+        activeScreen.MoveTo (isRight, timeToTransition);
 
     }
 	public void OnTransitionDone()

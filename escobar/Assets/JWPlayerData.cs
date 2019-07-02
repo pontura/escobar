@@ -14,6 +14,8 @@ public class JWPlayerData : MonoBehaviour
 
     public PlaylistData data;
 
+    public List<PlaylistData> oldData;
+
     public SOURCE source;
 
     public enum SOURCE {
@@ -26,17 +28,17 @@ public class JWPlayerData : MonoBehaviour
     public bool DontLoadData;
 
     System.Action OnLoaded;
-    public void LoadPlaylist(string playlistID, System.Action OnLoaded)
-    {
-        StopAllCoroutines();
-        StartCoroutine(LoadFromJWPlayer(playlistID));
+    public void LoadPlaylist(string playlistID, System.Action OnLoaded, bool isTodayTrivia)
+    {        
+        //StopAllCoroutines();
+        StartCoroutine(LoadFromJWPlayer(playlistID, isTodayTrivia));
         this.OnLoaded = OnLoaded;
     }
     public void SetTrivia(string playlistID) {
         questionID = 0;
         if (source == SOURCE.questions)
             return;
-        StartCoroutine(LoadFromJWPlayer(playlistID));
+        StartCoroutine(LoadFromJWPlayer(playlistID, true));
         source = SOURCE.questions;
     }
     public void SetTriviaNoTriviaToday()
@@ -55,27 +57,31 @@ public class JWPlayerData : MonoBehaviour
     //    source = SOURCE.streaming;
     //}
 
-    IEnumerator LoadFromJWPlayer(string playlistID)
+    IEnumerator LoadFromJWPlayer(string playlistID, bool isTodayTrivia)
     {
         string url = "https://cdn.jwplayer.com/v2/playlists/" + playlistID;
         WWW www = new WWW(url);
-        Debug.Log("LoadFromJWPlayer " + playlistID +  "url: " + url);
+        Debug.Log("LoadFromJWPlayer " + playlistID +  "url: " + url  + " isTodayTrivia : " + isTodayTrivia);
 
         yield return www;
-        data = JsonUtility.FromJson<PlaylistData>(www.text);
-        loaded = true;
-
-        if (OnLoaded != null)
-        {            
-            OnLoaded();
-            OnLoaded = null;
+        if (!isTodayTrivia)
+        {
+            Debug.Log("old: playlist"  + playlistID + "  oldData.Count: " +  oldData.Count);
+            PlaylistData d = JsonUtility.FromJson<PlaylistData>(www.text);
+            oldData.Add(d);
+            Data.Instance.trainingData.AddOldTriviaToTrainingList(d.playlist);
         }
+        else
+        {
+            data = JsonUtility.FromJson<PlaylistData>(www.text);
+            loaded = true;
 
-        //if (source == SOURCE.streaming) {
-        //    string file = Data.Instance.triviaData.GetVideoSource().file;
-        //    Events.OnPreLoadVideo(file);
-        //    UI.Instance.screensManager.LoadScreen(2, false);
-        //}
+            if (OnLoaded != null)
+            {
+                OnLoaded();
+                OnLoaded = null;
+            }
+        }
     }
     public PlaylistData.VideoData GetActualQuestion()
     {
