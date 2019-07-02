@@ -69,7 +69,7 @@ public class CapitulosAdmin : MainScreen
     {
         print("CapitulosAdmin clicked" + button.id);
         Data.Instance.capitulosData.activeCapitulo = Data.Instance.capitulosData.capitulos[button.id];
-        Data.Instance.triviaData.LoadPlaylist(Data.Instance.capitulosData.activeCapitulo.playlistID, GotoEdit);
+        Data.Instance.triviaData.LoadPlaylist(Data.Instance.capitulosData.activeCapitulo.playlistID, GotoEdit, true);
     }
     public void AddNew()
     {        
