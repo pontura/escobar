@@ -59,6 +59,7 @@ public class CapitulosData : MonoBehaviour
     }
     void OnReady(DataSnapshot snapshot)
     {
+        print("OnReady ____________ " + snapshot);
         capitulos.Clear();
         foreach (DataSnapshot data in snapshot.Children)
         {

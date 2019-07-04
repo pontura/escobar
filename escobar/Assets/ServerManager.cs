@@ -104,6 +104,14 @@ public class ServerManager : MonoBehaviour
         UserData userData = Data.Instance.userData;
         data.uid = Data.Instance.userData.uid;
         data.respuestas = userData.answers;
+        int score = 0;
+        foreach(UserData.AnswersData d in data.respuestas)
+        {
+            score += 1000-(int)(d.timer * 100);
+            if (d.respuesta == 0)
+                score += 10000;
+        }
+        data.score = score;
 
         string json = JsonUtility.ToJson(data);
         string capituloKey = Data.Instance.capitulosData.activeCapitulo.key;
@@ -116,7 +124,7 @@ public class ServerManager : MonoBehaviour
         fUserData.uid = Data.Instance.userData.uid;
         fUserData.username = Data.Instance.userData.username;
         fUserData.tel = Data.Instance.userData.tel;
-        fUserData.deviceID = Data.Instance.userData.deviceID;
+       // fUserData.deviceID = Data.Instance.userData.deviceID;
 
         string json = JsonUtility.ToJson(fUserData);
         Debug.Log("SaveUserData ______________" + Data.Instance.userData.uid);

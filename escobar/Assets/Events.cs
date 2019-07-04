@@ -19,6 +19,7 @@ public static class Events {
     
     public static System.Action<string, System.Action<Firebase.Database.DataSnapshot>> OnGetServerData = delegate { };
 
+    public static System.Action<UsersData.DataBasic> OnUserBasicData = delegate { };
     public static System.Action<bool> OnTrainingResponse = delegate { };
     public static System.Action OnTrainingReset = delegate { };
 

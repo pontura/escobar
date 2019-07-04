@@ -12,7 +12,7 @@ public class CapituloEdit : MainScreen
     public InputField playlistIDField;
     public Tutorial tutorial;
     bool sended;
-
+    bool editing;
     public override void OnEnabled()
     {
         Utils.RemoveAllChildsIn(container);
@@ -20,6 +20,7 @@ public class CapituloEdit : MainScreen
 
         if (Data.Instance.capitulosData.activeCapitulo != null && Data.Instance.capitulosData.activeCapitulo.key != null)
         {
+            editing = true;
             deleteButton.SetActive(true);
             editButton.SetActive(true);
             LoadTrivia();
@@ -31,6 +32,7 @@ public class CapituloEdit : MainScreen
         }
         else
         {
+            editing = false;
             string today = System.DateTime.Now.Day + "/" + "Feb" + "/" + System.DateTime.Now.Year;
             dateField.Init(today);
             dateField.InitMonths(Data.Instance.dateData.monthList[System.DateTime.Now.Month-1]);
@@ -62,8 +64,9 @@ public class CapituloEdit : MainScreen
             d.time = timeField.text;
             d.ts = dateField.GetTimestamp();
             d.playlistID = playlistIDField.text;
-            
-            if (Data.Instance.triviaData.data != null && Data.Instance.triviaData.data.playlistID != "")
+
+
+            if (editing)
                 Data.Instance.serverManager.UpdateData("capitulos", Data.Instance.capitulosData.activeCapitulo.key, d);
             else
                 Data.Instance.serverManager.PushData("capitulos", d);

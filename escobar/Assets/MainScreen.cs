@@ -23,7 +23,8 @@ public class MainScreen : MonoBehaviour
 	}
 	public void SetInitialPosition(bool toRight)
 	{
-		OnEnabled ();
+        gameObject.SetActive(true);
+        OnEnabled ();
 		float destination = screenWidth;
 		if (!toRight)
 			destination = -screenWidth;
