@@ -124,7 +124,7 @@ public class ServerManager : MonoBehaviour
         fUserData.uid = Data.Instance.userData.uid;
         fUserData.username = Data.Instance.userData.username;
         fUserData.tel = Data.Instance.userData.tel;
-       // fUserData.deviceID = Data.Instance.userData.deviceID;
+        fUserData.deviceID = Data.Instance.userData.deviceID;
 
         string json = JsonUtility.ToJson(fUserData);
         Debug.Log("SaveUserData ______________" + Data.Instance.userData.uid);
