@@ -36,14 +36,17 @@ public class RegisterScreen : MainScreen
         {
             debbugField.text = "Enviando datos...";
             Data.Instance.userData.SaveUser(usernameField.text, telField.text);
-            
+
             if (isNew)
             {
                 Events.OnFirebaseLogin();
                 LoopTillUserRegistered();
             }
             else
+            {
                 UI.Instance.screensManager.LoadScreen(1, false);
+                Data.Instance.serverManager.SaveUserData();
+            }
         }
         Invoke("Reset", 2);
     }
@@ -59,6 +62,7 @@ public class RegisterScreen : MainScreen
         }
         else
         {
+            Data.Instance.serverManager.SaveUserData();
             UI.Instance.screensManager.LoadScreen(0, true);
         }
     }
