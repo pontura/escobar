@@ -66,18 +66,14 @@ public class ResultsAdmin : MainScreen
             isEmptyPanel.SetActive(false);
     }
     void OnClicked(AdminButton button)
-    {
-        print("CapitulosAdmin clicked" + button.id);
+    {        
         Data.Instance.capitulosData.activeCapitulo = Data.Instance.capitulosData.capitulos[button.id];
+        Data.Instance.resultsData.LoadResultsData(Data.Instance.capitulosData.activeCapitulo.key);
         Data.Instance.triviaData.LoadPlaylist(Data.Instance.capitulosData.activeCapitulo.playlistID, GotoEdit, true);
-    }
-    public void AddNew()
-    {
-        GotoEdit();
     }
     void GotoEdit()
     {
-        UI.Instance.screensManager.LoadScreen(4, true);
+        UI.Instance.screensManager.LoadScreen(6, true);
     }
     public void OthersClicked()
     {

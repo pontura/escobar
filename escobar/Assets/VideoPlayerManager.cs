@@ -29,7 +29,6 @@ public class VideoPlayerManager : MonoBehaviour {
         videoPlayer.loopPointReached += EndReached;
         videoPlayer.prepareCompleted += Prepared;
         videoPlayer.errorReceived += ErrorReceived;
-
     }
 
     void ErrorReceived(VideoPlayer vp, string message) {

@@ -16,6 +16,7 @@ public class ResultsData : MonoBehaviour
         public List<Results> respuestas;
         public float totalTimeCorrect;
         public int totalCorrect;
+        public int score;
     }
     [Serializable]
     public class Results
@@ -25,39 +26,22 @@ public class ResultsData : MonoBehaviour
     }
     public CapitulosData.Capitulo activeCapitulo;
 
-    void Start()
-    {
-        LoopToLoadCapitulos();
-    }
-    void LoopToLoadCapitulos()
-    {
-        if (Data.Instance.capitulosData.capitulos.Count == 0)
-        {
-            Invoke("LoopToLoadCapitulos", 1);
-        }
-        else if (UI.Instance.screensManager.isAdmin)
-            OnRefreshParticipantes();
-    }   
-    public void OnRefreshParticipantes()
+    public void LoadResultsData(string uid)
     {
         participantes.Clear();
-        LoadData("-LinLrfHJmmZVpD_ITq1");
-    }
-    void LoadData(string uid)
-    {
         string url = "capitulos_participantes/" + uid + "/participantes";
         Events.OnGetServerData(url, OnReady);
         print("LoadData url: " + url);
     }
     void OnReady(DataSnapshot snapshot)
     {
-        print("OnReady snapshot: " + snapshot);
         participantes.Clear();
         foreach (DataSnapshot data in snapshot.Children)
         {
             Participante tData = new Participante();
             IDictionary dataDictiontary = (IDictionary)data.Value;
             tData.uid = data.Key;
+            tData.score = int.Parse(dataDictiontary["score"].ToString());
             tData.respuestas = new List<Results>();
             
             List<object> all = (List<object>)dataDictiontary["respuestas"];
