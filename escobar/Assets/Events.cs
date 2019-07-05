@@ -9,6 +9,8 @@ public static class Events {
     public static System.Action<TrainingData.Question> OnNewTrainingQuestion = delegate { };
     public static System.Action<PlaylistData.VideoData> OnAnswer = delegate { };
 
+    public static System.Action OnSaveUserToServer = delegate { };
+
     public static System.Action OnShowTrivia = delegate { };
     public static System.Action OnRefreshTrainingData = delegate { };
 
@@ -18,7 +20,7 @@ public static class Events {
     public static System.Action OnFirebaseLogin = delegate { };
     
     ////////////////////////////tabla,  onDone<>,                                      orderby, limit
-    public static System.Action<string, System.Action<Firebase.Database.DataSnapshot>, string, int> OnGetServerData = delegate { };
+    public static System.Action<string, System.Action<object>, string, int> OnGetServerData = delegate { };
 
     public static System.Action<UsersData.DataBasic> OnUserBasicData = delegate { };
     public static System.Action<bool> OnTrainingResponse = delegate { };

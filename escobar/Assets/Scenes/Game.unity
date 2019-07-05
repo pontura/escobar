@@ -1040,7 +1040,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &264546900
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1605,7 +1605,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &442531283
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1680,7 +1680,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &451909731
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2362,6 +2362,7 @@ GameObject:
   - component: {fileID: 675240625}
   - component: {fileID: 675240626}
   - component: {fileID: 675240627}
+  - component: {fileID: 675240628}
   m_Layer: 0
   m_Name: Data
   m_TagString: Untagged
@@ -2387,7 +2388,10 @@ MonoBehaviour:
   capitulosData: {fileID: 675240626}
   trainingData: {fileID: 675240624}
   trainingResults: {fileID: 675240625}
+  resultsData: {fileID: 0}
   dateData: {fileID: 675240627}
+  usersData: {fileID: 0}
+  firebaseAuthManager: {fileID: 0}
 --- !u!4 &675240618
 Transform:
   m_ObjectHideFlags: 0
@@ -2431,6 +2435,7 @@ MonoBehaviour:
   data:
     playlist: []
     playlistID: 
+  oldData: []
   source: 0
   loaded: 0
   DontLoadData: 0
@@ -2447,11 +2452,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lastChapterPlayedKey: 
-  uid: 
-  username: 
-  tel: 
-  deviceID: 
   answers: []
+  userDataInDatabase:
+    username: 
+    tel: 
+    uid: 
+    deviceID: 
 --- !u!82 &675240622
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2637,6 +2643,22 @@ MonoBehaviour:
   monthList: []
   yearList: []
   diferenciaHoraria: -178
+--- !u!114 &675240628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 675240616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7da48ccf4cc71ec46b37211b498a1d8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  databaseURL: https://triviaescobar.firebaseio.com/
+  AuthKey: AIzaSyCMDm_PBkjWP-evqXw4saW-Ow_54_exUCA
+  idToken: 
+  isDone: 0
 --- !u!1 &692810282
 GameObject:
   m_ObjectHideFlags: 0
@@ -6666,6 +6688,7 @@ MonoBehaviour:
   - {fileID: 1967430476}
   activeScreen: {fileID: 0}
   isAdmin: 0
+  timeToTransition: 1
 --- !u!114 &1802481208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6790,7 +6813,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1846717013
 MonoBehaviour:
   m_ObjectHideFlags: 0

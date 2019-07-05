@@ -33,44 +33,44 @@ public class ResultsData : MonoBehaviour
         Events.OnGetServerData(url, OnReady, "score", 100);
         print("LoadData url: " + url);
     }
-    void OnReady(DataSnapshot snapshot)
+    void OnReady(object snapshot)
     {
         participantes.Clear();
-        foreach (DataSnapshot data in snapshot.Children)
-        {
-            Participante tData = new Participante();
-            IDictionary dataDictiontary = (IDictionary)data.Value;
-            tData.uid = data.Key;
-            tData.score = int.Parse(dataDictiontary["score"].ToString());
-            tData.respuestas = new List<Results>();
+        //foreach (DataSnapshot data in snapshot.Children)
+        //{
+        //    Participante tData = new Participante();
+        //    IDictionary dataDictiontary = (IDictionary)data.Value;
+        //    tData.uid = data.Key;
+        //    tData.score = int.Parse(dataDictiontary["score"].ToString());
+        //    tData.respuestas = new List<Results>();
             
-            List<object> all = (List<object>)dataDictiontary["respuestas"];
+        //    List<object> all = (List<object>)dataDictiontary["respuestas"];
 
-            int totalCorrect = 0;
-            float totalTimeCorrect = 0;
-            foreach(object o in all)
-            {
-                Results result = new Results();
-                IDictionary d = (IDictionary)o;
+        //    int totalCorrect = 0;
+        //    float totalTimeCorrect = 0;
+        //    foreach(object o in all)
+        //    {
+        //        Results result = new Results();
+        //        IDictionary d = (IDictionary)o;
 
-                string respuesta = d["respuesta"].ToString();
-                string timer = d["timer"].ToString();
+        //        string respuesta = d["respuesta"].ToString();
+        //        string timer = d["timer"].ToString();
 
-                result.respuesta = int.Parse(respuesta);
-                result.timer = float.Parse(timer);
-                tData.respuestas.Add(result);
+        //        result.respuesta = int.Parse(respuesta);
+        //        result.timer = float.Parse(timer);
+        //        tData.respuestas.Add(result);
 
-                if (result.respuesta == 0)
-                {
-                    totalTimeCorrect += result.timer;
-                    totalCorrect++;
-                }
+        //        if (result.respuesta == 0)
+        //        {
+        //            totalTimeCorrect += result.timer;
+        //            totalCorrect++;
+        //        }
                     
-            }
-            tData.totalCorrect = totalCorrect;
-            tData.totalTimeCorrect = totalTimeCorrect;
-            participantes.Add(tData);
-        }
+        //    }
+        //    tData.totalCorrect = totalCorrect;
+        //    tData.totalTimeCorrect = totalTimeCorrect;
+        //    participantes.Add(tData);
+        //}
         participantes.Reverse();
     }
    

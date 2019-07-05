@@ -16,7 +16,7 @@ public class SplashScreen : MainScreen
     }
     void LoopTillUserLogin()
     {        
-        if (Data.Instance.userData.uid.Length > 0)
+        if (Data.Instance.userData.userDataInDatabase.uid.Length > 0)
         {            
             print("Cargando capitulos...");
             field.text = "Cargando capítulo...";
@@ -27,7 +27,7 @@ public class SplashScreen : MainScreen
     }
     void LoopTillCapitulosLoaded()
     {
-        print("Data.Instance.capitulosData.capitulos.Count" + Data.Instance.capitulosData.capitulos.Count);
+       // print("Data.Instance.capitulosData.capitulos.Count" + Data.Instance.capitulosData.capitulos.Count);
         if (Data.Instance.capitulosData.capitulos.Count > 0)
         {
             print("Cargando horario local...");

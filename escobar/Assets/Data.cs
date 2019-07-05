@@ -16,6 +16,7 @@ public class Data : MonoBehaviour {
     public ResultsData resultsData;
     public DateData dateData;
     public UsersData usersData;
+    public FirebaseAuthManager firebaseAuthManager;
 
     public static Data Instance
     {
@@ -29,7 +30,7 @@ public class Data : MonoBehaviour {
         }
     }
 	void Awake () {
-        //PlayerPrefs.DeleteAll();
+       // PlayerPrefs.DeleteAll();
         mInstance = this;
 		DontDestroyOnLoad(this);
         serverManager = GetComponent<ServerManager>();
@@ -40,6 +41,7 @@ public class Data : MonoBehaviour {
         dateData = GetComponent<DateData>();
         resultsData = GetComponent<ResultsData>();
         usersData = GetComponent<UsersData>();
+        firebaseAuthManager = GetComponent<FirebaseAuthManager>();
     }
     public void StartNextQuestion()
     {

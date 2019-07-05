@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Firebase.Database;
 using System;
+using Proyecto26;
+using FullSerializer;
 
 public class CapitulosData : MonoBehaviour
 {
@@ -27,7 +29,7 @@ public class CapitulosData : MonoBehaviour
     }
     void LoopTillFirebaseReady()
     {
-        if (!Data.Instance.serverManager.isDone)
+        if (!Data.Instance.firebaseAuthManager.isDone)
         {
             Invoke("LoopTillFirebaseReady", 0.25f);
         } else if (!UI.Instance.screensManager.isAdmin)
@@ -35,7 +37,26 @@ public class CapitulosData : MonoBehaviour
     }
     void LoadData()
     {
-        Events.OnGetServerData("capitulos", OnReady, "", 1000);
+        string url = Data.Instance.firebaseAuthManager.databaseURL + "capitulos.json?auth=" + Data.Instance.firebaseAuthManager.idToken;
+        print("_____" + url);
+
+        RestClient.Get(url).Then(response =>
+        {
+            //   string username = user.username;
+            fsSerializer serializer = new fsSerializer();
+            fsData userData = fsJsonParser.Parse(response.Text);
+            Dictionary<string, CapitulosData.Capitulo> caps = null;
+            serializer.TryDeserialize(userData, ref caps);
+
+            foreach (CapitulosData.Capitulo cap in caps.Values)
+            {
+                print(cap.key);
+                capitulos.Add(cap);
+            }
+        }).Catch(error =>
+        {
+            Debug.Log(error);
+        });
     }
    public void OnRefreshCapitulos()
     {
@@ -57,21 +78,10 @@ public class CapitulosData : MonoBehaviour
         }
         return null;        
     }
-    void OnReady(DataSnapshot snapshot)
+    void OnReady(List<CapitulosData.Capitulo> capitulos)
     {
-        print("OnReady ____________ " + snapshot);
-        capitulos.Clear();
-        foreach (DataSnapshot data in snapshot.Children)
-        {
-            Capitulo tData = new Capitulo();
-            IDictionary dataDictiontary = (IDictionary)data.Value;
-            tData.key = data.Key;
-            tData.date = dataDictiontary["date"].ToString();
-            tData.time = dataDictiontary["time"].ToString();
-            tData.playlistID = dataDictiontary["playlistID"].ToString();
-
-            capitulos.Add(tData);
-        }
+        foreach(Capitulo c in capitulos)
+            capitulos.Add(c);
     }
     public Capitulo GetNext()
     {

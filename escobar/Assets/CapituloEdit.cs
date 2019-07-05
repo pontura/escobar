@@ -59,7 +59,7 @@ public class CapituloEdit : MainScreen
             sended = true;
 
             CapitulosData.Capitulo d = new CapitulosData.Capitulo();
-            d.uid = Data.Instance.userData.uid;
+            d.uid = Data.Instance.userData.userDataInDatabase.uid;
             d.date = dateField.GetValue();
             d.time = timeField.text;
             d.ts = dateField.GetTimestamp();

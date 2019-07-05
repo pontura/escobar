@@ -17,13 +17,13 @@ public class RegisterScreen : MainScreen
        // base.OnInit();
         debbugField.text = "";
 
-        if (Data.Instance.userData.username == "")
+        if (Data.Instance.userData.userDataInDatabase.username == "")
             isNew = true;
 
         if (!isNew)
-            usernameField.text = Data.Instance.userData.username;
-        if (Data.Instance.userData.tel.Length > 1)
-            telField.text = Data.Instance.userData.tel;
+            usernameField.text = Data.Instance.userData.userDataInDatabase.username;
+        if (Data.Instance.userData.userDataInDatabase.tel.Length > 1)
+            telField.text = Data.Instance.userData.userDataInDatabase.tel;
     }
     public void Register()
     {
@@ -36,7 +36,6 @@ public class RegisterScreen : MainScreen
         {
             debbugField.text = "Enviando datos...";
             Data.Instance.userData.SaveUser(usernameField.text, telField.text);
-
             if (isNew)
             {
                 Events.OnFirebaseLogin();
@@ -44,8 +43,8 @@ public class RegisterScreen : MainScreen
             }
             else
             {
+                Events.OnSaveUserToServer();
                 UI.Instance.screensManager.LoadScreen(1, false);
-                Data.Instance.serverManager.SaveUserData();
             }
         }
         Invoke("Reset", 2);
@@ -56,13 +55,13 @@ public class RegisterScreen : MainScreen
     }
     void LoopTillUserRegistered()
     {
-        if (Data.Instance.userData.uid.Length < 1)
+        if (Data.Instance.userData.userDataInDatabase.uid.Length < 1)
         {
             Invoke("LoopTillUserRegistered", 0.5f);
         }
         else
         {
-            Data.Instance.serverManager.SaveUserData();
+           // Data.Instance.serverManager.SaveUserData();
             UI.Instance.screensManager.LoadScreen(0, true);
         }
     }
