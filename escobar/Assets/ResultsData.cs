@@ -30,7 +30,7 @@ public class ResultsData : MonoBehaviour
     {
         participantes.Clear();
         string url = "capitulos_participantes/" + uid + "/participantes";
-        Events.OnGetServerData(url, OnReady);
+        Events.OnGetServerData(url, OnReady, "score", 100);
         print("LoadData url: " + url);
     }
     void OnReady(DataSnapshot snapshot)
@@ -71,6 +71,7 @@ public class ResultsData : MonoBehaviour
             tData.totalTimeCorrect = totalTimeCorrect;
             participantes.Add(tData);
         }
+        participantes.Reverse();
     }
    
 }

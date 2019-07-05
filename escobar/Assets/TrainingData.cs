@@ -54,7 +54,7 @@ public class TrainingData : MonoBehaviour
     }
     void LoadData()
     {
-        Events.OnGetServerData("entrenamiento", OnReady);
+        Events.OnGetServerData("entrenamiento", OnReady, "", 1000);
         if(!UI.Instance.screensManager.isAdmin)
             LoopToLoadOldTrivias();
     }

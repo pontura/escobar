@@ -35,7 +35,7 @@ public class CapitulosData : MonoBehaviour
     }
     void LoadData()
     {
-        Events.OnGetServerData("capitulos", OnReady);
+        Events.OnGetServerData("capitulos", OnReady, "", 1000);
     }
    public void OnRefreshCapitulos()
     {

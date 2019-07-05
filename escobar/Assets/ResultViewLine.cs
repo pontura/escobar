@@ -28,6 +28,7 @@ public class ResultViewLine : MonoBehaviour
         this.value = value;
         this.timer = timer;
         LoadUserData(uid);
+        StartCoroutine(LoopUntilLoaded());
     }
     void LoadUserData(string uid)
     {
@@ -37,38 +38,44 @@ public class ResultViewLine : MonoBehaviour
         else
         {
             Events.OnUserBasicData += OnUserBasicData;
-            Events.OnGetServerData("usuarios/" + uid, OnReady);            
+            Events.OnGetServerData("usuarios/" + uid, OnReady, "", 100000);            
         }
     }    
     void OnReady(DataSnapshot snapshot)
     {        
         UsersData.DataBasic tData = new UsersData.DataBasic();
         IDictionary dataDictiontary = (IDictionary)snapshot.Value;
-        tData.uid = snapshot.Key;
+        tData.uid = dataDictiontary["uid"].ToString();
         tData.tel = dataDictiontary["tel"].ToString();
         tData.username = dataDictiontary["username"].ToString();
         Events.OnUserBasicData(tData);
-        OnUserBasicData(tData);
     }
-    void OnUserBasicData(UsersData.DataBasic data)
+    UsersData.DataBasic data;
+    void OnUserBasicData(UsersData.DataBasic _data)
     {
-        if (uid == data.uid)
+        if (uid == _data.uid)
         {
-            usernameField.text = data.username;
-            telField.text = data.tel;
-
-            if(type == types.ALL)
-                totalOKField.text = value.ToString();
-            else
-            {
-                if (value == 0)
-                    totalOKField.text = "Bien";
-                else
-                    totalOKField.text = "Mal";
-            }
-            timerField.text = timer.ToString();
-            Events.OnUserBasicData -= OnUserBasicData;
+            this.data = _data;
         }
+    }
+    IEnumerator LoopUntilLoaded()
+    {
+        while (data == null)
+            yield return null;
+
+        usernameField.text = data.username;
+        telField.text = data.tel;
+        if (type == types.ALL)
+            totalOKField.text = value.ToString();
+        else
+        {
+            if (value == 0)
+                totalOKField.text = "Bien";
+            else
+                totalOKField.text = "Mal";
+        }
+        timerField.text = timer.ToString();
+        Events.OnUserBasicData -= OnUserBasicData;
     }
     void OnDestroy()
     {
