@@ -1,7 +1,6 @@
 # =============== #
 # FIREBASE #
 # =============== #
-Assets/Editor Default Resources/Firebase*
 Assets/Parse*
 Assets/PlayServicesResolver*
 google-services.json
