@@ -17,7 +17,8 @@ public static class Events {
     public static System.Action<string, Transform> OnTooltip = delegate { };
     public static System.Action OnFirebaseLogin = delegate { };
     
-    public static System.Action<string, System.Action<Firebase.Database.DataSnapshot>> OnGetServerData = delegate { };
+    ////////////////////////////tabla,  onDone<>,                                      orderby, limit
+    public static System.Action<string, System.Action<Firebase.Database.DataSnapshot>, string, int> OnGetServerData = delegate { };
 
     public static System.Action<UsersData.DataBasic> OnUserBasicData = delegate { };
     public static System.Action<bool> OnTrainingResponse = delegate { };

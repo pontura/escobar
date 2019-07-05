@@ -132,24 +132,41 @@ public class ServerManager : MonoBehaviour
     }
 
 
-    public void OnGetServerData(string childName, System.Action<DataSnapshot> OnReady)
+    public void OnGetServerData(string childName, System.Action<DataSnapshot> OnReady, string orderby = "", int limitToLast = 1000)
     {
         Debug.Log("OnGetServerData " + childName);
-
-        FirebaseDatabase.DefaultInstance
-       .GetReference(childName)
-       .GetValueAsync().ContinueWith(task => {
-            if (task.IsFaulted)
-            {
-               Debug.Log("error " + task);
-           }
-            else if (task.IsCompleted)
-            {
-                DataSnapshot snapshot = task.Result;
-               OnReady(snapshot);
-           }
+        if (orderby == "")
+        {
+            FirebaseDatabase.DefaultInstance
+          .GetReference(childName).LimitToLast(limitToLast)
+          .GetValueAsync().ContinueWith(task =>
+          {
+              if (task.IsFaulted)
+              {
+                  Debug.Log("error " + task);
+              }
+              else if (task.IsCompleted)
+              {
+                  DataSnapshot snapshot = task.Result; OnReady(snapshot);
+              }
+          });
         }
-        );
+        else
+        {
+            FirebaseDatabase.DefaultInstance
+           .GetReference(childName).OrderByChild(orderby).LimitToLast(limitToLast)
+           .GetValueAsync().ContinueWith(task =>
+           {
+               if (task.IsFaulted)
+               {
+                   Debug.Log("error " + task);
+               }
+               else if (task.IsCompleted)
+               {
+                   DataSnapshot snapshot = task.Result; OnReady(snapshot);
+               }
+           });
+        }
     }
     public void UpdateData(string table, string key, object obj)
     {
