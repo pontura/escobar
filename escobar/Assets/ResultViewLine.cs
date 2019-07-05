@@ -41,14 +41,14 @@ public class ResultViewLine : MonoBehaviour
             Events.OnGetServerData("usuarios/" + uid, OnReady, "", 100000);            
         }
     }    
-    void OnReady(DataSnapshot snapshot)
+    void OnReady(object snapshot)
     {        
-        UsersData.DataBasic tData = new UsersData.DataBasic();
-        IDictionary dataDictiontary = (IDictionary)snapshot.Value;
-        tData.uid = dataDictiontary["uid"].ToString();
-        tData.tel = dataDictiontary["tel"].ToString();
-        tData.username = dataDictiontary["username"].ToString();
-        Events.OnUserBasicData(tData);
+        //UsersData.DataBasic tData = new UsersData.DataBasic();
+        //IDictionary dataDictiontary = (IDictionary)snapshot.Value;
+        //tData.uid = dataDictiontary["uid"].ToString();
+        //tData.tel = dataDictiontary["tel"].ToString();
+        //tData.username = dataDictiontary["username"].ToString();
+        //Events.OnUserBasicData(tData);
     }
     UsersData.DataBasic data;
     void OnUserBasicData(UsersData.DataBasic _data)

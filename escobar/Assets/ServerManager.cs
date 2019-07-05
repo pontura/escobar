@@ -19,8 +19,8 @@ public class ServerManager : MonoBehaviour
 
     void Awake()
     {
-        Events.OnGetServerData += OnGetServerData;
-        Events.OnFirebaseLogin += OnFirebaseLogin;
+      //  Events.OnGetServerData += OnGetServerData;
+      //  Events.OnFirebaseLogin += OnFirebaseLogin;
     }
     void Start()
     {
@@ -63,7 +63,7 @@ public class ServerManager : MonoBehaviour
                 return;
             }
             Firebase.Auth.FirebaseUser newUser = task.Result;
-            Data.Instance.userData.uid = newUser.UserId;
+            Data.Instance.userData.userDataInDatabase.uid = newUser.UserId;
             Debug.LogFormat("ADMIN: User signed in successfully: {0} ({1})", newUser.DisplayName, newUser.UserId);
         });
     }
@@ -87,7 +87,7 @@ public class ServerManager : MonoBehaviour
                return;
            }
            Firebase.Auth.FirebaseUser newUser = task.Result;
-           Data.Instance.userData.uid = newUser.UserId;
+           Data.Instance.userData.userDataInDatabase.uid = newUser.UserId;
            Debug.LogFormat("User signed in successfully: {0} ({1})",  newUser.DisplayName, newUser.UserId);
        });
     }
@@ -102,7 +102,7 @@ public class ServerManager : MonoBehaviour
     {
         TriviaData data = new TriviaData();
         UserData userData = Data.Instance.userData;
-        data.uid = Data.Instance.userData.uid;
+        data.uid = Data.Instance.userData.userDataInDatabase.uid;
         data.respuestas = userData.answers;
         int score = 0;
         foreach(UserData.AnswersData d in data.respuestas)
@@ -115,25 +115,46 @@ public class ServerManager : MonoBehaviour
 
         string json = JsonUtility.ToJson(data);
         string capituloKey = Data.Instance.capitulosData.activeCapitulo.key;
-        reference.Child("capitulos_participantes").Child(Data.Instance.capitulosData.activeCapitulo.key).Child("participantes").Child(Data.Instance.userData.uid).SetRawJsonValueAsync(json);
+        reference.Child("capitulos_participantes").Child(Data.Instance.capitulosData.activeCapitulo.key).Child("participantes").Child(Data.Instance.userData.userDataInDatabase.uid).SetRawJsonValueAsync(json);
         Data.Instance.userData.SaveLastChapterPlayed();
     }
-    public void SaveUserData()
+    public void ______SaveUserData()
     {
         FirebaseUserData fUserData = new FirebaseUserData();
-        fUserData.uid = Data.Instance.userData.uid;
-        fUserData.username = Data.Instance.userData.username;
-        fUserData.tel = Data.Instance.userData.tel;
-        fUserData.deviceID = Data.Instance.userData.deviceID;
+        fUserData.uid = Data.Instance.userData.userDataInDatabase.uid;
+        fUserData.username = Data.Instance.userData.userDataInDatabase.username;
+        fUserData.tel = Data.Instance.userData.userDataInDatabase.tel;
+        fUserData.deviceID = Data.Instance.userData.userDataInDatabase.deviceID;
 
         string json = JsonUtility.ToJson(fUserData);
-        Debug.Log("SaveUserData ______________" + Data.Instance.userData.uid);
-        reference.Child("usuarios").Child(Data.Instance.userData.uid).SetRawJsonValueAsync(json);
+        Debug.Log("SaveUserData ______________" + Data.Instance.userData.userDataInDatabase.uid);
+        reference.Child("usuarios").Child(Data.Instance.userData.userDataInDatabase.uid).SetRawJsonValueAsync(json);
     }
 
 
     public void OnGetServerData(string childName, System.Action<DataSnapshot> OnReady, string orderby = "", int limitToLast = 1000)
     {
+
+
+
+        FirebaseDatabase.DefaultInstance
+          .GetReference(childName)
+          .GetValueAsync().ContinueWith(task =>
+          {
+              if (task.IsFaulted)
+              {
+                  Debug.Log("error " + task);
+              }
+              else if (task.IsCompleted)
+              {
+                  DataSnapshot snapshot = task.Result; OnReady(snapshot);
+              }
+          });
+
+
+
+
+
         Debug.Log("OnGetServerData " + childName);
         if (orderby == "")
         {

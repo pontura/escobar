@@ -12,8 +12,8 @@ public class UserUI : MonoBehaviour
     {
         if (Data.Instance != null)
         {
-            username.text = Data.Instance.userData.username;
-            tel.text = Data.Instance.userData.tel;
+            username.text = Data.Instance.userData.userDataInDatabase.username;
+            tel.text = Data.Instance.userData.userDataInDatabase.tel;
         }
     }
     public void Edit()

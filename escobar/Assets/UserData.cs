@@ -6,11 +6,21 @@ using System;
 public class UserData : MonoBehaviour
 {
     public string lastChapterPlayedKey;
-    public string uid;
-    public string username;
-    public string tel;
-    public string deviceID;
+   // public string uid;
+   // public string username;
+    //public string tel;
+   // public string deviceID;
     public List<AnswersData> answers;
+    public UserDataInDatabase userDataInDatabase;
+
+    [Serializable]
+    public class UserDataInDatabase
+    {
+        public string username;
+        public string tel;
+        public string uid;
+        public string deviceID;
+    }
 
     [Serializable]
     public class AnswersData
@@ -22,27 +32,33 @@ public class UserData : MonoBehaviour
     void Awake()
     {
         lastChapterPlayedKey = PlayerPrefs.GetString("lastChapterPlayedKey", "");
-        username = PlayerPrefs.GetString("username", "");
-        tel = PlayerPrefs.GetString("tel", "");
-        deviceID = PlayerPrefs.GetString("deviceID", "");
+        userDataInDatabase.username = PlayerPrefs.GetString("username", "");
+        userDataInDatabase.tel = PlayerPrefs.GetString("tel", "");
+        userDataInDatabase.deviceID = PlayerPrefs.GetString("deviceID", "");
+        userDataInDatabase.uid = PlayerPrefs.GetString("uid", "");
     }
     public bool IsLogged()
     {
-        if (deviceID.Length<2)
+        if (userDataInDatabase.deviceID.Length<2)
             return false;
         return true;
     }
     public void SaveUser(string username, string tel)
     {
-        this.deviceID = SystemInfo.deviceUniqueIdentifier;
-        this.username = username;        
-        this.tel = tel;
+        userDataInDatabase.deviceID = SystemInfo.deviceUniqueIdentifier;
+        userDataInDatabase.username = username;
+        userDataInDatabase.tel = tel;
 
-        PlayerPrefs.SetString("deviceID", deviceID);
-        PlayerPrefs.SetString("username", username);
-        PlayerPrefs.SetString("tel", tel);
+        PlayerPrefs.SetString("deviceID", userDataInDatabase.deviceID);
+        PlayerPrefs.SetString("username", userDataInDatabase.username);
+        PlayerPrefs.SetString("tel", userDataInDatabase.tel);
+       
+    }
+    public void SaveUiD(string uid)
+    {
+        userDataInDatabase.uid = uid;
+        PlayerPrefs.SetString("uid", userDataInDatabase.uid);
 
-        
     }
     public void SaveLastChapterPlayed()
     {
