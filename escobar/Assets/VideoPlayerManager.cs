@@ -40,12 +40,13 @@ public class VideoPlayerManager : MonoBehaviour {
 
     void SetPreload(PlaylistData.Sources[] s) {
         loading.SetActive(true);
-        sources = s;        
-        sourcesIndex = sources.Length - 1;
-        // le agrego que arranque por la segunda:
-        sourcesIndex--;
-        if (sourcesIndex < 0)
-            sourcesIndex = 0;
+        sources = s;     
+        
+        sourcesIndex = 2;
+        // le agrego que arranque por la segunda:       
+
+        if (sourcesIndex < 1)
+            sourcesIndex = 1;
 
         OnPreLoadVideo();
     }
@@ -148,7 +149,7 @@ public class VideoPlayerManager : MonoBehaviour {
     PlaylistData.VideoData data;
     void OnNewQuestion(PlaylistData.VideoData data) {
         lastTime = 0;
-        videoPlayer.Stop();
+        //videoPlayer.Stop();
         loading.SetActive(true);
         playing = false;
         triviaShowed = false;

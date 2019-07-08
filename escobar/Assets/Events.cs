@@ -8,8 +8,7 @@ public static class Events {
     public static System.Action<PlaylistData.VideoData> OnNewQuestion = delegate { };
     public static System.Action<TrainingData.Question> OnNewTrainingQuestion = delegate { };
     public static System.Action<PlaylistData.VideoData> OnAnswer = delegate { };
-
-    public static System.Action OnSaveUserToServer = delegate { };
+    
 
     public static System.Action OnShowTrivia = delegate { };
     public static System.Action OnRefreshTrainingData = delegate { };

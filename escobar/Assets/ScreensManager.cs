@@ -25,7 +25,6 @@ public class ScreensManager : MonoBehaviour
         if (isAdmin)
         {
             Data.Instance.firebaseAuthManager.SignUpUserByEmail("yaguar@gmail.com", "yaguar");
-
         }
         else
         {

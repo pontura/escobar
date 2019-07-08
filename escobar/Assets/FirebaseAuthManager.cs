@@ -29,7 +29,6 @@ public class FirebaseAuthManager : MonoBehaviour
     void Awake()
     {
       //  Events.OnFirebaseLogin += OnFirebaseLogin;
-        Events.OnSaveUserToServer += OnSaveUserToServer;
         Events.OnGetServerData += OnGetServerData;
         //Events.OnFirebaseLogin += OnFirebaseLogin;
     }
@@ -43,8 +42,7 @@ public class FirebaseAuthManager : MonoBehaviour
         string userData = "{\"returnSecureToken\":true}";
         RestClient.Post<SignResponse>("https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=" + AuthKey, userData).Then(
             response =>
-            {
-                
+            {                
                 idToken = response.idToken;
                 if (Data.Instance.userData.userDataInDatabase.uid.Length == 0)
                 {
@@ -65,8 +63,11 @@ public class FirebaseAuthManager : MonoBehaviour
             response =>
             {
                 idToken = response.idToken;
-               // user.localId = response.localId;
-               // GetUsername();
+                if (Data.Instance.userData.userDataInDatabase.uid.Length == 0)
+                {
+                    Data.Instance.userData.SaveUiD(response.localId);
+                    //OnSaveUserToServer();
+                }
                 isDone = true;
             }).Catch(error =>
             {
@@ -75,7 +76,7 @@ public class FirebaseAuthManager : MonoBehaviour
     }
 
 
-    void OnSaveUserToServer()
+    public void OnSaveUserToServer()
     {
         UserData.UserDataInDatabase userData = Data.Instance.userData.userDataInDatabase;
         string url = "https://triviaescobar.firebaseio.com/usuarios/" + userData.uid + "/.json?auth=" + idToken;
@@ -110,8 +111,8 @@ public class FirebaseAuthManager : MonoBehaviour
         string capituloKey = Data.Instance.capitulosData.activeCapitulo.key;
         // reference.Child("capitulos_participantes").Child(Data.Instance.capitulosData.activeCapitulo.key).Child("participantes").Child(Data.Instance.userData.userDataInDatabase.uid).SetRawJsonValueAsync(json);
 
-        string url = "https://triviaescobar.firebaseio.com/capitulos_participantes/" + Data.Instance.capitulosData.activeCapitulo.key + "/" + Data.Instance.userData.userDataInDatabase.uid + "/.json?auth=" + idToken;
-        RestClient.Post(url, data);
+        string url = "https://triviaescobar.firebaseio.com/capitulos_participantes/" + Data.Instance.capitulosData.activeCapitulo.key + "/participantes/" + Data.Instance.userData.userDataInDatabase.uid + "/.json?auth=" + idToken;
+        RestClient.Put(url, data);
 
         Data.Instance.userData.SaveLastChapterPlayed();
     }

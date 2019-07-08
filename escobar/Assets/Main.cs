@@ -76,4 +76,8 @@ public class Main : MainScreen
         trivia.type = Trivia.types.TRAINING;
         UI.Instance.screensManager.LoadScreen(2, true);
     }
+    public void OpenLiveStreaming()
+    {
+        Application.OpenURL("https://cdn.jwplayer.com/players/TbyzAAY8-fLxG4ObU.html");
+    }
 }

@@ -54,11 +54,19 @@ public class ResultViewLine : MonoBehaviour
         string url = Data.Instance.firebaseAuthManager.databaseURL + "/usuarios.json?auth=" + Data.Instance.firebaseAuthManager.idToken;
         print("LoadResultsData _____" + url);
 
-        RestClient.Get<UsersData.DataBasic>(url).Then(response =>
+        RestClient.Get(url).Then(response =>
         {
-            print("_____" + response);
-            Events.OnUserBasicData(response);
-            //UpdateScore();
+            fsSerializer serializer = new fsSerializer();
+            fsData data = fsJsonParser.Parse(response.Text);
+            Dictionary<string, UsersData.DataBasic> results = null;
+            serializer.TryDeserialize(data, ref results);
+            foreach (UsersData.DataBasic d in results.Values)
+            {
+                if(uid == d.uid)
+                {
+                    Events.OnUserBasicData(d);
+                }
+            }
         });
 
     }
