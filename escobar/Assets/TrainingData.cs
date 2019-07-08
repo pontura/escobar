@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Firebase.Database;
 using System;
 using Proyecto26;
 using FullSerializer;
@@ -57,20 +56,13 @@ public class TrainingData : MonoBehaviour
     }
     void LoadData()
     {
-        Question q = new Question();
-        q.pregunta = "ASDASD";
-        q.respuesta_bien = "a";
-        q.respuesta_mal_1 = "b";
-        q.respuesta_mal_2 = "c";
-
-        Data.Instance.firebaseAuthManager.SaveNewTraining(q);
 
         // Events.OnGetServerData("entrenamiento", OnReady, "", 1000);
         if (!UI.Instance.screensManager.isAdmin)
             LoopToLoadOldTrivias();
 
-        string url = Data.Instance.firebaseAuthManager.databaseURL + "entrenamiento.json?auth=" + Data.Instance.firebaseAuthManager.idToken;
-        print("_____" + url);
+        string url = Data.Instance.firebaseAuthManager.databaseURL + "/entrenamiento.json?auth=" + Data.Instance.firebaseAuthManager.idToken;
+      //  print("_____" + url);
 
         RestClient.Get(url).Then(response =>
         {
@@ -79,26 +71,19 @@ public class TrainingData : MonoBehaviour
             fsData data = fsJsonParser.Parse(response.Text);
             Dictionary<string, Question> results = null;
             serializer.TryDeserialize(data, ref results);
-
-            foreach (Question d in results.Values)
+            foreach (string d in results.Keys)
             {
-                //Question tData = new Question();
-                //IDictionary dataDictiontary = (IDictionary)results.Value;
-
-                //tData.pregunta = dataDictiontary["pregunta"].ToString();
-                //tData.respuesta_bien = dataDictiontary["respuesta_bien"].ToString();
-                //tData.respuesta_mal_1 = dataDictiontary["respuesta_mal_1"].ToString();
-                //tData.respuesta_mal_2 = dataDictiontary["respuesta_mal_2"].ToString();
-
                 Training t = new Training();
-               // t.key = results.Key;
-                t.preguntas = d;
-
+                t.key = d;
                 entrenamiento.Add(t);
             }
+            int id = 0;
+            foreach (Question d in results.Values)
+            {
+                entrenamiento[id].preguntas = d;
+                id++;
+            }
             Shuffle(entrenamiento);
-
-
 
         }).Catch(error =>
         {

@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Firebase.Database;
 using System;
+using Proyecto26;
+using FullSerializer;
 
 public class ResultsData : MonoBehaviour
 {
@@ -29,10 +30,46 @@ public class ResultsData : MonoBehaviour
     public void LoadResultsData(string uid)
     {
         participantes.Clear();
-        string url = "capitulos_participantes/" + uid + "/participantes";
-        Events.OnGetServerData(url, OnReady, "score", 100);
-        print("LoadData url: " + url);
+        //string url = "capitulos_participantes/" + uid + "/participantes";
+        //Events.OnGetServerData(url, OnReady, "score", 100);
+        //print("LoadData url: " + url);
+
+        string url = Data.Instance.firebaseAuthManager.databaseURL + "/capitulos_participantes/" + uid + "/participantes.json?auth=" + Data.Instance.firebaseAuthManager.idToken;
+        print("LoadResultsData _____" + url);
+
+        RestClient.Get(url).Then(response =>
+        {
+            //   string username = user.username;
+            fsSerializer serializer = new fsSerializer();
+            fsData data = fsJsonParser.Parse(response.Text);
+            Dictionary<string, Participante> results = null;
+            serializer.TryDeserialize(data, ref results);
+
+            foreach (Participante d in results.Values)
+            {
+               
+                int totalCorrect = 0;
+                float totalTimeCorrect = 0;
+                foreach (Results r in d.respuestas)
+                {
+                    if (r.respuesta == 0)
+                    {
+                        totalTimeCorrect += r.timer;
+                        totalCorrect++;
+                    }
+                        
+                }
+                d.totalCorrect = totalCorrect;
+                d.totalTimeCorrect = totalTimeCorrect;
+                participantes.Add(d);
+            }
+            participantes.Reverse();
+        }).Catch(error =>
+        {
+            Debug.Log(error);
+        });
     }
+
     void OnReady(object snapshot)
     {
         participantes.Clear();
@@ -73,5 +110,8 @@ public class ResultsData : MonoBehaviour
         //}
         participantes.Reverse();
     }
+
+
+
    
 }

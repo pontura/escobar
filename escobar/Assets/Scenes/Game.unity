@@ -2382,7 +2382,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 323d6bb18a56ef64fb097c5637aa6b8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serverManager: {fileID: 0}
   triviaData: {fileID: 675240620}
   userData: {fileID: 675240621}
   capitulosData: {fileID: 675240626}
@@ -2413,7 +2412,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 675240616}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6df4fea8825e5954bab30338fc907832, type: 3}
   m_Name: 

@@ -38,7 +38,8 @@ public class RegisterScreen : MainScreen
             Data.Instance.userData.SaveUser(usernameField.text, telField.text);
             if (isNew)
             {
-                Events.OnFirebaseLogin();
+                Data.Instance.firebaseAuthManager.SignUpUserAnon();
+                //Events.OnFirebaseLogin();
                 LoopTillUserRegistered();
             }
             else

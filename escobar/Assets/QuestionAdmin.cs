@@ -15,7 +15,9 @@ public class QuestionAdmin : MainScreen
     public override void OnEnabled  ()
     {
         sended = false;
-        if(Data.Instance.trainingData.activeQuestion != null && Data.Instance.trainingData.activeQuestion.key.Length>0)
+        if(Data.Instance.trainingData.activeQuestion != null 
+            && Data.Instance.trainingData.activeQuestion.key != null
+            && Data.Instance.trainingData.activeQuestion.key.Length>0)
         {
             deleteButton.SetActive(true);
             TrainingData.Question question = Data.Instance.trainingData.activeQuestion.preguntas;
@@ -58,10 +60,11 @@ public class QuestionAdmin : MainScreen
             question.respuesta_mal_1 = respuesta_1.text;
             question.respuesta_mal_2 = respuesta_2.text;
             TrainingData.Training activeQuestion = Data.Instance.trainingData.activeQuestion;
-            if(activeQuestion != null && activeQuestion.key != "")
-                Data.Instance.serverManager.UpdateData("entrenamiento", activeQuestion.key, question);
+
+            if(activeQuestion != null && activeQuestion.key != null)
+                Data.Instance.firebaseAuthManager.SaveTraining(question, activeQuestion.key);
             else
-                Data.Instance.serverManager.PushData("entrenamiento", question);
+                Data.Instance.firebaseAuthManager.SaveTraining(question);
 
             Events.OnRefreshTrainingData();
 
@@ -82,7 +85,7 @@ public class QuestionAdmin : MainScreen
         sended = true;
 
         TrainingData.Training activeQuestion = Data.Instance.trainingData.activeQuestion;
-        Data.Instance.serverManager.DeleteQuestion(activeQuestion.key);
+        Data.Instance.firebaseAuthManager.DeleteTraining(activeQuestion.key);
 
         Events.OnRefreshTrainingData();
 

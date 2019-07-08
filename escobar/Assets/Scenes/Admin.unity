@@ -5241,6 +5241,7 @@ GameObject:
   - component: {fileID: 675240626}
   - component: {fileID: 675240627}
   - component: {fileID: 675240628}
+  - component: {fileID: 675240629}
   m_Layer: 0
   m_Name: Data
   m_TagString: Untagged
@@ -5260,7 +5261,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 323d6bb18a56ef64fb097c5637aa6b8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serverManager: {fileID: 0}
   triviaData: {fileID: 675240620}
   userData: {fileID: 675240626}
   capitulosData: {fileID: 0}
@@ -5269,6 +5269,7 @@ MonoBehaviour:
   resultsData: {fileID: 0}
   dateData: {fileID: 0}
   usersData: {fileID: 0}
+  firebaseAuthManager: {fileID: 675240629}
 --- !u!4 &675240618
 Transform:
   m_ObjectHideFlags: 0
@@ -5290,11 +5291,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 675240616}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6df4fea8825e5954bab30338fc907832, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  diferenciaHoraria: 243
   isDone: 0
 --- !u!114 &675240620
 MonoBehaviour:
@@ -5500,11 +5502,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lastChapterPlayedKey: 
-  uid: 
-  username: 
-  tel: 
-  deviceID: 
   answers: []
+  userDataInDatabase:
+    username: 
+    tel: 
+    uid: 
+    deviceID: 
 --- !u!114 &675240627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5538,6 +5541,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   all: []
+--- !u!114 &675240629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 675240616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7da48ccf4cc71ec46b37211b498a1d8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  databaseURL: https://triviaescobar.firebaseio.com
+  AuthKey: AIzaSyCMDm_PBkjWP-evqXw4saW-Ow_54_exUCA
+  idToken: 
+  isDone: 0
 --- !u!1 &677082545
 GameObject:
   m_ObjectHideFlags: 0
@@ -12369,6 +12388,7 @@ MonoBehaviour:
   timeField: {fileID: 1830275713}
   playlistIDField: {fileID: 1021932955}
   tutorial: {fileID: 1401886705}
+  editing: 0
   qline: {fileID: 1902725234218061701, guid: c7ffcb07b5c8fad44a477f4377b076b1, type: 3}
   container: {fileID: 737796061}
   all: []

@@ -12,7 +12,7 @@ public class CapituloEdit : MainScreen
     public InputField playlistIDField;
     public Tutorial tutorial;
     bool sended;
-    bool editing;
+    public bool editing;
     public override void OnEnabled()
     {
         Utils.RemoveAllChildsIn(container);
@@ -67,9 +67,9 @@ public class CapituloEdit : MainScreen
 
 
             if (editing)
-                Data.Instance.serverManager.UpdateData("capitulos", Data.Instance.capitulosData.activeCapitulo.key, d);
+                Data.Instance.firebaseAuthManager.SaveCapitulo(d, Data.Instance.capitulosData.activeCapitulo.key);
             else
-                Data.Instance.serverManager.PushData("capitulos", d);
+                Data.Instance.firebaseAuthManager.SaveCapitulo(d);
 
             Events.OnRefreshTrainingData();
 
@@ -90,7 +90,7 @@ public class CapituloEdit : MainScreen
         sended = true;
 
         TrainingData.Training activeQuestion = Data.Instance.trainingData.activeQuestion;
-        Data.Instance.serverManager.DeleteQuestion(activeQuestion.key);
+        Data.Instance.firebaseAuthManager.DeleteTraining(activeQuestion.key);
 
         Events.OnRefreshTrainingData();
 
