@@ -1,7 +1,6 @@
 # =============== #
 # FIREBASE #
 # =============== #
-Assets/Parse*
 Assets/PlayServicesResolver*
 google-services.json
 google-services-desktop.json
@@ -16,7 +15,6 @@ obj/
 Logs/
 UnityGenerated/
 Library/
-Packages/
 web/
 Assets/AssetStoreTools*
 Assets/Plugins*
