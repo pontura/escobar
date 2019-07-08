@@ -36,15 +36,14 @@ public class RegisterScreen : MainScreen
         {
             debbugField.text = "Enviando datos...";
             Data.Instance.userData.SaveUser(usernameField.text, telField.text);
+            Data.Instance.firebaseAuthManager.OnSaveUserToServer();
+
             if (isNew)
             {
-                Data.Instance.firebaseAuthManager.SignUpUserAnon();
-                //Events.OnFirebaseLogin();
                 LoopTillUserRegistered();
             }
             else
             {
-                Events.OnSaveUserToServer();
                 UI.Instance.screensManager.LoadScreen(1, false);
             }
         }
