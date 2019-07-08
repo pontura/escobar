@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Firebase.Database;
 using System;
 using Proyecto26;
 using FullSerializer;
@@ -37,7 +36,7 @@ public class CapitulosData : MonoBehaviour
     }
     void LoadData()
     {
-        string url = Data.Instance.firebaseAuthManager.databaseURL + "capitulos.json?auth=" + Data.Instance.firebaseAuthManager.idToken;
+        string url = Data.Instance.firebaseAuthManager.databaseURL + "/capitulos.json?auth=" + Data.Instance.firebaseAuthManager.idToken;
         print("_____" + url);
 
         RestClient.Get(url).Then(response =>
@@ -47,11 +46,15 @@ public class CapitulosData : MonoBehaviour
             fsData userData = fsJsonParser.Parse(response.Text);
             Dictionary<string, CapitulosData.Capitulo> caps = null;
             serializer.TryDeserialize(userData, ref caps);
-
+           
             foreach (CapitulosData.Capitulo cap in caps.Values)
+                capitulos.Add( cap);
+
+            int id = 0;
+            foreach (string d in caps.Keys)
             {
-                print(cap.key);
-                capitulos.Add(cap);
+                capitulos[id].key = d;
+                id++;
             }
         }).Catch(error =>
         {

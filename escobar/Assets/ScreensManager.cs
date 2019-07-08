@@ -22,10 +22,20 @@ public class ScreensManager : MonoBehaviour
         }
         ResetAll();
         LoopTillFirebaseDone();
+        if (isAdmin)
+        {
+            Data.Instance.firebaseAuthManager.SignUpUserByEmail("yaguar@gmail.com", "yaguar");
+
+        }
+        else
+        {
+            Data.Instance.firebaseAuthManager.SignUpUserAnon();
+        }
+       
     }
     void LoopTillFirebaseDone()
     {
-        if (Data.Instance.serverManager.isDone)
+        if (Data.Instance.firebaseAuthManager.isDone)
             OnFirebaseDone();
         else
             Invoke("LoopTillFirebaseDone", 0.2f);
@@ -34,7 +44,7 @@ public class ScreensManager : MonoBehaviour
     {       
         if(isAdmin)
         {
-            Data.Instance.serverManager.SignInWithEmailAndPassword("yaguar@gmail.com", "yaguar");
+            //Data.Instance.firebaseAuthManager.SignUpUserByEmail("yaguar@gmail.com", "yaguar");
             LoadScreen(0, true);
             return;
         }
@@ -86,7 +96,6 @@ public class ScreensManager : MonoBehaviour
 	}
 	public void ResetAll()
 	{
-        Debug.Log("ResetAll");
         foreach (MainScreen mainScreen in all) {
 			mainScreen.gameObject.SetActive (false);
 		}

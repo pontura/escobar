@@ -9,7 +9,6 @@ public class SplashScreen : MainScreen
 
     public override void OnInit()
     {
-        Events.OnFirebaseLogin();
         print("Cargando datos del usuario...");
         field.text = "Levantando datos del usuario";
         LoopTillUserLogin();

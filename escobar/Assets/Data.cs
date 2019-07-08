@@ -7,7 +7,7 @@ public class Data : MonoBehaviour {
     static Data mInstance = null;
 
     [HideInInspector]
-    public ServerManager serverManager;
+   // public ServerManager serverManager;
     public JWPlayerData triviaData;
     public UserData userData;
     public CapitulosData capitulosData;
@@ -33,7 +33,7 @@ public class Data : MonoBehaviour {
        // PlayerPrefs.DeleteAll();
         mInstance = this;
 		DontDestroyOnLoad(this);
-        serverManager = GetComponent<ServerManager>();
+      //  serverManager = GetComponent<ServerManager>();
         userData = GetComponent<UserData>();
         trainingData = GetComponent<TrainingData>();
         capitulosData = GetComponent<CapitulosData>();
@@ -51,7 +51,7 @@ public class Data : MonoBehaviour {
             Events.OnNewQuestion(triviaData.GetActualQuestion());
         } else
         {
-            Data.Instance.serverManager.Send();
+            Data.Instance.firebaseAuthManager.Send();
             UI.Instance.screensManager.LoadScreen(4, true);
             Events.OnHideTrivia();
         }
