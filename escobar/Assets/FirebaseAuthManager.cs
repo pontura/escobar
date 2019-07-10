@@ -151,9 +151,19 @@ public class FirebaseAuthManager : MonoBehaviour
     }
     public void DeleteTraining(string trainingKey = "")
     {
-        Debug.Log("_______DEBERIA BORRAR:");
+        Debug.Log("_______DEBERIA BORRAR DeleteTraining:");
+        string url = "https://triviaescobar.firebaseio.com/entrenamiento/" + trainingKey + "/.json?auth=" + idToken;
+        RestClient.Delete(url);
+        print("Update Training url : " + url);
     }
-   
+    public void DeleteCapitulo(string capituloKey = "")
+    {       
+        string url = "https://triviaescobar.firebaseio.com/capitulos/" + capituloKey + "/.json?auth=" + idToken;
+        Debug.Log("_______DEBERIA BORRAR DeleteCapitulo: " + url);
+        RestClient.Delete(url);
+        print("Update Training url : " + url);
+    }
+
 
 
 

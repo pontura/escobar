@@ -7,8 +7,12 @@ public class ResultsAdmin : MainScreen
 {
     public AdminButton adminButton;
     public Transform container;
-    public GameObject isEmptyPanel;
+
+    public GameObject signal;
+    public Text SignalField;
+
     public Text otherField;
+   
 
     public states state;
     public enum states
@@ -21,10 +25,21 @@ public class ResultsAdmin : MainScreen
 
     public override void OnEnabled()
     {
+        Utils.RemoveAllChildsIn(container);
         Data.Instance.capitulosData.OnRefreshCapitulos();
         state = states.ONLY_ACTIVE;
         SetOtherButton();
         Load();
+        signal.SetActive(true);
+        SetSignal("Cargando capítulos...");
+    }
+    void SetSignal(string data)
+    {
+        SignalField.text = data;
+        if (data.Length>0)
+            signal.SetActive(true);
+        else
+            signal.SetActive(false);
     }
     void Load()
     {
@@ -61,9 +76,9 @@ public class ResultsAdmin : MainScreen
             id++;
         }
         if (all.Count == 0)
-            isEmptyPanel.SetActive(true);
+            SetSignal("No hay capítulos...");
         else
-            isEmptyPanel.SetActive(false);
+            SetSignal("");
     }
     void OnClicked(AdminButton button)
     {        

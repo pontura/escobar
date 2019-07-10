@@ -87,7 +87,7 @@ public class QuestionAdmin : MainScreen
         TrainingData.Training activeQuestion = Data.Instance.trainingData.activeQuestion;
         Data.Instance.firebaseAuthManager.DeleteTraining(activeQuestion.key);
 
-        Events.OnRefreshTrainingData();
+        Back();
 
     }
     public override void OnBack()

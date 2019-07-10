@@ -89,11 +89,8 @@ public class CapituloEdit : MainScreen
 
         sended = true;
 
-        TrainingData.Training activeQuestion = Data.Instance.trainingData.activeQuestion;
-        Data.Instance.firebaseAuthManager.DeleteTraining(activeQuestion.key);
-
-        Events.OnRefreshTrainingData();
-
+        Data.Instance.firebaseAuthManager.DeleteCapitulo(Data.Instance.capitulosData.activeCapitulo.key);
+        Back();
     }
     public override void OnBack()
     {
@@ -107,7 +104,17 @@ public class CapituloEdit : MainScreen
 
     void LoadTrivia()
     {
-        
+        if (Data.Instance.triviaData.data == null)
+            Invoke("LoadTrivia", 0.2f);
+        else if (Data.Instance.triviaData.data.playlist == null)
+            Invoke("LoadTrivia", 0.2f);
+        else if (Data.Instance.triviaData.data.playlist.Length == 0)
+            Invoke("LoadTrivia", 0.2f);
+        else
+            Ready();
+    }
+    void Ready()
+    { 
         PlaylistData data = Data.Instance.triviaData.data;
         foreach(PlaylistData.VideoData d in data.playlist)
         {
