@@ -14,12 +14,33 @@ public class ResultsView : MainScreen
 
     public override void OnEnabled()
     {
+        dropDownContent.Clear();
+        dropDown.ClearOptions();
         Utils.RemoveAllChildsIn(container);
         LoopUntilDataLoaded();
-        AddDropdownOptions();
+        capituloTitle.text = "Cargando...";
+    }
+    void LoopUntilDataLoaded()
+    {
+        if (Data.Instance.resultsData.participantes.Count > 0)
+            LoopTillPlaylistReady();
+        else
+            Invoke("LoopUntilDataLoaded", 0.25f);
+    }
+    void LoopTillPlaylistReady()
+    {
+        if (Data.Instance.triviaData.data.playlist.Length > 0)
+            Ready();        
+        else
+            Invoke("LoopTillPlaylistReady", 0.1f);
+    }
+    void Ready()
+    {
+        LoadTotalData();
+        AddDropDown();
         capituloTitle.text = Data.Instance.capitulosData.activeCapitulo.date.ToString();
-    } 
-    void AddDropdownOptions()
+    }
+    void AddDropDown()
     {
         dropDownContent.Clear();
         dropDown.ClearOptions();
@@ -36,7 +57,6 @@ public class ResultsView : MainScreen
     }
     public void OnDropdownValueChange()
     {
-        print(dropDown.value);
         if (dropDown.value > 0)
             LoadDataForQuestion(dropDown.value);
         else
@@ -46,17 +66,11 @@ public class ResultsView : MainScreen
     {
         dropDown.SetValueWithoutNotify(0);
     }
-    void LoopUntilDataLoaded()
-    {
-        if (Data.Instance.resultsData.participantes.Count > 0)
-            LoadTotalData();
-        else
-            Invoke("LoopUntilDataLoaded", 0.25f);
-    }
+    
     void LoadTotalData()
     {
         Utils.RemoveAllChildsIn(container);
-        foreach (ResultsData.Participante data in Data.Instance.resultsData.participantes)
+        foreach (ResultsData.Participante data in Data.Instance.resultsData.GetOrderByScoreGeneral())
         {
             ResultViewLine newLine = Instantiate(line);
             newLine.transform.SetParent(container);
@@ -70,13 +84,14 @@ public class ResultsView : MainScreen
     void LoadDataForQuestion( int questionID )
     {
         Utils.RemoveAllChildsIn(container);
-        foreach (ResultsData.Participante data in Data.Instance.resultsData.participantes)
+        int id = questionID - 1;
+        foreach (ResultsData.Participante data in Data.Instance.resultsData.GetOrderByQuestionScore(id))
         {
             ResultViewLine newLine = Instantiate(line);
             newLine.transform.SetParent(container);
             string uid = data.uid;
-            int respuesta = data.respuestas[questionID-1].respuesta;
-            float timer = data.respuestas[questionID - 1].timer;
+            int respuesta = data.respuestas[id].respuesta;
+            float timer = data.respuestas[id].timer;
             newLine.Init(uid, ResultViewLine.types.SINGLE,  respuesta, timer);
             newLine.transform.transform.localScale = Vector3.one;
         }

@@ -9,6 +9,7 @@ public class TrainingAdmin : MainScreen
 
     public override void OnEnabled()
     {
+        Utils.RemoveAllChildsIn(container);
         Data.Instance.trainingData.OnRefreshTrainingData();
         Load();
     }
