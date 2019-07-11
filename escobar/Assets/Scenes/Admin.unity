@@ -10320,7 +10320,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1093882096}
   m_Layer: 5
-  m_Name: isEmptyPanel
+  m_Name: signal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15501,7 +15501,8 @@ MonoBehaviour:
   adminButton: {fileID: 5587823928378236801, guid: 7bbef9f9a39a51b48aa169316163e1f5,
     type: 3}
   container: {fileID: 1710229314}
-  isEmptyPanel: {fileID: 1093882095}
+  signal: {fileID: 1093882095}
+  SignalField: {fileID: 601039384}
   otherField: {fileID: 1641572278}
   state: 0
   all: []

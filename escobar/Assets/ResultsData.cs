@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using Proyecto26;
 using FullSerializer;
+using System.Linq;
 
 public class ResultsData : MonoBehaviour
 {
@@ -34,7 +35,7 @@ public class ResultsData : MonoBehaviour
         //Events.OnGetServerData(url, OnReady, "score", 100);
         //print("LoadData url: " + url);
 
-        string url = Data.Instance.firebaseAuthManager.databaseURL + "/capitulos_participantes/" + uid + "/participantes.json?auth=" + Data.Instance.firebaseAuthManager.idToken;
+        string url = Data.Instance.firebaseAuthManager.databaseURL + "/capitulos_participantes/" + uid + "/participantes.json?orderBy=\"score\"&limitToLast=3&auth=" + Data.Instance.firebaseAuthManager.idToken;
         print("LoadResultsData _____" + url);
 
         RestClient.Get(url).Then(response =>
@@ -47,7 +48,7 @@ public class ResultsData : MonoBehaviour
 
             foreach (Participante d in results.Values)
             {
-               
+               // print("score: " + d.score);
                 int totalCorrect = 0;
                 float totalTimeCorrect = 0;
                 foreach (Results r in d.respuestas)
@@ -63,13 +64,28 @@ public class ResultsData : MonoBehaviour
                 d.totalTimeCorrect = totalTimeCorrect;
                 participantes.Add(d);
             }
-            participantes.Reverse();
+            participantes = GetOrderByScoreGeneral();
+
+            //foreach (Participante d in participantes)
+            //{
+            //    print("_________score2: " + d.score);
+            //}
         }).Catch(error =>
         {
             Debug.Log(error);
         });
     }
-
+    public List<Participante> GetOrderByScoreGeneral()
+    {
+        participantes = participantes.OrderBy(value => value.score).ToList();
+        participantes.Reverse();
+        return participantes;
+    }
+    public List<Participante> GetOrderByQuestionScore(int questionID)
+    {
+        participantes = participantes.OrderBy(value => value.respuestas[questionID].timer).ToList();
+        return participantes;
+    }
     void OnReady(object snapshot)
     {
         participantes.Clear();
