@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using Proyecto26;
 using FullSerializer;
+using System.Linq;
 
 public class CapitulosData : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class CapitulosData : MonoBehaviour
         public string date;
         public string time;
         public string playlistID;
+        public int dateForOrder;
     }
     public int capituloID = 0;
     public Capitulo activeCapitulo;
@@ -36,7 +38,7 @@ public class CapitulosData : MonoBehaviour
     }
     void LoadData()
     {
-        string url = Data.Instance.firebaseAuthManager.databaseURL + "/capitulos.json?auth=" + Data.Instance.firebaseAuthManager.idToken;
+        string url = Data.Instance.firebaseAuthManager.databaseURL + "/capitulos.json?auth=" + Data.Instance.userData.token;
         print("_____" + url);
 
         RestClient.Get(url).Then(response =>
@@ -46,9 +48,13 @@ public class CapitulosData : MonoBehaviour
             fsData userData = fsJsonParser.Parse(response.Text);
             Dictionary<string, CapitulosData.Capitulo> caps = null;
             serializer.TryDeserialize(userData, ref caps);
-           
+
             foreach (CapitulosData.Capitulo cap in caps.Values)
-                capitulos.Add( cap);
+            {   
+                string dateForOrder = Data.Instance.dateData.GetDayAsString(cap.date);
+                cap.dateForOrder = int.Parse(dateForOrder);
+                capitulos.Add(cap);
+            }
 
             int id = 0;
             foreach (string d in caps.Keys)
@@ -56,11 +62,14 @@ public class CapitulosData : MonoBehaviour
                 capitulos[id].key = d;
                 id++;
             }
+            capitulos = capitulos.OrderBy(data => data.dateForOrder).ToList();
+
         }).Catch(error =>
         {
             Debug.Log(error);
         });
     }
+
    public void OnRefreshCapitulos()
     {
         capitulos.Clear();

@@ -78,6 +78,21 @@ public class DateData : MonoBehaviour
         string[] all = dateString.Split("/"[0]);
         return int.Parse(all[0]);
     }
+    public string GetDayAsString(string dateString)
+    {
+        string[] all = dateString.Split("/"[0]);
+
+        string day = all[0];
+        string month = GetMonth(dateString).ToString();
+        string year = all[2];
+
+        if (day.Length == 1)
+            day = "0" + day;
+        if (month.Length == 1)
+            month = "0" + month;
+
+        return year + month + day;
+    }
     public int GetMonth(string dateString)
     {
         string[] all = dateString.Split("/"[0]);

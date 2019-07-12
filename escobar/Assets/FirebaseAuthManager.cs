@@ -5,6 +5,7 @@ using Proyecto26;
 using UnityEngine;
 using UnityEngine.Serialization;
 using System;
+using UnityEngine.Networking;
 
 public class FirebaseAuthManager : MonoBehaviour
 {
@@ -14,42 +15,81 @@ public class FirebaseAuthManager : MonoBehaviour
     {
         public string localId;
         public string idToken;
+        public string refreshToken;
+    }
+    [Serializable]
+    public class RefreshData
+    {
+        public string refresh_token;
+        public string id_token;
     }
 
     public string databaseURL = "https://triviaescobar.firebaseio.com";
     public string AuthKey = "AIzaSyCMDm_PBkjWP-evqXw4saW-Ow_54_exUCA";
 
-    public string idToken;
-
-    private string getLocalId;
     fsSerializer serializer;
 
     public bool isDone;
 
     void Awake()
     {
-      //  Events.OnFirebaseLogin += OnFirebaseLogin;
         Events.OnGetServerData += OnGetServerData;
-        //Events.OnFirebaseLogin += OnFirebaseLogin;
     }
-    //void OnFirebaseLogin()
-    //{
-    //    //print("OnFirebaseLogin _______anoninmo");
-    //    //SignUpUserAnon();
-    //}
+
+    //    curl 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyCustomToken?key=[API_KEY]' \
+    // 'Content-Type: application/json' \
+    // '{"token":"[CUSTOM_TOKEN]","returnSecureToken":true}'
+    public void VerifyToken()
+    {
+        StartCoroutine(Upload());
+    }
+    IEnumerator Upload()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("grant_type", "refresh_token");
+        form.AddField("refresh_token", Data.Instance.userData.refreshToken);
+
+        form.headers["Content-Type"] = "application/x-www-form-urlencoded";
+        UnityWebRequest www = UnityWebRequest.Post("https://securetoken.googleapis.com/v1/token?key=" + AuthKey, form);
+
+        yield return www.SendWebRequest();
+
+        if (www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            RefreshData response = JsonUtility.FromJson< RefreshData>( www.downloadHandler.text );
+
+            Debug.Log("new id_token    " + response.id_token);
+            Debug.Log("old id_token    " + Data.Instance.userData.token);
+
+            Debug.Log("new refresh_token       " + response.refresh_token);
+            Debug.Log("old freshTokend_token   " + Data.Instance.userData.refreshToken);
+
+            Data.Instance.userData.SaveToken(response.id_token);
+            Data.Instance.userData.SaveRefreshToken(response.refresh_token);
+        }
+    }
+
+
     public void SignUpUserAnon()
     {
-        string userData = "{\"returnSecureToken\":true}";
+        string userData = "{\"uid\":\"" + PlayerPrefs.GetString("uid", "") + "\",\"returnSecureToken\":true}";
         RestClient.Post<SignResponse>("https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=" + AuthKey, userData).Then(
             response =>
-            {                
-                idToken = response.idToken;
+            {
+                Data.Instance.userData.SaveToken(response.idToken);
+                Data.Instance.userData.SaveRefreshToken(response.refreshToken);
+                print("LOGUEADO localId: " + response.localId);
                 if (Data.Instance.userData.userDataInDatabase.uid.Length == 0)
                 {
                     Data.Instance.userData.SaveUiD(response.localId);
                     OnSaveUserToServer();
                 }
                 isDone = true;
+                GetServerTime();
             }).Catch(error =>
             {
                 Debug.Log(error);
@@ -62,7 +102,7 @@ public class FirebaseAuthManager : MonoBehaviour
         RestClient.Post<SignResponse>("https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=" + AuthKey, userData).Then(
             response =>
             {
-                idToken = response.idToken;
+                Data.Instance.userData.SaveToken(response.idToken);
                 if (Data.Instance.userData.userDataInDatabase.uid.Length == 0)
                 {
                     Data.Instance.userData.SaveUiD(response.localId);
@@ -79,13 +119,13 @@ public class FirebaseAuthManager : MonoBehaviour
     public void OnSaveUserToServer()
     {
         UserData.UserDataInDatabase userData = Data.Instance.userData.userDataInDatabase;
-        string url = "https://triviaescobar.firebaseio.com/usuarios/" + userData.uid + "/.json?auth=" + idToken;
+        string url = "https://triviaescobar.firebaseio.com/usuarios/" + userData.uid + "/.json?auth=" + Data.Instance.userData.token;
         RestClient.Put(url, userData);
         print("OnSaveUserDate url : " + url);
     }
     public void OnGetServerData(string childName, System.Action<object> OnReady, string orderby = "", int limitToLast = 1000)
     {
-        RestClient.Get<CapitulosData.Capitulo>(databaseURL + "/" + childName + ".json?auth=" + idToken).Then(response =>
+        RestClient.Get<CapitulosData.Capitulo>(databaseURL + "/" + childName + ".json?auth=" + Data.Instance.userData.token).Then(response =>
         {
             return response;
         });
@@ -111,7 +151,7 @@ public class FirebaseAuthManager : MonoBehaviour
         string capituloKey = Data.Instance.capitulosData.activeCapitulo.key;
         // reference.Child("capitulos_participantes").Child(Data.Instance.capitulosData.activeCapitulo.key).Child("participantes").Child(Data.Instance.userData.userDataInDatabase.uid).SetRawJsonValueAsync(json);
 
-        string url = "https://triviaescobar.firebaseio.com/capitulos_participantes/" + Data.Instance.capitulosData.activeCapitulo.key + "/participantes/" + Data.Instance.userData.userDataInDatabase.uid + "/.json?auth=" + idToken;
+        string url = "https://triviaescobar.firebaseio.com/capitulos_participantes/" + Data.Instance.capitulosData.activeCapitulo.key + "/participantes/" + Data.Instance.userData.userDataInDatabase.uid + "/.json?auth=" + Data.Instance.userData.token;
         RestClient.Put(url, data);
 
         Data.Instance.userData.SaveLastChapterPlayed();
@@ -121,13 +161,13 @@ public class FirebaseAuthManager : MonoBehaviour
         //Push:
         if (capituloKey == "")
         {
-            string url = "https://triviaescobar.firebaseio.com/capitulos.json?auth=" + idToken;
+            string url = "https://triviaescobar.firebaseio.com/capitulos.json?auth=" + Data.Instance.userData.token;
             RestClient.Post(url, capitulo);
         }
         //Update:
         else
         {
-            string url = "https://triviaescobar.firebaseio.com/capitulos/" + capituloKey + "/.json?auth=" + idToken;
+            string url = "https://triviaescobar.firebaseio.com/capitulos/" + capituloKey + "/.json?auth=" + Data.Instance.userData.token;
             RestClient.Put(url, capitulo);
             print("Update Capitulo url : " + url);
         }
@@ -137,14 +177,14 @@ public class FirebaseAuthManager : MonoBehaviour
         //Push:
         if (key == "")
         {
-            string url = "https://triviaescobar.firebaseio.com/entrenamiento.json?auth=" + idToken;
+            string url = "https://triviaescobar.firebaseio.com/entrenamiento.json?auth=" + Data.Instance.userData.token;
             RestClient.Post(url, question);
             print("SaveTraining url : " + url);
         }
         //Update:
         else
         {
-            string url = "https://triviaescobar.firebaseio.com/entrenamiento/" + key + "/.json?auth=" + idToken;
+            string url = "https://triviaescobar.firebaseio.com/entrenamiento/" + key + "/.json?auth=" + Data.Instance.userData.token;
             RestClient.Put(url, question);
             print("Update Training url : " + url);
         }
@@ -152,18 +192,27 @@ public class FirebaseAuthManager : MonoBehaviour
     public void DeleteTraining(string trainingKey = "")
     {
         Debug.Log("_______DEBERIA BORRAR DeleteTraining:");
-        string url = "https://triviaescobar.firebaseio.com/entrenamiento/" + trainingKey + "/.json?auth=" + idToken;
+        string url = "https://triviaescobar.firebaseio.com/entrenamiento/" + trainingKey + "/.json?auth=" + Data.Instance.userData.token;
         RestClient.Delete(url);
         print("Update Training url : " + url);
     }
     public void DeleteCapitulo(string capituloKey = "")
     {       
-        string url = "https://triviaescobar.firebaseio.com/capitulos/" + capituloKey + "/.json?auth=" + idToken;
+        string url = "https://triviaescobar.firebaseio.com/capitulos/" + capituloKey + "/.json?auth=" + Data.Instance.userData.token;
         Debug.Log("_______DEBERIA BORRAR DeleteCapitulo: " + url);
         RestClient.Delete(url);
         print("Update Training url : " + url);
     }
-
+    public void GetServerTime()
+    {
+        RestClient.Get("https://triviaescobar.firebaseio.com/.info/serverTimeOffset.json?auth=" + Data.Instance.userData.token).Then(response =>
+        {
+            print("________servertime: " + response);
+        }).Catch(error =>
+        {
+            Debug.Log(error);
+        });
+    }
 
 
 
@@ -223,7 +272,7 @@ public class FirebaseAuthManager : MonoBehaviour
         RestClient.Post<SignResponse>("https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=" + AuthKey, userData).Then(
             response =>
             {
-                idToken = response.idToken;
+              //  idToken = response.idToken;
               //  user.localId = response.localId;
                 GetUsername();
             }).Catch(error =>
@@ -242,40 +291,31 @@ public class FirebaseAuthManager : MonoBehaviour
 
     private void GetLocalId()
     {
-        RestClient.Get(databaseURL + ".json?auth=" + idToken).Then(response =>
-        {
-         //   string username = user.username;
+        //RestClient.Get(databaseURL + ".json?auth=" + idToken).Then(response =>
+        //{
+        // //   string username = user.username;
 
-            fsData userData = fsJsonParser.Parse(response.Text);
-            //Dictionary<string, User> users = null;
-            //serializer.TryDeserialize(userData, ref users);
+        //    fsData userData = fsJsonParser.Parse(response.Text);
+        //    //Dictionary<string, User> users = null;
+        //    //serializer.TryDeserialize(userData, ref users);
 
-            //foreach (User user in users.Values)
-            //{
-            //    if (user.username == username)
-            //    {
-            //        getLocalId = user.localId;
-            //        RetrieveFromDatabase();
-            //        break;
-            //    }
-            //}
+        //    //foreach (User user in users.Values)
+        //    //{
+        //    //    if (user.username == username)
+        //    //    {
+        //    //        getLocalId = user.localId;
+        //    //        RetrieveFromDatabase();
+        //    //        break;
+        //    //    }
+        //    //}
 
 
-        }).Catch(error =>
-        {
-            Debug.Log(error);
-        });
+        //}).Catch(error =>
+        //{
+        //    Debug.Log(error);
+        //});
     }
-    public void GetServerTime()
-    {
-        RestClient.Get("https://triviaescobar.firebaseio.com/.info/serverTimeOffset.json?auth=" + idToken).Then(response =>
-        {
-            print("servertime: " + response);
-        }).Catch(error =>
-        {
-            Debug.Log(error);
-        });
-    }
+
     void PostScore()
     {
         //User user = new User();

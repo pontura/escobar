@@ -12,7 +12,8 @@ public class UserData : MonoBehaviour
    // public string deviceID;
     public List<AnswersData> answers;
     public UserDataInDatabase userDataInDatabase;
-
+    public string token;
+    public string refreshToken;
     [Serializable]
     public class UserDataInDatabase
     {
@@ -20,6 +21,7 @@ public class UserData : MonoBehaviour
         public string tel;
         public string uid;
         public string deviceID;
+        
     }
 
     [Serializable]
@@ -36,6 +38,8 @@ public class UserData : MonoBehaviour
         userDataInDatabase.tel = PlayerPrefs.GetString("tel", "");
         userDataInDatabase.deviceID = PlayerPrefs.GetString("deviceID", "");
         userDataInDatabase.uid = PlayerPrefs.GetString("uid", "");
+        token = PlayerPrefs.GetString("token", "");
+        refreshToken = PlayerPrefs.GetString("refreshToken", "");
     }
     public bool IsLogged()
     {
@@ -53,6 +57,16 @@ public class UserData : MonoBehaviour
         PlayerPrefs.SetString("username", userDataInDatabase.username);
         PlayerPrefs.SetString("tel", userDataInDatabase.tel);
        
+    }
+    public void SaveToken(string token)
+    {
+        PlayerPrefs.SetString("token", token);
+        this.token = token;
+    }
+    public void SaveRefreshToken(string token)
+    {
+        PlayerPrefs.SetString("refreshToken", token);
+        this.refreshToken = token;
     }
     public void SaveUiD(string uid)
     {
