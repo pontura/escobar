@@ -61,7 +61,7 @@ public class TrainingData : MonoBehaviour
         if (!UI.Instance.screensManager.isAdmin)
             LoopToLoadOldTrivias();
 
-        string url = Data.Instance.firebaseAuthManager.databaseURL + "/entrenamiento.json?auth=" + Data.Instance.firebaseAuthManager.idToken;
+        string url = Data.Instance.firebaseAuthManager.databaseURL + "/entrenamiento.json?auth=" + Data.Instance.userData.token;
       //  print("_____" + url);
 
         RestClient.Get(url).Then(response =>

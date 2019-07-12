@@ -26,7 +26,10 @@ public class ScreensManager : MonoBehaviour
         {
             Data.Instance.firebaseAuthManager.SignUpUserByEmail("yaguar@gmail.com", "yaguar");
         }
-        else
+        else if(Data.Instance.userData.token != "")
+        {
+            Data.Instance.firebaseAuthManager.VerifyToken();
+        } else
         {
             Data.Instance.firebaseAuthManager.SignUpUserAnon();
         }

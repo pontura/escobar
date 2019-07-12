@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class CapitulosAdmin : MainScreen
 {
     public AdminButton adminButton;
+    public MonthSignal monthSignal;
+
     public Transform container;
     public GameObject isEmptyPanel;
     public Text otherField;
@@ -37,6 +39,7 @@ public class CapitulosAdmin : MainScreen
             DrawData();
         }
     }
+    
     void DrawData()
     {
         CancelInvoke();
@@ -44,6 +47,7 @@ public class CapitulosAdmin : MainScreen
         int id = 0;
         all.Clear();
         Utils.RemoveAllChildsIn(container);
+       
         foreach (CapitulosData.Capitulo c in Data.Instance.capitulosData.capitulos)
         {
             if (
@@ -51,11 +55,13 @@ public class CapitulosAdmin : MainScreen
                 ||
                 state == states.ALL
                 )
-            { 
-                AdminButton button = Instantiate(adminButton);
-                button.transform.SetParent(container);
-                button.transform.localScale = Vector3.one;
-                button.Init(id, c.date + " " + c.time + "hs", OnClicked);                
+            {
+
+                CheckAddMonth(c.date);
+
+                AdminButton button = Instantiate(adminButton);              
+                button.Init(id, c.date + " " + c.time + "hs", OnClicked);
+                AddGameObject(button.gameObject);
                 all.Add(button);
             }
             id++;
@@ -64,6 +70,25 @@ public class CapitulosAdmin : MainScreen
             isEmptyPanel.SetActive(true);
         else
             isEmptyPanel.SetActive(false);
+    }
+
+    int lastMonth = -1;
+    void CheckAddMonth(string date)
+    {
+        int newMonth = Data.Instance.dateData.GetMonth(date);
+        if (newMonth == lastMonth)
+            return;
+        lastMonth = newMonth;
+        MonthSignal ms = Instantiate(monthSignal);
+        ms.Init(Data.Instance.dateData.monthList[newMonth-1]);
+        AddGameObject(ms.gameObject);
+    }
+
+
+    void AddGameObject(GameObject go)
+    {
+        go.transform.SetParent(container);
+        go.transform.localScale = Vector3.one;        
     }
     void OnClicked(AdminButton button)
     {

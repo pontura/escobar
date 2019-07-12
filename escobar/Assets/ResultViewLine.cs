@@ -51,7 +51,7 @@ public class ResultViewLine : MonoBehaviour
         //tData.username = dataDictiontary["username"].ToString();
         //Events.OnUserBasicData(tData);
 
-        string url = Data.Instance.firebaseAuthManager.databaseURL + "/usuarios.json?auth=" + Data.Instance.firebaseAuthManager.idToken;
+        string url = Data.Instance.firebaseAuthManager.databaseURL + "/usuarios.json?auth=" + Data.Instance.userData.token;
         print("LoadResultsData _____" + url);
 
         RestClient.Get(url).Then(response =>
