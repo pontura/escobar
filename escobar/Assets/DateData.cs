@@ -25,6 +25,13 @@ public class DateData : MonoBehaviour
 
         monthList = new List<string> { "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic" };
         yearList = new List<string> { "2019", "2020", "2021", "2022", "2023" };
+
+        Events.OnResetApp += OnResetApp;
+    }
+    void OnResetApp()
+    {
+        dateTime = new System.DateTime();
+        GetRealTime();
     }
     public void GetRealTime()
     {

@@ -22,6 +22,7 @@ public class VideoPlayerManager : MonoBehaviour {
 
     PlaylistData.Sources[] sources;
     int sourcesIndex;
+    int timeoutTrivia = 10;
 
     void Start() {
         Events.OnNewQuestion += OnNewQuestion;
@@ -32,7 +33,6 @@ public class VideoPlayerManager : MonoBehaviour {
     }
 
     void ErrorReceived(VideoPlayer vp, string message) {
-        Debug.Log("ERROR");
         Debug.Log(message);
         playing = false;
         Events.OnVideoError();
@@ -114,7 +114,7 @@ public class VideoPlayerManager : MonoBehaviour {
         if (triviaShowed)
             return;      
        // print("CheckTime: " + _time +  " duration " + data.duration);
-        if (_time > data.duration - 4)
+        if (_time > data.duration - timeoutTrivia)
         {
             triviaShowed = true;
             Events.OnShowTrivia();

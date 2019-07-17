@@ -24,8 +24,8 @@ public class FirebaseAuthManager : MonoBehaviour
         public string id_token;
     }
 
-    public string databaseURL = "https://triviaescobar.firebaseio.com";
-    public string AuthKey = "AIzaSyCMDm_PBkjWP-evqXw4saW-Ow_54_exUCA";
+    public string databaseURL;
+    public string AuthKey;
 
     fsSerializer serializer;
 
@@ -70,6 +70,8 @@ public class FirebaseAuthManager : MonoBehaviour
 
             Data.Instance.userData.SaveToken(response.id_token);
             Data.Instance.userData.SaveRefreshToken(response.refresh_token);
+
+            isDone = true;
         }
     }
 
@@ -119,7 +121,7 @@ public class FirebaseAuthManager : MonoBehaviour
     public void OnSaveUserToServer()
     {
         UserData.UserDataInDatabase userData = Data.Instance.userData.userDataInDatabase;
-        string url = "https://triviaescobar.firebaseio.com/usuarios/" + userData.uid + "/.json?auth=" + Data.Instance.userData.token;
+        string url = databaseURL + "/usuarios/" + userData.uid + "/.json?auth=" + Data.Instance.userData.token;
         RestClient.Put(url, userData);
         print("OnSaveUserDate url : " + url);
     }
@@ -151,7 +153,7 @@ public class FirebaseAuthManager : MonoBehaviour
         string capituloKey = Data.Instance.capitulosData.activeCapitulo.key;
         // reference.Child("capitulos_participantes").Child(Data.Instance.capitulosData.activeCapitulo.key).Child("participantes").Child(Data.Instance.userData.userDataInDatabase.uid).SetRawJsonValueAsync(json);
 
-        string url = "https://triviaescobar.firebaseio.com/capitulos_participantes/" + Data.Instance.capitulosData.activeCapitulo.key + "/participantes/" + Data.Instance.userData.userDataInDatabase.uid + "/.json?auth=" + Data.Instance.userData.token;
+        string url = databaseURL + "/capitulos_participantes/" + Data.Instance.capitulosData.activeCapitulo.key + "/participantes/" + Data.Instance.userData.userDataInDatabase.uid + "/.json?auth=" + Data.Instance.userData.token;
         RestClient.Put(url, data);
 
         Data.Instance.userData.SaveLastChapterPlayed();
@@ -161,13 +163,13 @@ public class FirebaseAuthManager : MonoBehaviour
         //Push:
         if (capituloKey == "")
         {
-            string url = "https://triviaescobar.firebaseio.com/capitulos.json?auth=" + Data.Instance.userData.token;
+            string url = databaseURL + "/capitulos.json?auth=" + Data.Instance.userData.token;
             RestClient.Post(url, capitulo);
         }
         //Update:
         else
         {
-            string url = "https://triviaescobar.firebaseio.com/capitulos/" + capituloKey + "/.json?auth=" + Data.Instance.userData.token;
+            string url = databaseURL + "/capitulos/" + capituloKey + "/.json?auth=" + Data.Instance.userData.token;
             RestClient.Put(url, capitulo);
             print("Update Capitulo url : " + url);
         }
@@ -177,14 +179,14 @@ public class FirebaseAuthManager : MonoBehaviour
         //Push:
         if (key == "")
         {
-            string url = "https://triviaescobar.firebaseio.com/entrenamiento.json?auth=" + Data.Instance.userData.token;
+            string url = databaseURL + "/entrenamiento.json?auth=" + Data.Instance.userData.token;
             RestClient.Post(url, question);
             print("SaveTraining url : " + url);
         }
         //Update:
         else
         {
-            string url = "https://triviaescobar.firebaseio.com/entrenamiento/" + key + "/.json?auth=" + Data.Instance.userData.token;
+            string url = databaseURL + "/entrenamiento/" + key + "/.json?auth=" + Data.Instance.userData.token;
             RestClient.Put(url, question);
             print("Update Training url : " + url);
         }
@@ -192,20 +194,20 @@ public class FirebaseAuthManager : MonoBehaviour
     public void DeleteTraining(string trainingKey = "")
     {
         Debug.Log("_______DEBERIA BORRAR DeleteTraining:");
-        string url = "https://triviaescobar.firebaseio.com/entrenamiento/" + trainingKey + "/.json?auth=" + Data.Instance.userData.token;
+        string url = databaseURL + "/entrenamiento/" + trainingKey + "/.json?auth=" + Data.Instance.userData.token;
         RestClient.Delete(url);
         print("Update Training url : " + url);
     }
     public void DeleteCapitulo(string capituloKey = "")
     {       
-        string url = "https://triviaescobar.firebaseio.com/capitulos/" + capituloKey + "/.json?auth=" + Data.Instance.userData.token;
+        string url = databaseURL + "/capitulos/" + capituloKey + "/.json?auth=" + Data.Instance.userData.token;
         Debug.Log("_______DEBERIA BORRAR DeleteCapitulo: " + url);
         RestClient.Delete(url);
         print("Update Training url : " + url);
     }
     public void GetServerTime()
     {
-        RestClient.Get("https://triviaescobar.firebaseio.com/.info/serverTimeOffset.json?auth=" + Data.Instance.userData.token).Then(response =>
+        RestClient.Get(databaseURL + "/.info/serverTimeOffset.json?auth=" + Data.Instance.userData.token).Then(response =>
         {
             print("________servertime: " + response);
         }).Catch(error =>
