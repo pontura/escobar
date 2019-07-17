@@ -56,7 +56,7 @@ public class UserData : MonoBehaviour
         PlayerPrefs.SetString("deviceID", userDataInDatabase.deviceID);
         PlayerPrefs.SetString("username", userDataInDatabase.username);
         PlayerPrefs.SetString("tel", userDataInDatabase.tel);
-       
+
     }
     public void SaveToken(string token)
     {

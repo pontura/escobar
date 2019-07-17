@@ -36,7 +36,7 @@ public class RegisterScreen : MainScreen
         {
             debbugField.text = "Enviando datos...";
             Data.Instance.userData.SaveUser(usernameField.text, telField.text);
-            Data.Instance.firebaseAuthManager.OnSaveUserToServer();
+            
 
             if (isNew)
             {
@@ -44,6 +44,7 @@ public class RegisterScreen : MainScreen
             }
             else
             {
+                Data.Instance.firebaseAuthManager.OnSaveUserToServer();
                 UI.Instance.screensManager.LoadScreen(1, false);
             }
         }
@@ -63,6 +64,7 @@ public class RegisterScreen : MainScreen
         {
            // Data.Instance.serverManager.SaveUserData();
             UI.Instance.screensManager.LoadScreen(0, true);
+            Data.Instance.firebaseAuthManager.OnSaveUserToServer();
         }
     }
 }
