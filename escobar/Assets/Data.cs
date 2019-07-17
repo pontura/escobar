@@ -30,7 +30,7 @@ public class Data : MonoBehaviour {
         }
     }
 	void Awake () {
-       // PlayerPrefs.DeleteAll();
+        PlayerPrefs.DeleteAll();
         mInstance = this;
 		DontDestroyOnLoad(this);
       //  serverManager = GetComponent<ServerManager>();

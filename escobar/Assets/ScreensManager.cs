@@ -114,13 +114,5 @@ public class ScreensManager : MonoBehaviour
             LoadScreen(0, true);
         }
     }
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.A))
-        {
-            Events.OnResetApp();
-            LoadScreen(0, true);
-        }
-    }
 
 }
