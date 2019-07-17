@@ -35,7 +35,7 @@ public class ResultsData : MonoBehaviour
         //Events.OnGetServerData(url, OnReady, "score", 100);
         //print("LoadData url: " + url);
 
-        string url = Data.Instance.firebaseAuthManager.databaseURL + "/capitulos_participantes/" + uid + "/participantes.json?orderBy=\"score\"&limitToLast=3&auth=" + Data.Instance.userData.token;
+        string url = Data.Instance.firebaseAuthManager.databaseURL + "/capitulos_participantes/" + uid + "/participantes.json?orderBy=\"score\"&limitToLast=100&auth=" + Data.Instance.userData.token;
         print("LoadResultsData _____" + url);
 
         RestClient.Get(url).Then(response =>

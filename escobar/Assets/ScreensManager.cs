@@ -11,6 +11,7 @@ public class ScreensManager : MonoBehaviour
     public bool isAdmin;
     public float timeToTransition = 1;
     bool loading;
+    int id;
 
     void Start()
     {
@@ -65,6 +66,7 @@ public class ScreensManager : MonoBehaviour
     }
 	public void LoadScreen(int id, bool isRight)
 	{
+        this.id = id;
         Debug.Log("LoadScreen " + id + " loading: " + loading + " activeScreen: " + activeScreen);
 
         if (loading)
@@ -102,5 +104,23 @@ public class ScreensManager : MonoBehaviour
 			mainScreen.gameObject.SetActive (false);
 		}
 	}
+    void OnApplicationFocus(bool pauseStatus)
+    {
+        if (Time.time < 2 || !Data.Instance.firebaseAuthManager.isDone)
+            return;
+        if(id==1 && pauseStatus)
+        {
+            Events.OnResetApp();
+            LoadScreen(0, true);
+        }
+    }
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.A))
+        {
+            Events.OnResetApp();
+            LoadScreen(0, true);
+        }
+    }
 
 }

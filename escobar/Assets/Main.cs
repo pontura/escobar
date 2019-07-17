@@ -8,6 +8,7 @@ public class Main : MainScreen
 {
     public GameObject triviaOn;
     public GameObject triviaOff;
+    public GameObject liveStreaming;
 
     public Text title;
     public Text field;
@@ -31,13 +32,14 @@ public class Main : MainScreen
     {
         CapitulosData.Capitulo cap = Data.Instance.capitulosData.GetActual();
 
-       // print(Data.Instance.capitulosData.activeCapitulo.key + " --------------- " + Data.Instance.userData.lastChapterPlayedKey);
+        // print(Data.Instance.capitulosData.activeCapitulo.key + " --------------- " + Data.Instance.userData.lastChapterPlayedKey);
+        triviaOn.SetActive(false);
+        triviaOff.SetActive(false);
+        liveStreaming.SetActive(false);
 
         if (cap == null)
-        {
-            triviaOn.SetActive(false);
+        {            
             triviaOff.SetActive(true);
-
             title.text = "HOY NO HAY DESAFÍO";
             CapitulosData.Capitulo newCap = Data.Instance.capitulosData.GetNext();
             if (newCap == null)
@@ -49,16 +51,27 @@ public class Main : MainScreen
             field.text = "Próx: " + date;
         } else if (Data.Instance.capitulosData.activeCapitulo.key == Data.Instance.userData.lastChapterPlayedKey)
         {
-            triviaOn.SetActive(false);
-            triviaOff.SetActive(true);
+            string timeLive = Data.Instance.capitulosData.activeCapitulo.time;
 
-            title.text = "¡Ya jugaste!";
-            field.text = "La transmisión es a las " + Data.Instance.capitulosData.activeCapitulo.time + " hs.";
+            if (Data.Instance.dateData.dateTime.Hour.ToString() == timeLive)
+            {
+                liveStreaming.SetActive(true);
+            }
+            else
+            {
+                triviaOff.SetActive(true);
+                title.text = "¡Ya jugaste!";
+                if (int.Parse(Data.Instance.capitulosData.activeCapitulo.time) < Data.Instance.dateData.dateTime.Hour)
+                {
+                    field.text = "La transmisión finalizó.";
+                } else {
+                    field.text = "La transmisión es a las " + Data.Instance.capitulosData.activeCapitulo.time + " hs.";
+                }
+            }
         }
         else
         {
             triviaOn.SetActive(true);
-            triviaOff.SetActive(false);
         } 
     }
     public void StartTrivia()
@@ -78,6 +91,6 @@ public class Main : MainScreen
     }
     public void OpenLiveStreaming()
     {
-        Application.OpenURL("https://cdn.jwplayer.com/players/TbyzAAY8-fLxG4ObU.html");
+        Application.OpenURL("https://triviaescobar.web.app/");
     }
 }
