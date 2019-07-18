@@ -5629,6 +5629,7 @@ MonoBehaviour:
     username: 
     tel: 
     uid: 
+    edad: 
     deviceID: 
   token: 
   refreshToken: 
@@ -9568,6 +9569,7 @@ RectTransform:
   - {fileID: 1601634877}
   - {fileID: 1401181967}
   - {fileID: 322020962}
+  - {fileID: 1889221569}
   m_Father: {fileID: 181487120}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9592,6 +9594,7 @@ MonoBehaviour:
   telField: {fileID: 1601634878}
   totalOKField: {fileID: 1401181968}
   timerField: {fileID: 322020963}
+  edadField: {fileID: 0}
   uid: 
   value: 0
   timer: 0
@@ -16677,6 +16680,85 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1880243656}
   m_CullTransparentMesh: 0
+--- !u!1 &1889221568
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1889221569}
+  - component: {fileID: 1889221571}
+  - component: {fileID: 1889221570}
+  m_Layer: 5
+  m_Name: TIEMPO (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1889221569
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1889221568}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1024936088}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 384, y: 1.5900574}
+  m_SizeDelta: {x: -421.3, y: -3.199997}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1889221570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1889221568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.25031152, g: 0.7075472, b: 0.66778755, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, Unity.ugui,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 7ce7f47ab9de3414f847810cdcec4fdf, type: 3}
+    m_FontSize: 19
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 35
+    m_Alignment: 3
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Edad
+--- !u!222 &1889221571
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1889221568}
+  m_CullTransparentMesh: 0
 --- !u!1 &1908406302
 GameObject:
   m_ObjectHideFlags: 0
@@ -18678,22 +18760,22 @@ PrefabInstance:
     - target: {fileID: 3657354733781583265, guid: 3d1a640963c89fd46b905f87f1f0f1d2,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 342.27002
+      value: 356.36774
       objectReference: {fileID: 0}
     - target: {fileID: 3657354733781583265, guid: 3d1a640963c89fd46b905f87f1f0f1d2,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -36.34
+      value: -26
       objectReference: {fileID: 0}
     - target: {fileID: 3657354733781583265, guid: 3d1a640963c89fd46b905f87f1f0f1d2,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 684.54004
+      value: 712.7355
       objectReference: {fileID: 0}
     - target: {fileID: 3657354733781583265, guid: 3d1a640963c89fd46b905f87f1f0f1d2,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 36.34
+      value: 26
       objectReference: {fileID: 0}
     - target: {fileID: 3657354733781583265, guid: 3d1a640963c89fd46b905f87f1f0f1d2,
         type: 3}
