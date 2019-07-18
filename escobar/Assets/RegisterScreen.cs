@@ -22,11 +22,13 @@ public class RegisterScreen : MainScreen
             isNew = true;
 
         if (!isNew)
+        {
             usernameField.text = Data.Instance.userData.userDataInDatabase.username;
-        if (Data.Instance.userData.userDataInDatabase.tel.Length > 1)
-            telField.text = Data.Instance.userData.userDataInDatabase.tel;
-        if (Data.Instance.userData.userDataInDatabase.edad.Length > 0)
-            edadField.text = Data.Instance.userData.userDataInDatabase.edad;
+            if (Data.Instance.userData.userDataInDatabase.tel.Length > 1)
+                telField.text = Data.Instance.userData.userDataInDatabase.tel;
+            if (Data.Instance.userData.userDataInDatabase.edad.Length > 0)
+                edadField.text = Data.Instance.userData.userDataInDatabase.edad;
+        }
     }
     public void Register()
     {
@@ -40,15 +42,17 @@ public class RegisterScreen : MainScreen
         else
         {
             debbugField.text = "Enviando datos...";
-            Data.Instance.userData.SaveUser(usernameField.text, telField.text, edadField.text);
+            //
             
 
             if (isNew)
             {
+                Data.Instance.firebaseAuthManager.SignUpUserAnon();
                 LoopTillUserRegistered();
             }
             else
             {
+                Data.Instance.userData.SaveUser(usernameField.text, telField.text, edadField.text);
                 Data.Instance.firebaseAuthManager.OnSaveUserToServer();
                 UI.Instance.screensManager.LoadScreen(1, false);
             }
@@ -67,9 +71,10 @@ public class RegisterScreen : MainScreen
         }
         else
         {
-           // Data.Instance.serverManager.SaveUserData();
-            UI.Instance.screensManager.LoadScreen(0, true);
+            Data.Instance.userData.SaveUser(usernameField.text, telField.text, edadField.text);
             Data.Instance.firebaseAuthManager.OnSaveUserToServer();
+            UI.Instance.screensManager.LoadScreen(0, true);
+           
         }
     }
 }

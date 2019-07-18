@@ -10,7 +10,7 @@ public class ScreensManager : MonoBehaviour
 	MainScreen lastActiveScreen;
     public bool isAdmin;
     public float timeToTransition = 1;
-    bool loading;
+    public bool loading;
     int id;
 
     void Start()
@@ -32,7 +32,9 @@ public class ScreensManager : MonoBehaviour
             Data.Instance.firebaseAuthManager.VerifyToken();
         } else
         {
-            Data.Instance.firebaseAuthManager.SignUpUserAnon();
+            // Data.Instance.firebaseAuthManager.SignUpUserAnon();
+            Debug.Log("Abre Register");
+            LoadScreen(3, true);
         }
        
     }
@@ -55,8 +57,8 @@ public class ScreensManager : MonoBehaviour
 
         if (!logged)
         {
-            Debug.Log("Abre Register");
-            LoadScreen(3, true);
+           // Debug.Log("Abre Register");
+           // LoadScreen(3, true);
         }
         else
         {
