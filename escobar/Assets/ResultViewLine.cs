@@ -11,6 +11,8 @@ public class ResultViewLine : MonoBehaviour
     public Text telField;
     public Text totalOKField;
     public Text timerField;
+    public Text edadField;
+
     public string uid;
     public int value;
     public float timer;
@@ -85,6 +87,8 @@ public class ResultViewLine : MonoBehaviour
 
         usernameField.text = data.username;
         telField.text = data.tel;
+        edadField.text = data.edad;
+
         if (type == types.ALL)
             totalOKField.text = value.ToString();
         else

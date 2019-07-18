@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class RegisterScreen : MainScreen
 {
     public InputField usernameField;
+    public InputField edadField;
     public InputField telField;
     public Text debbugField;
     bool isNew;
@@ -24,18 +25,22 @@ public class RegisterScreen : MainScreen
             usernameField.text = Data.Instance.userData.userDataInDatabase.username;
         if (Data.Instance.userData.userDataInDatabase.tel.Length > 1)
             telField.text = Data.Instance.userData.userDataInDatabase.tel;
+        if (Data.Instance.userData.userDataInDatabase.edad.Length > 0)
+            edadField.text = Data.Instance.userData.userDataInDatabase.edad;
     }
     public void Register()
     {
         CancelInvoke();
         if (usernameField.text.Length < 2)
             debbugField.text = "Agrega un nombre real";
+        if (edadField.text == "")
+            edadField.text = "Agrega tu edad";
         else if (telField.text.Length < 8)
             debbugField.text = "Agrega un teléfono real";
         else
         {
             debbugField.text = "Enviando datos...";
-            Data.Instance.userData.SaveUser(usernameField.text, telField.text);
+            Data.Instance.userData.SaveUser(usernameField.text, telField.text, edadField.text);
             
 
             if (isNew)
