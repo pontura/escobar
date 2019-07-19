@@ -1,0 +1,41 @@
+fileFormatVersion: 2
+guid: eb38afa77981f314bafeb16ee8959e7d
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: DIN Next LT Pro
+  fontNames:
+  - DIN Next LT Pro
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: b2c23d70b0bccbe48810e324cd655e3c, type: 3}
+  - {fileID: 12800000, guid: 3e793bb01828da945ba5df71eea92dff, type: 3}
+  - {fileID: 12800000, guid: 1e17311146c433242acdb859d0ba7945, type: 3}
+  - {fileID: 12800000, guid: 6bb70951b88496440bb3d02076c4bdb3, type: 3}
+  - {fileID: 12800000, guid: 0169983629954694bb10fe1b1cb96c44, type: 3}
+  - {fileID: 12800000, guid: 8a4eb0768d531734a86354d333206d44, type: 3}
+  - {fileID: 12800000, guid: 743503e6bfbf41747b8e5629984f3a5d, type: 3}
+  - {fileID: 12800000, guid: 6bb4fae663ebe08438310d570dcd703c, type: 3}
+  - {fileID: 12800000, guid: 4d22932744d6ac0469ab4b3a0102f0ce, type: 3}
+  - {fileID: 12800000, guid: 4cec51984726b014ca308429baf42a30, type: 3}
+  - {fileID: 12800000, guid: c5e99a9aa99c50e48abd20e5b4b669bc, type: 3}
+  - {fileID: 12800000, guid: e29af0cabd459424e80ae887f272467f, type: 3}
+  - {fileID: 12800000, guid: de18d7fa9d19949429fd8a92f683a68a, type: 3}
+  - {fileID: 12800000, guid: c5afde1b30b09124cb3f9bf4f317ccad, type: 3}
+  - {fileID: 12800000, guid: 0dd7cc2bbf7c69947bb215a5c415246f, type: 3}
+  - {fileID: 12800000, guid: 02c2a14b82db67e41b42a1d7c528c702, type: 3}
+  - {fileID: 12800000, guid: 9b9b5dfc2180af742a2344863e5051d0, type: 3}
+  - {fileID: 12800000, guid: 7297a20eb46447647a1a31d7c9919d65, type: 3}
+  - {fileID: 12800000, guid: e3215bfe9a4a4bb41a495c752c6047d4, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

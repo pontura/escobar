@@ -1,0 +1,25 @@
+fileFormatVersion: 2
+guid: fb984352f7f9a444b8ff1da0bd5dd3f6
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: DIN Next Rounded LT Pro
+  fontNames:
+  - DIN Next Rounded LT Pro
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: cd819ff16e626b940af195beba91be8f, type: 3}
+  - {fileID: 12800000, guid: 194f0484935f1ba429ff90db060c98ac, type: 3}
+  - {fileID: 12800000, guid: b52de98443092f7458b82bf7779579b3, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
