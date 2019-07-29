@@ -27,14 +27,20 @@ public class ScreensManager : MonoBehaviour
         {
             Data.Instance.firebaseAuthManager.SignUpUserByEmail("yaguar@gmail.com", "yaguar");
         }
-        else if(Data.Instance.userData.token != "")
+        else
         {
-            Data.Instance.firebaseAuthManager.VerifyToken();
-        } else
-        {
-            // Data.Instance.firebaseAuthManager.SignUpUserAnon();
-            Debug.Log("Abre Register");
-            LoadScreen(3, true);
+            
+            if (Data.Instance.userData.token != "")
+            {
+                LoadScreen(0, true);
+                Data.Instance.firebaseAuthManager.VerifyToken();
+            }
+            else
+            {
+                // Data.Instance.firebaseAuthManager.SignUpUserAnon();
+                Debug.Log("Abre Register");
+                LoadScreen(3, true);
+            }
         }
        
     }
@@ -54,17 +60,6 @@ public class ScreensManager : MonoBehaviour
             return;
         }
         bool logged = Data.Instance.userData.IsLogged();
-
-        if (!logged)
-        {
-           // Debug.Log("Abre Register");
-           // LoadScreen(3, true);
-        }
-        else
-        {
-            Debug.Log("App Registed");
-            LoadScreen(0, true);
-        }
     }
 	public void LoadScreen(int id, bool isRight)
 	{

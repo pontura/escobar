@@ -19,4 +19,8 @@ public class AdminMain : MainScreen
     {
         UI.Instance.screensManager.LoadScreen(3, true);
     }
+    public void GotoUsers()
+    {
+        UI.Instance.screensManager.LoadScreen(7, true);
+    }
 }

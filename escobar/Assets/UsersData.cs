@@ -34,5 +34,14 @@ public class UsersData : MonoBehaviour
         print("::::::::::::::::::::::: new user " + data);
         all.Add(data);
     }
+    public void CheckToAdd(DataBasic data)
+    {
+        foreach(DataBasic db in all)
+        {
+            if (db.uid == data.uid)
+                return;
+        }
+        all.Add(data);
+    }
     
 }
