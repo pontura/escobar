@@ -10,6 +10,7 @@ using UnityEngine.UI;
 
 public class DateData : MonoBehaviour
 {
+    public int forceDay;
     public List<string> daysList;
     public List<string> monthList;
     public List<string> yearList;
@@ -35,7 +36,13 @@ public class DateData : MonoBehaviour
     }
     public void GetRealTime()
     {
+#if UNITY_EDITOR
+        if (forceDay != 0)
+            dateTime = new System.DateTime(2019, DateTime.Today.Month, forceDay);
+        else
+#endif
         dateTime = NetworkTime();
+
         print("SERVER NOW: " + dateTime);
        // Loop();
     }

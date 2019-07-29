@@ -57,6 +57,7 @@ public class FirebaseAuthManager : MonoBehaviour
         if (www.isNetworkError || www.isHttpError)
         {
             Debug.Log(www.error);
+            Invoke("VerifyToken", 2);
         }
         else
         {
@@ -111,6 +112,9 @@ public class FirebaseAuthManager : MonoBehaviour
                     //OnSaveUserToServer();
                 }
                 isDone = true;
+
+                GetUser();
+
             }).Catch(error =>
             {
                 Debug.Log(error);
@@ -214,6 +218,32 @@ public class FirebaseAuthManager : MonoBehaviour
         {
             Debug.Log(error);
         });
+    }
+
+
+    public void GetUser()
+    {
+        StartCoroutine(GetUserAuthDataCoroutine());
+    }
+    IEnumerator GetUserAuthDataCoroutine()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("grant_type", "refresh_token");
+      //  form.AddField("idToken", Data.Instance.userData.token);
+        form.headers["Content-Type"] = "application/json";
+        UnityWebRequest www = UnityWebRequest.Post("https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=" + AuthKey, form);
+        Debug.Log("_________GetUserAuthDataCoroutine   " + "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=" + AuthKey);
+        yield return www.SendWebRequest();
+
+        if (www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+
+            Debug.Log("GetAllUsersCoroutine::: " + www.downloadHandler.text);
+        }
     }
 
 

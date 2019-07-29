@@ -91,6 +91,6 @@ public class Main : MainScreen
     }
     public void OpenLiveStreaming()
     {
-        Application.OpenURL("https://triviaescobar.web.app/");
+        Application.OpenURL("https://desafioceli-9e8f4.firebaseapp.com/");
     }
 }

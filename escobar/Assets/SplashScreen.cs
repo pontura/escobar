@@ -9,16 +9,14 @@ public class SplashScreen : MainScreen
 
     public override void OnInit()
     {
-        print("Cargando datos del usuario...");
-        field.text = "Levantando datos del usuario";
+        field.text = "Cargando datos del usuario";
         LoopTillUserLogin();
     }
     void LoopTillUserLogin()
     {        
         if (Data.Instance.userData.userDataInDatabase.uid.Length > 0)
         {            
-            print("Cargando capitulos...");
-            field.text = "Cargando capítulo...";
+            field.text = "Cargando capítulo";
             LoopTillCapitulosLoaded();
         }            
         else
@@ -29,7 +27,6 @@ public class SplashScreen : MainScreen
        // print("Data.Instance.capitulosData.capitulos.Count" + Data.Instance.capitulosData.capitulos.Count);
         if (Data.Instance.capitulosData.capitulos.Count > 0)
         {
-            print("Cargando horario local...");
             field.text = "Cargando horario local...";
             Data.Instance.dateData.GetRealTime();
             // Data.Instance.triviaData.SetTrivia(Data.Instance.capitulosData.capitulos[0].playlistID);

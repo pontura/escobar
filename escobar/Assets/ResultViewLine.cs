@@ -33,6 +33,13 @@ public class ResultViewLine : MonoBehaviour
         LoadUserData(uid);
         StartCoroutine(LoopUntilLoaded());
     }
+    //solo para mostrar usuarios
+    public void InitOnlyUserData(UsersData.DataBasic data)
+    {
+        usernameField.text = data.username;
+        telField.text = data.tel;
+        edadField.text = data.edad;
+    }
     void LoadUserData(string uid)
     {
         UsersData.DataBasic data = Data.Instance.usersData.GetUserData(uid);
