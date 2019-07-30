@@ -5,6 +5,7 @@ Assets/PlayServicesResolver*
 google-services.json
 google-services-desktop.json
 GoogleService-Info.plist
+Assets/google-services.json
 
 # =============== #
 # Unity generated #
