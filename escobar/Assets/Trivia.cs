@@ -24,6 +24,7 @@ public class Trivia : MainScreen
     public GameObject loading;
     public GameObject videoPanel;
     float startTimerToResponse;
+    public Text signalField;
 
     void Start()
     {        
@@ -43,9 +44,45 @@ public class Trivia : MainScreen
         timeOut.SetActive(false);
 
         if (type == types.TORNEO)
+        {
             videoPanel.SetActive(true);
+            signalField.text = "";
+        }
         else
+        {
+            signalField.text = GetField();           
             videoPanel.SetActive(false);
+        }
+    }
+    string GetField()
+    {
+        CapitulosData.Capitulo cap = Data.Instance.capitulosData.GetActual();
+
+        if (cap == null)
+        {
+            return "Hoy no hay transmisión";
+        }
+        else if (Data.Instance.capitulosData.activeCapitulo.key == Data.Instance.userData.lastChapterPlayedKey)
+        {
+            string timeLive = Data.Instance.capitulosData.activeCapitulo.time;
+
+            if (Data.Instance.dateData.dateTime.Hour.ToString() == timeLive)
+            {
+                return "¡Hay transmisión en vivo ahora!";
+            }
+            else
+            {
+                if (int.Parse(Data.Instance.capitulosData.activeCapitulo.time) < Data.Instance.dateData.dateTime.Hour)
+                {
+                    return "La transmisión finalizó.";
+                }
+                else
+                {
+                    return "La próxima transmisión es a las " + Data.Instance.capitulosData.activeCapitulo.time + " hs.";
+                }
+            }
+        }
+        return "";
     }
     public override void OnInit()
     {

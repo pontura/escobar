@@ -4114,7 +4114,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &495234175
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5607,6 +5607,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc70ae968f2ae2a458a275d0e61a179f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forceDay: 0
   daysList: []
   monthList: []
   yearList: []
@@ -15955,6 +15956,7 @@ MonoBehaviour:
   activeScreen: {fileID: 0}
   isAdmin: 1
   timeToTransition: 0.1
+  loading: 0
 --- !u!114 &1802481208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16472,7 +16474,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1879066245
 RectTransform:
   m_ObjectHideFlags: 0
