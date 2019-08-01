@@ -22,6 +22,9 @@ public class UserData : MonoBehaviour
         public string uid;
         public string edad;
         public string deviceID;
+        public string apellido;
+        public string email;
+        public string dni;
         
     }
 
@@ -40,6 +43,11 @@ public class UserData : MonoBehaviour
         userDataInDatabase.deviceID = PlayerPrefs.GetString("deviceID", "");
         userDataInDatabase.uid = PlayerPrefs.GetString("uid", "");
         userDataInDatabase.edad = PlayerPrefs.GetString("edad", "");
+
+        userDataInDatabase.apellido = PlayerPrefs.GetString("apellido", "");
+        userDataInDatabase.email = PlayerPrefs.GetString("email", "");
+        userDataInDatabase.dni = PlayerPrefs.GetString("dni", "");
+
         token = PlayerPrefs.GetString("token", "");
         refreshToken = PlayerPrefs.GetString("refreshToken", "");
     }
@@ -49,17 +57,24 @@ public class UserData : MonoBehaviour
             return false;
         return true;
     }
-    public void SaveUser(string username, string tel, string edad)
+    public void SaveUser(string username, string tel, string edad, string email, string apellido, string dni)
     {
         userDataInDatabase.deviceID = SystemInfo.deviceUniqueIdentifier;
         userDataInDatabase.username = username;
         userDataInDatabase.tel = tel;
         userDataInDatabase.edad = edad;
+        userDataInDatabase.email = email;
+        userDataInDatabase.apellido = apellido;
+        userDataInDatabase.dni = dni;
 
         PlayerPrefs.SetString("deviceID", userDataInDatabase.deviceID);
         PlayerPrefs.SetString("username", userDataInDatabase.username);
         PlayerPrefs.SetString("edad", userDataInDatabase.edad);
         PlayerPrefs.SetString("tel", userDataInDatabase.tel);
+
+        PlayerPrefs.SetString("email", userDataInDatabase.email);
+        PlayerPrefs.SetString("apellido", userDataInDatabase.apellido);
+        PlayerPrefs.SetString("dni", userDataInDatabase.dni);
 
     }
     public void SaveToken(string token)

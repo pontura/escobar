@@ -8,6 +8,9 @@ public class RegisterScreen : MainScreen
     public InputField usernameField;
     public InputField edadField;
     public InputField telField;
+    public InputField apellidoField;
+    public InputField dniField;
+    public InputField emailField;
     public Text debbugField;
     bool isNew;
 
@@ -28,6 +31,12 @@ public class RegisterScreen : MainScreen
                 telField.text = Data.Instance.userData.userDataInDatabase.tel;
             if (Data.Instance.userData.userDataInDatabase.edad.Length > 0)
                 edadField.text = Data.Instance.userData.userDataInDatabase.edad;
+            if (Data.Instance.userData.userDataInDatabase.apellido.Length > 0)
+                apellidoField.text = Data.Instance.userData.userDataInDatabase.apellido;
+            if (Data.Instance.userData.userDataInDatabase.email.Length > 0)
+                emailField.text = Data.Instance.userData.userDataInDatabase.email;
+            if (Data.Instance.userData.userDataInDatabase.dni.Length > 0)
+                dniField.text = Data.Instance.userData.userDataInDatabase.dni;
         }
     }
     public void Register()
@@ -35,15 +44,26 @@ public class RegisterScreen : MainScreen
         CancelInvoke();
         if (usernameField.text.Length < 2)
             debbugField.text = "Agrega un nombre real";
-        if (edadField.text == "")
-            edadField.text = "Agrega tu edad";
-        else if (telField.text.Length < 8)
+        else if (edadField.text == "")
+            debbugField.text = "Agrega tu edad";
+        else if (apellidoField.text.Length < 2)
+            debbugField.text = "Agrega tu apellido";
+        else if (dniField.text.Length < 5)
+            debbugField.text = "Agrega tu dni";
+        else if (telField.text.Length < 7)
             debbugField.text = "Agrega un teléfono real";
         else
         {
             debbugField.text = "Enviando datos...";
-            //
-            
+
+            Data.Instance.userData.SaveUser(
+                usernameField.text,
+                telField.text, 
+                edadField.text,
+                emailField.text,
+                apellidoField.text,
+                dniField.text
+                );
 
             if (isNew)
             {
@@ -51,8 +71,7 @@ public class RegisterScreen : MainScreen
                 LoopTillUserRegistered();
             }
             else
-            {
-                Data.Instance.userData.SaveUser(usernameField.text, telField.text, edadField.text);
+            {                
                 Data.Instance.firebaseAuthManager.OnSaveUserToServer();
                 UI.Instance.screensManager.LoadScreen(1, false);
             }
@@ -71,10 +90,8 @@ public class RegisterScreen : MainScreen
         }
         else
         {
-            Data.Instance.userData.SaveUser(usernameField.text, telField.text, edadField.text);
             Data.Instance.firebaseAuthManager.OnSaveUserToServer();
-            UI.Instance.screensManager.LoadScreen(0, true);
-           
+            UI.Instance.screensManager.LoadScreen(0, true);           
         }
     }
 }

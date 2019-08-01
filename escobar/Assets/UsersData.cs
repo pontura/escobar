@@ -13,7 +13,10 @@ public class UsersData : MonoBehaviour
         public string uid;
         public string tel;
         public string username;
+        public string apellido;
         public string edad;
+        public string email;
+        public string dni;
     }
     void Start()
     {

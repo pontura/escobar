@@ -89,7 +89,6 @@ public class FirebaseAuthManager : MonoBehaviour
                 if (Data.Instance.userData.userDataInDatabase.uid.Length == 0)
                 {
                     Data.Instance.userData.SaveUiD(response.localId);
-                    OnSaveUserToServer();
                 }
                 isDone = true;
                 GetServerTime();
@@ -161,6 +160,10 @@ public class FirebaseAuthManager : MonoBehaviour
         RestClient.Put(url, data);
 
         Data.Instance.userData.SaveLastChapterPlayed();
+
+
+        //volvemos a grabar los datos del usuario:
+        OnSaveUserToServer();
     }
     public void SaveCapitulo(CapitulosData.Capitulo capitulo, string capituloKey = "")
     {

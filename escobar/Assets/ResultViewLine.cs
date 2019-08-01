@@ -11,7 +11,7 @@ public class ResultViewLine : MonoBehaviour
     public Text telField;
     public Text totalOKField;
     public Text timerField;
-    public Text edadField;
+    public Text extraFields;
 
     public string uid;
     public int value;
@@ -36,9 +36,7 @@ public class ResultViewLine : MonoBehaviour
     //solo para mostrar usuarios
     public void InitOnlyUserData(UsersData.DataBasic data)
     {
-        usernameField.text = data.username;
-        telField.text = data.tel;
-        edadField.text = data.edad;
+        AddData(data);
     }
     void LoadUserData(string uid)
     {
@@ -83,18 +81,20 @@ public class ResultViewLine : MonoBehaviour
     void OnUserBasicData(UsersData.DataBasic _data)
     {
         if (uid == _data.uid)
-        {
             this.data = _data;
-        }
+    }
+    void AddData(UsersData.DataBasic _data)
+    {
+        usernameField.text = _data.username + " " + _data.apellido;
+        telField.text = _data.tel;
+        extraFields.text = _data.edad + " / " + _data.email + " / " + _data.dni;
     }
     IEnumerator LoopUntilLoaded()
     {
         while (data == null)
             yield return null;
 
-        usernameField.text = data.username;
-        telField.text = data.tel;
-        edadField.text = data.edad;
+        AddData(data);
 
         if (type == types.ALL)
             totalOKField.text = value.ToString();
