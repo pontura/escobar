@@ -38,7 +38,7 @@ public class Main : MainScreen
         liveStreaming.SetActive(false);
 
         if (cap == null)
-        {            
+        {
             triviaOff.SetActive(true);
             title.text = "HOY NO HAY DESAFÍO";
             CapitulosData.Capitulo newCap = Data.Instance.capitulosData.GetNext();
@@ -49,7 +49,8 @@ public class Main : MainScreen
             }
             string date = newCap.date;
             field.text = "Próx: " + date;
-        } else if (Data.Instance.capitulosData.activeCapitulo.key == Data.Instance.userData.lastChapterPlayedKey)
+        }
+        else //if (Data.Instance.capitulosData.activeCapitulo.key == Data.Instance.userData.lastChapterPlayedKey)
         {
             string timeLive = Data.Instance.capitulosData.activeCapitulo.time;
 
@@ -57,22 +58,24 @@ public class Main : MainScreen
             {
                 liveStreaming.SetActive(true);
             }
-            else
+            else if (Data.Instance.dateData.dateTime.Hour > int.Parse(Data.Instance.capitulosData.activeCapitulo.time))
+            {
+                triviaOff.SetActive(true);
+                title.text = "Transmisión terminada";
+                field.text = "Vuelve mañana para un nuevo Desafío";
+            }
+            else if (Data.Instance.capitulosData.activeCapitulo.key == Data.Instance.userData.lastChapterPlayedKey)
             {
                 triviaOff.SetActive(true);
                 title.text = "¡Ya jugaste!";
-                if (int.Parse(Data.Instance.capitulosData.activeCapitulo.time) < Data.Instance.dateData.dateTime.Hour)
-                {
-                    field.text = "La transmisión finalizó.";
-                } else {
-                    field.text = "La transmisión es a las " + Data.Instance.capitulosData.activeCapitulo.time + " hs.";
-                }
+                field.text = "La transmisión es a las " + Data.Instance.capitulosData.activeCapitulo.time + " hs.";
+            }
+            else
+            {
+                triviaOn.SetActive(true);
             }
         }
-        else
-        {
-            triviaOn.SetActive(true);
-        } 
+        
     }
     public void StartTrivia()
     {
