@@ -96,4 +96,8 @@ public class Main : MainScreen
     {
         Application.OpenURL("https://desafioceli-9e8f4.firebaseapp.com/");
     }
+    public void Terminos()
+    {
+        UI.Instance.screensManager.LoadScreen(6, true);
+    }
 }
