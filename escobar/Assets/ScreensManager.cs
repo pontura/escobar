@@ -105,7 +105,7 @@ public class ScreensManager : MonoBehaviour
     {
         if (Time.time < 2 || !Data.Instance.firebaseAuthManager.isDone)
             return;
-        if(id==1 && pauseStatus)
+        if(id==2 && pauseStatus)
         {
             Events.OnResetApp();
             LoadScreen(0, true);
