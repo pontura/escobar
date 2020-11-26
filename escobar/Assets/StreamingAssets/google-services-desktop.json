@@ -1,119 +1,37 @@
 {
-  "project_info": {
-    "project_number": "477109037444",
-    "firebase_url": "https://desafioceli-9e8f4.firebaseio.com",
-    "project_id": "desafioceli-9e8f4",
-    "storage_bucket": "desafioceli-9e8f4.appspot.com"
-  },
   "client": [
     {
+      "services": {
+        "appinvite_service": {
+          "status": 1
+        }, 
+        "analytics_service": {
+          "status": 0
+        }
+      }, 
+      "oauth_client": [
+        {
+          "client_id": "477109037444-18gsrbjn2a5kic4nnnnp3anevnlm4u21.apps.googleusercontent.com"
+        }
+      ], 
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQdS7dOKB1Oczzj0dDH5KK0mYOckrDCgI"
+        }
+      ], 
       "client_info": {
-        "mobilesdk_app_id": "1:477109037444:android:36b4f079868bc166",
+        "mobilesdk_app_id": "1:477109037444:ios:36b4f079868bc166", 
         "android_client_info": {
           "package_name": "com.escobar.desafioceli"
         }
-      },
-      "oauth_client": [
-        {
-          "client_id": "477109037444-fbkl039hi3tf1jphjuk0raj2ep3fkai2.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAeY5NgWKPPv_0xt4SZLdxVmGogCG6ehVs"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "477109037444-fbkl039hi3tf1jphjuk0raj2ep3fkai2.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "477109037444-18gsrbjn2a5kic4nnnnp3anevnlm4u21.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.escobar.desafioceli"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:477109037444:android:c3215adf4e711351",
-        "android_client_info": {
-          "package_name": "com.escobar.desfiocelli"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "477109037444-fbkl039hi3tf1jphjuk0raj2ep3fkai2.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAeY5NgWKPPv_0xt4SZLdxVmGogCG6ehVs"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "477109037444-fbkl039hi3tf1jphjuk0raj2ep3fkai2.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "477109037444-18gsrbjn2a5kic4nnnnp3anevnlm4u21.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.escobar.desafioceli"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:477109037444:android:6be843b6b741faf9",
-        "android_client_info": {
-          "package_name": "com.pontura.triviaescobar"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "477109037444-fbkl039hi3tf1jphjuk0raj2ep3fkai2.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAeY5NgWKPPv_0xt4SZLdxVmGogCG6ehVs"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "477109037444-fbkl039hi3tf1jphjuk0raj2ep3fkai2.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "477109037444-18gsrbjn2a5kic4nnnnp3anevnlm4u21.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.escobar.desafioceli"
-              }
-            }
-          ]
-        }
       }
     }
-  ],
-  "configuration_version": "1"
+  ], 
+  "configuration_version": "1", 
+  "project_info": {
+    "storage_bucket": "desafioceli-9e8f4.appspot.com", 
+    "project_id": "desafioceli-9e8f4", 
+    "firebase_url": "https://desafioceli-9e8f4.firebaseio.com", 
+    "project_number": "477109037444"
+  }
 }
